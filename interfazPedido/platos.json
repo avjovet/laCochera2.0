@@ -1,0 +1,225 @@
+[
+  {
+    "categoria": 1,
+    "nombre": "Hamburguesa de cordero",
+    "precio": 15,
+    "imagen": "img/1cordero.png"
+  },
+  {
+    "categoria": 1,
+    "nombre": "Hamburguesa de res",
+    "precio": 13,
+    "imagen": "img/1res.png"
+  },
+  {
+    "categoria": 1,
+    "nombre": "Hamburguesa de lechon",
+    "precio": 12,
+    "imagen": "img/1lechon.jpg"
+  },
+  {
+    "categoria": 1,
+    "nombre": "Filete de pollo",
+    "precio": 11,
+    "imagen": "img/1pollo.jpg"
+  },
+  {
+    "categoria": 1,
+    "nombre": "Chorizo argentino",
+    "precio": 10,
+    "imagen": "img/1chorizo.jpg"
+  },
+  {
+    "categoria": 1,
+    "nombre": "Hotdog",
+    "precio": 9,
+    "imagen": "img/1hotdog.jpg"
+  },
+  {
+    "categoria":2,
+    "nombre": "Salchipapa frita",
+    "precio": 14,
+    "imagen": "img/2frita.jpg"
+  },
+  {
+    "categoria": 2,
+    "nombre": "Salchipapa andina",
+    "precio": 14,
+    "imagen": "img/2andina.jpg"
+  },
+  {
+    "categoria": 2,
+    "nombre": "Salchipapa frita especial",
+    "precio": 17,
+    "imagen": "img/2fritaespecial.jpg"
+  },
+  {
+    "categoria": 2,
+    "nombre": "Salchipapa andina especial",
+    "precio": 17,
+    "imagen": "img/2andinaespecial.jpg"
+  },
+  {
+    "categoria": 2,
+    "nombre": "Salchipapa mixta simple",
+    "precio": 17,
+    "imagen": "img/2mixta.jpg"
+  },
+  {
+    "categoria": 2,
+    "nombre": "Salchipapa mixta especial",
+    "precio": 19,
+    "imagen": "img/2mixtaespecial.jpg"
+  },
+  {
+    "categoria":10,
+    "nombre": "Choripapa frita",
+    "precio": 15,
+    "imagen": "img/Choripapa.jpg"
+  },
+  {
+    "categoria": 10,
+    "nombre": "Choripapa andina",
+    "precio": 15,
+    "imagen": "img/choripapa3.jpg"
+  },
+  {
+    "categoria": 10,
+    "nombre": "Choripapa frita especial",
+    "precio": 18,
+    "imagen": "img/choripapa4.png"
+  },
+  {
+    "categoria": 10,
+    "nombre": "Choripapa andina especial",
+    "precio": 18,
+    "imagen": "img/choripapa5.jpg"
+  },
+  {
+    "categoria": 10,
+    "nombre": "Choripapa mixta simple",
+    "precio": 18,
+    "imagen": "img/Choripapa.jpg"
+  },
+  {
+    "categoria": 10,
+    "nombre": "Choripapa mixta especial",
+    "precio": 20,
+    "imagen": "img/choripapa2.jpg"
+  },
+  {
+    "categoria": 2,
+    "nombre": "Salchipapa cochera",
+    "precio": 25,
+    "imagen": "img/2cochera.jpg"
+  },
+  {
+    "categoria": 3,
+    "nombre": "Chicha morada",
+    "precio": 12,
+    "imagen": "img/morada.png"
+  },
+  {
+    "categoria": 3,
+    "nombre": "Limonada",
+    "precio": 12,
+    "imagen": "img/limonada.jpg"
+  },
+  {
+    "categoria": 3,
+    "nombre": "Maracuya",
+    "precio": 12,
+    "imagen": "img/maracuya.png"
+  },
+  {
+    "categoria": 3,
+    "nombre": "Frozen",
+    "precio": 13,
+    "imagen": "img/frozen.jpeg"
+  },
+  {
+    "categoria": 4,
+    "nombre": "Te de la abuela",
+    "precio": 6,
+    "imagen": "img/abuela.jpg"
+  },
+  {
+    "categoria": 4,
+    "nombre": "Te de la abuela piteado",
+    "precio": 8,
+    "imagen": "img/abuela.jpg"
+  },
+  {
+    "categoria": 4,
+    "nombre": "Hierba luisa",
+    "precio": 6,
+    "imagen": "img/hierbaluis.webp"
+  },
+  {
+    "categoria": 4,
+    "nombre": "Cedron",
+    "precio": 6,
+    "imagen": "img/cedron.jpg"
+  },
+  {
+    "categoria": 4,
+    "nombre": "Mixto",
+    "precio": 6,
+    "imagen": "img/mixto.jpg"
+  },
+  {
+    "categoria": 4,
+    "nombre": "Muña",
+    "precio": 6,
+    "imagen": "img/muña.jpg"
+  },
+  {
+    "categoria": 5,
+    "nombre": "Cordero personal",
+    "precio": 27,
+    "imagen": "img/parrillada_simple.png"
+  },
+  {
+    "categoria": 5,
+    "nombre": "Parrillada de cordero familiar",
+    "precio": 70,
+    "imagen": "img/parrillada_familar.jpg"
+  },
+  {
+    "categoria": 6,
+    "nombre": "Piscochera",
+    "precio": 15,
+    "imagen": "img/piscochera.webp"
+  },
+  {
+    "categoria": 6,
+    "nombre": "Chilcano",
+    "precio": 15,
+    "imagen": "img/chilcano.jpg"
+  },
+  {
+    "categoria": 6,
+    "nombre": "Pisco Sour",
+    "precio": 15,
+    "imagen": "img/pisco_sour.jpg"
+  },
+  {
+    "categoria": 6,
+    "nombre": "Damasco Sour",
+    "precio": 15,
+    "imagen": "img/damascosour.avif"
+  },
+  {
+    "categoria": 6,
+    "nombre": "Maracuya Sour",
+    "precio": 15,
+    "imagen": "img/maracuyasour.avif"
+  },
+  {
+    "categoria": 6,
+    "nombre": "Copa de vino",
+    "precio": 15,
+    "imagen": "img/vino.jpg"
+  }
+]
+
