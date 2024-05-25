@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Responsive Registration Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="css/pago.css" />
+  </head>
+  <body>
+    <div class="container">
+        <h1 class="form-title">
+            Datos de envío 
+            <img src="img/logo.png" alt="Logo" class="logo">
+          </h1>
+      <form action="#">
+        <div class="main-user-info">
+          <div class="user-input-box">
+            <label for="fullName">Nombre completo</label>
+            <input type="text" id="fullName" name="fullName" placeholder="Enter Full Name"/>
+          </div>
+          <div class="user-input-box">
+            <label for="email">Correo</label>
+            <input type="email" id="email" name="email" placeholder="Enter Email"/>
+          </div>
+          <div class="user-input-box">
+            <label for="phoneNumber">Número de teléfono</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Enter Phone Number"/>
+          </div>
+          <div class="user-input-box">
+            <label for="address">Dirección</label>
+            <input type="text" id="address" name="address" placeholder="Enter Address"/>
+          </div>
+        </div>
+        <div class="gender-details-box">
+          <span class="gender-title">Métodos de pago</span>
+          <div class="gender-category">
+            <input type="radio" name="paymentMethod" id="contraentrega">
+            <label for="contraentrega">Contraentrega</label>
+            <input type="radio" name="paymentMethod" id="yape">
+            <label for="yape">Yape</label>
+            <input type="radio" name="paymentMethod" id="plin">
+            <label for="plin">Plin</label>
+          </div>
+        </div>
+        <div class="form-submit-btn">
+            <input type="submit" value="Regresar">
+            <input type="submit" value="Enviar">
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,5 @@
+    {
+    "Estado":1,"Fecha":"2024-05-19 13:01:02","Cliente_idCliente":null,"Mesa_id":null,"Usuario_id":null,"TipoPedido_id":12,"MedioPago_id":null,
+    "detalles":[{"Fecha":"2024-05-19 13:01:02","Producto_id":4},
+    {"Fecha":"2024-05-19 13:01:02","Producto_id":6},
+    {"Fecha":"2024-05-19 13:01:02","Producto_id":12}]}
