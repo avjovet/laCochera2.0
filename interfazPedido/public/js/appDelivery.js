@@ -1,17 +1,9 @@
-function hiddenBar() {
-    const body = document.body;
-    const html = document.documentElement;
-
-    if (body.classList.contains('modal-open')) {
-        html.style.overflow = 'hidden';
-    } else {
-        html.style.overflow = 'auto';
-    }
-}
-
 function showPagoModal() {
+    document.body.classList.remove('modal-confirm-open');
+
     console.log("abierto")
     document.body.classList.add('modal-open');
+    document.body.classList.add('modal-pago-open');
     const pagoModal = document.getElementById('pagoModal');
     pagoModal.style.display = 'block';
     hiddenBar();
@@ -19,6 +11,8 @@ function showPagoModal() {
 
 function closePagoModal() {
     document.body.classList.remove('modal-open');
+    document.body.classList.remove('modal-pago-open');
+
     const pagoModal = document.getElementById('pagoModal');
     pagoModal.style.display = 'none';
     hiddenBar();

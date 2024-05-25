@@ -125,13 +125,8 @@
   color: rgb(0, 0, 0);
 }
 
-.payment-options {
-  display: none;
-  text-align: center;
-  margin-top: 20px;
-}
 
-.yapeOptions {
+.yapeOptions, .plinOptions {
   display: none; /* Ocultar inicialmente */
   align-items: center; /* Alinea los elementos verticalmente al centro */
   justify-content: center; /* Alinea los elementos horizontalmente al centro */
@@ -141,7 +136,7 @@
   margin-right: 5px; /* Ajusta el margen derecho del contenedor del QR */
 }
 
-.qr-yape {
+.qr-yape, .qr-plin {
   width: 100px; /* Ajusta el ancho de la imagen */
   height: auto; /* Permite que la altura se ajuste automáticamente */
 }
@@ -151,7 +146,7 @@
   justify-content: center; /* Alinea el input al centro */
 }
 
-.input-yape {
+.input-yape, .input-plin {
   width: 200px; /* Ajusta el ancho del input */
   padding: 10px;
   border-radius: 5px;

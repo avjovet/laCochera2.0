@@ -110,6 +110,7 @@ fetch('productos.php')
 
         document.getElementById('modal').style.display = 'block';
         document.body.classList.add('modal-open');
+        document.body.classList.add('modal-product-open');
 
         
         console.log('id', producto.dataset.id);
@@ -122,6 +123,8 @@ fetch('productos.php')
 
     function closeModal() {
         document.body.classList.remove('modal-open');
+        document.body.classList.add('modal-product-open');
+
         document.getElementById('modal').style.display = 'none';
         hiddenBar(); // Aplica la función para controlar el overflow
     }
@@ -491,3 +494,4 @@ function enviarPedidoLlevar() {
     // Aquí puedes hacer lo que necesites con el JSON del pedido, por ejemplo, enviarlo al backend
     crearSolicitudPedido(jsonPedido);
 }
+
