@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="css/stylesPedido.css">
     <link rel="stylesheet" href="css/modal-confirmacion.css">
     <link rel="stylesheet" href="css/desplazamiento-sidebar.css">
+    <link rel="stylesheet" href="css/btnMozo.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -20,8 +21,8 @@
         </div>
         
         <nav class="navbar">
-            <a href="#sanguches-section">sanguches</a>
-            <a href="#salchipapas-section">salchipapas</a>
+            <a href="#sanguches-section">Sanguches</a>
+            <a href="#salchipapas-section">Salchipapas</a>
             <a href="#choripapas">Choripapas</a>
             <a href="#parrillas" >Parrillas</a>
             <a href="#bebidas" >Bebidas</a>
@@ -131,12 +132,21 @@
             </div>
         </div>
         
+        <button id="btnMozo" class="btnMozo">
+            <span>Llamar</span>
+            <i class="fas fa-hand-paper"></i>
+            <span>mozo</span>
 
+        </button>
+        <div id="confirmation-message" class="confirmation-message">El mozo ha sido llamado</div>
+        
     </main>
 
 
     <script  src="js/appPedido.js"></script>
     <script  src="js/modal-confirmacion.js"></script>
+    <script  src="js/callMozo.js"></script>
+
 
 
 </body>

@@ -127,7 +127,7 @@
                 <p class="confirm-text">¿Estás seguro de que desea enviar el pedido?</p>
                 <div class="buttons">
                     <button onclick="closeConfirmModal()" class="back-btn">Regresar</button>
-                    <button onclick="showPagoModal()" class="send-btn">Confirmar</button>                
+                    <button onclick="closeConfirmModal(); showPagoModal()" class="send-btn">Confirmar</button>                
                 </div>
 
             </div>
@@ -137,7 +137,7 @@
             <div class="modal-pago-content">
                 <h1 class="pago-title">
                     El monto de su pedido es:
-                    <span class="monto-pedido">S/. 100.00</span>
+                    <span class="monto-pedido"></span>
                 </h1>
                 <form action="#">
                     <div class="pago-user-info">
@@ -202,10 +202,8 @@
 
 
     <script  src="js/appPedido.js"></script>
-    <script  src="js/funciones.js"></script>
     <script  src="js/appDelivery.js"></script>
     <script  src="js/modal-confirmacion.js"></script>
-    <script  src="js/form.js"></script>
 
 
 

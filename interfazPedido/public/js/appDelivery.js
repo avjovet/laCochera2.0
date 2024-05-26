@@ -1,4 +1,10 @@
+
 function showPagoModal() {
+    
+    console.log(carrito)
+    const totalCarrito = carrito.reduce((total, producto) => total + producto.total, 0);
+    console.log(totalCarrito);
+
     document.body.classList.remove('modal-confirm-open');
 
     console.log("abierto")
@@ -7,6 +13,12 @@ function showPagoModal() {
     const pagoModal = document.getElementById('pagoModal');
     pagoModal.style.display = 'block';
     hiddenBar();
+
+    // Seleccionar el elemento HTML que muestra el monto del pedido
+    const montoPedidoElement = document.querySelector('.monto-pedido');
+
+    // Actualizar el contenido del elemento HTML con el monto total del pedido
+    montoPedidoElement.textContent = `S/. ${totalCarrito.toFixed(2)}`;
 }
 
 function closePagoModal() {
