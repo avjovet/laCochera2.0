@@ -79,13 +79,11 @@ fetch('productos.php')
                     // Cambia el evento clic del botón para que llame a la función para actualizar en el carrito
                     addToCartButton.removeEventListener('click', addToCart);
                     addToCartButton.addEventListener('click', () => {
-                        updateCartItem(existingProduct);
                     });
                 } else {
                     openModal(producto);
                     // Si el producto no está en el carrito, restaura el texto y el evento del botón "Añadir al carrito"
                     addToCartButton.textContent = "Añadir al carrito";
-                    addToCartButton.removeEventListener('click', updateCartItem);
                     addToCartButton.addEventListener('click', addToCart);
                 }
             });
@@ -131,6 +129,8 @@ fetch('productos.php')
     function openModal(producto) {
         const productId = producto.dataset.id; // Obtener el ID único del producto
         document.getElementById('modal-img').src = producto.querySelector('.producto-imagen').src;
+        const productPriceText = producto.querySelector('.producto-precio').innerText;
+        initialProductPrice = parseFloat(productPriceText.replace('S/. ', '')); // Almacenar el precio inicial
         document.getElementById('modal-name').innerText = producto.querySelector('.producto-nombre').innerText;
         document.getElementById('modal-price').innerText = producto.querySelector('.producto-precio').innerText;
         document.getElementById('modal-quantity').innerText = 1;
@@ -146,11 +146,13 @@ fetch('productos.php')
         hiddenBar(); 
     }
 
-    function openModalWith(producto, quantity, notes) {
+    function openModalWith(producto, precio, quantity, notes) {
         const productId = producto.dataset.id; // Obtener el ID único del producto
+        const productPriceText = producto.querySelector('.producto-precio').innerText;
+        initialProductPrice = parseFloat(productPriceText.replace('S/. ', '')); // Almacenar el precio inicial
         document.getElementById('modal-img').src = producto.querySelector('.producto-imagen').src;
         document.getElementById('modal-name').innerText = producto.querySelector('.producto-nombre').innerText;
-        document.getElementById('modal-price').innerText = producto.querySelector('.producto-precio').innerText;
+        document.getElementById('modal-price').innerText = `S/. ${precio.toFixed(2)}`;
         document.getElementById('modal-quantity').innerText = quantity; // Usar la cantidad pasada como parámetro
         document.getElementById('indicaciones-especiales').value = notes; // Usar las notas pasadas como parámetro
         document.getElementById('modal').dataset.productId = productId; // Asignar el ID único del producto al modal
@@ -186,12 +188,18 @@ fetch('productos.php')
     
     //funciones dentro del modal
     
+    function updateTotalPrice(quantity) {
+        const newTotal = initialProductPrice * quantity; // Calcular el nuevo total basado en el precio inicial
+        document.getElementById('modal-price').innerText = `S/. ${newTotal.toFixed(2)}`;
+    }
+    
     function decreaseQuantity() {
         const quantityElement = document.getElementById('modal-quantity');
         let quantity = parseInt(quantityElement.innerText);
         if (quantity > 1) {
             quantity--;
             quantityElement.innerText = quantity;
+            updateTotalPrice(quantity); // Llamar a la función para actualizar el precio
         }
     }
     
@@ -200,6 +208,7 @@ fetch('productos.php')
         let quantity = parseInt(quantityElement.innerText);
         quantity++;
         quantityElement.innerText = quantity;
+        updateTotalPrice(quantity); // Llamar a la función para actualizar el precio
     }
     
     
@@ -230,7 +239,7 @@ fetch('productos.php')
     
             }
             carrito[existingProductIndex].notes = notes; // Actualizar las notas
-            carrito[existingProductIndex].total =  carrito[existingProductIndex].quantity*productPrice; // Actualizar el total
+            carrito[existingProductIndex].total =  productPrice; // Actualizar el total
             carrito[existingProductIndex].id =  productId; // Actualizar el total
     
     
@@ -385,7 +394,7 @@ fetch('productos.php')
         });
         
         if (productoDeseado) {
-            openModalWith(productoDeseado, item.quantity, item.notes);
+            openModalWith(productoDeseado, item.price, item.quantity, item.notes);
         } else {
             console.log('No se encontró ningún producto con el nombre deseado.');
         }
