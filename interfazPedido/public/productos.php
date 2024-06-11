@@ -7,5 +7,5 @@ require_once '..\src\controllers\producto_controller.php';
 $productoController = new ProductoController();
 
 // Llamar a la función obtenerProductosJSON()
-$productoController->obtenerProductosJSON();
+$productoController->obtenerProductosJSON2();
 
