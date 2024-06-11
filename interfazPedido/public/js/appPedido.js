@@ -3,10 +3,13 @@ let carritoFinal = [];
 let idCounter = 0; 
 let isEdit = false;
 // extraer elementos del archivo jsn
+const preloader = document.querySelector("[data-preaload]");
+
 fetch('productos.php')
     .then(response => response.json())
     .then(data => {
         console.log('Datos cargados correctamente');
+
         const sanguchesContainer = document.getElementById('sanguches-container');
         const salchipapasContainer = document.getElementById('salchipapas-container');
         const choripapasContainer = document.getElementById('choripapas-container');
@@ -61,30 +64,56 @@ fetch('productos.php')
         });
 
         //abrir la ventana modal
+        //abrir la ventana modal
         const allProducts = document.querySelectorAll('.producto');
         allProducts.forEach(producto => {
             producto.addEventListener('click', () => {
                 console.log('Clic en producto');
-                openModal(producto);
+                const productName = producto.querySelector('.producto-nombre').innerText;
+                const existingProduct = carrito.find(item => item.name === productName);
+        
+                if (existingProduct) {
+                    editCart(existingProduct); // Llama a editCart si el producto ya está en el carrito
+                    // Cambia el texto del botón a "Actualizar en el carrito"
+                    addToCartButton.textContent = "Actualizar en el carrito";
+                    // Cambia el evento clic del botón para que llame a la función para actualizar en el carrito
+                    addToCartButton.removeEventListener('click', addToCart);
+                    addToCartButton.addEventListener('click', () => {
+                        updateCartItem(existingProduct);
+                    });
+                } else {
+                    openModal(producto);
+                    // Si el producto no está en el carrito, restaura el texto y el evento del botón "Añadir al carrito"
+                    addToCartButton.textContent = "Añadir al carrito";
+                    addToCartButton.removeEventListener('click', updateCartItem);
+                    addToCartButton.addEventListener('click', addToCart);
+                }
             });
         });
+        
 
         const addToCartButton = document.getElementById('addToCartButton');
         addToCartButton.addEventListener('click', () => {
             addToCart();
         });
-            
         document.getElementById('modal').addEventListener('click', (event) => {
-        // cierra el modal si el clic ocurrió fuera de
-            if (event.target === document.getElementById('modal')) {
-                closeModal();
-                }
-            });
+            // cierra el modal si el clic ocurrió fuera de
+                if (event.target === document.getElementById('modal')) {
+                    closeModal();
+                    }
+                }); 
+        // Desactivación del preloader
+        preloader.classList.add("loaded");
+        document.body.classList.add("loaded");
+
         })
         
-    .catch(error => console.error('Error al cargar el archivo JSON', error));
+    .catch(error => {
+        console.error('Error al cargar el archivo JSON', error);
+        preloader.classList.add("loaded");
+        document.body.classList.add("loaded");
+    });
 
-  
 // funcion para crear el producto
 
     function createProductElement(producto) {
@@ -116,10 +145,24 @@ fetch('productos.php')
         console.log('id', producto.dataset.id);
         hiddenBar(); 
     }
-  
 
-
-
+    function openModalWith(producto, quantity, notes) {
+        const productId = producto.dataset.id; // Obtener el ID único del producto
+        document.getElementById('modal-img').src = producto.querySelector('.producto-imagen').src;
+        document.getElementById('modal-name').innerText = producto.querySelector('.producto-nombre').innerText;
+        document.getElementById('modal-price').innerText = producto.querySelector('.producto-precio').innerText;
+        document.getElementById('modal-quantity').innerText = quantity; // Usar la cantidad pasada como parámetro
+        document.getElementById('indicaciones-especiales').value = notes; // Usar las notas pasadas como parámetro
+        document.getElementById('modal').dataset.productId = productId; // Asignar el ID único del producto al modal
+    
+        document.getElementById('modal').style.display = 'block';
+        document.body.classList.add('modal-open');
+        document.body.classList.add('modal-product-open');
+    
+        console.log('id', producto.dataset.id);
+        hiddenBar(); 
+    }
+    
 
     function closeModal() {
         document.body.classList.remove('modal-open');
@@ -173,6 +216,7 @@ fetch('productos.php')
     
         // si producto ya existe en el carrito, actualizar sus propiedades
         if (existingProductIndex !== -1) {
+            console.log('indexx', existingProductIndex);
             carrito[existingProductIndex].price = productPrice;
             if(isEdit==true){
                 console.log(isEdit)
@@ -181,8 +225,8 @@ fetch('productos.php')
                 isEdit=false;
             }else{
                 console.log("isedit",isEdit)
-    
-                carrito[existingProductIndex].quantity += productQuantity; 
+                console.log('indexx else', existingProductIndex);
+                carrito[existingProductIndex].quantity = productQuantity; 
     
             }
             carrito[existingProductIndex].notes = notes; // Actualizar las notas
@@ -232,16 +276,16 @@ fetch('productos.php')
     }
     
     function mostrarCarrito() {
-        console.log(carrito);
-    
-        var cartSidebar = document.getElementById("cart-sidebar"); // obtener la barra lateral del carrito
-        cartSidebar.style.display = "block"; // mostrar la barra lateral del carrito
+        var cartSidebar = document.getElementById("cart-sidebar");
+        cartSidebar.classList.add("show"); // Añadimos la clase 'show' para activar la animación
     }
+    
     
     function closeSidebar() {
         var cartSidebar = document.getElementById("cart-sidebar");
-        cartSidebar.style.display = "none";
+        cartSidebar.classList.remove("show"); // Removemos la clase 'show' para desactivar la animación
     }
+    
     
     function updateCart() {
         var cartContainer = document.getElementById("cart-items");
@@ -332,7 +376,7 @@ fetch('productos.php')
         const allProducts = document.querySelectorAll('.producto');
         let productoDeseado;
         
-        allProducts.forEach((producto, index) => {
+        allProducts.forEach((producto) => {
             const nombreProducto = producto.querySelector('.producto-nombre').innerText;
     
             if (nombreProducto === item.name) {
@@ -341,11 +385,12 @@ fetch('productos.php')
         });
         
         if (productoDeseado) {
-            openModal(productoDeseado);
+            openModalWith(productoDeseado, item.quantity, item.notes);
         } else {
             console.log('No se encontró ningún producto con el nombre deseado.');
         }
     }
+    
     
     
    
@@ -357,11 +402,14 @@ fetch('productos.php')
         const pedido = {
             Estado: 1,
             Fecha: obtenerFechaActual(), // Esta función debería retornar la fecha actual en el formato requerido
+            FechaAprobacion: null,
             Cliente_idCliente: null,
-            Mesa_id: null,
+            Mesa_id: m !== null ? parseInt(m, 10) : null,
             Usuario_id: null,
-            TipoPedido_id: 12,
+            TipoPedido_id: 1,
             MedioPago_id: null,
+            fechaCocinando:null,
+            fechaTerminado:null,
             detalles: []
         };
         console.log(carritoFinal);
@@ -400,26 +448,31 @@ fetch('productos.php')
     }
 
 
+   
     function crearSolicitudCliente(jsonPedido) {
-        fetch('/interfazPedido/src/controllers/insertarCliente.php', {
+        return fetch('/interfazPedido/src/controllers/insertarCliente.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: jsonPedido
         })
-        .then(response => {
-            if (response.ok) {
-                console.log('JSON Cliente enviado satisfactoriamente.');
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('JSON Cliente enviado satisfactoriamente. ID del Cliente:', data.idCliente);
+                return data.idCliente; // Retornar el idCliente
             } else {
-                console.error('Error en el envío del JSON:', response.statusText);
+                console.error('Error en el envío del JSON:', data.message);
+                throw new Error('Error al crear cliente');
             }
         })
         .catch(error => {
             console.error('Error en el fetch:', error);
-            console.log('JSON enviado:', jsonPedido);
+            throw error;
         });
     }
+    
 
     function crearSolicitudPedido(jsonPedido) {
         fetch('/interfazPedido/src/controllers/pedido_detalle_pedido.php', {
@@ -446,9 +499,8 @@ fetch('productos.php')
     
   // Guardar el carrito en sessionStorage
 //sessionStorage.setItem('carrito', JSON.stringify(carrito));
-function enviarPedidoLlevar() {
-
-    //let nombre = document.getElementById("customer-name").value;
+async function enviarPedidoLlevar() {
+    let clienteId = null;
     let nombre = document.getElementById("customer-name").value;
     const cliente = {
         Nombre: nombre,
@@ -457,41 +509,181 @@ function enviarPedidoLlevar() {
     }
     const jsonCliente = JSON.stringify(cliente);
     console.log(jsonCliente);
-    crearSolicitudCliente(jsonCliente);
 
+    try {
+        // Esperar a que la función crearSolicitudCliente retorne el idCliente
+        clienteId = await crearSolicitudCliente(jsonCliente);
+        console.log(clienteId);
 
-    const carritoFinal = carrito.slice(); // Hacer una copia superficial de carrito
+        const carritoFinal = carrito.slice(); // Hacer una copia superficial de carrito
 
-    // Crear objeto principal del pedido
-    const pedido = {
-        Estado: 1,
-        Fecha: obtenerFechaActual(), // Esta función debería retornar la fecha actual en el formato requerido
-        Cliente_idCliente: null,
-        Mesa_id: null,
-        Usuario_id: null,
-        TipoPedido_id: 12,
-        MedioPago_id: null,
-        detalles: []
-    };
-    console.log(carritoFinal);
-    // Iterar sobre el carrito final y agregar detalles al pedido
-    carritoFinal.forEach(item => {
-        const detalle = {
-            Fecha: obtenerFechaActual(), // Fecha del detalle
-            Precio: item.price, // Precio del producto
-            Cantidad: item.quantity, // Cantidad del producto
-            NotaPedido: item.notes, // Notas del producto
-            Producto_id: item.id // ID del producto
+        // Crear objeto principal del pedido
+        const pedido = {
+            Estado: 1,
+            Fecha: obtenerFechaActual(), // Esta función debería retornar la fecha actual en el formato requerido
+            Cliente_idCliente: clienteId,
+            Mesa_id: null,
+            Usuario_id: null,
+            TipoPedido_id: 2,
+            MedioPago_id: null,
+            detalles: []
         };
-        pedido.detalles.push(detalle);
-    });
-    // Convertir el objeto pedido a JSON
+        console.log(carritoFinal);
 
-    console.log(pedido)
-    const jsonPedido = JSON.stringify(pedido);
-    console.log(jsonPedido);
+        // Iterar sobre el carrito final y agregar detalles al pedido
+        carritoFinal.forEach(item => {
+            const detalle = {
+                Fecha: obtenerFechaActual(), // Fecha del detalle
+                Precio: item.price, // Precio del producto
+                Cantidad: item.quantity, // Cantidad del producto
+                NotaPedido: item.notes, // Notas del producto
+                Producto_id: item.id // ID del producto
+            };
+            pedido.detalles.push(detalle);
+        });
 
-    // Aquí puedes hacer lo que necesites con el JSON del pedido, por ejemplo, enviarlo al backend
-    crearSolicitudPedido(jsonPedido);
+        // Convertir el objeto pedido a JSON
+        console.log(pedido);
+        const jsonPedido = JSON.stringify(pedido);
+        console.log(jsonPedido);
+
+        // Aquí puedes hacer lo que necesites con el JSON del pedido, por ejemplo, enviarlo al backend
+        crearSolicitudPedido(jsonPedido);
+
+    } catch (error) {
+        console.error('Error en la creación del cliente y envío del pedido:', error);
+    }
 }
 
+
+
+document.getElementById("pagoForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    
+    // Obtener valores de los campos del formulario
+    let fullName = document.getElementById("fullName").value;
+    let email = document.getElementById("email").value;
+    let phoneNumber = document.getElementById("phoneNumber").value;
+    let address = document.getElementById("address").value;
+
+    // Obtener el método de pago seleccionado
+    let paymentMethod;
+    if (document.getElementById("contraentrega").checked) {
+        paymentMethod = 1;
+    } else if (document.getElementById("yape").checked) {
+        paymentMethod = 2;
+    } else if (document.getElementById("plin").checked) {
+        paymentMethod = 3;
+    }
+
+    // Obtener el código de transacción si se eligió Yape o Plin
+    let transactionCode;
+    if (paymentMethod === "Yape") {
+        transactionCode = document.getElementById("codigoYape").value;
+    } else if (paymentMethod === "Plin") {
+        transactionCode = document.getElementById("codigoPlin").value;
+    }
+
+    // Crear un objeto con todos los datos
+    let formData = {
+        fullName: fullName,
+        email: email,
+        phoneNumber: phoneNumber,
+        address: address,
+        paymentMethod: paymentMethod,
+        transactionCode: transactionCode
+    };
+
+    console.log("aqui?",formData);
+
+    enviarPedidoDelivery(fullName,address,phoneNumber,paymentMethod)
+    console.log("pedido enviado exitosamente");
+
+
+    // Aquí puedes enviar formData a tu servidor o procesarlo como desees
+});
+
+
+async function enviarPedidoDelivery(Nombre, direccion, telefono, metodopago) {
+    // Verificar que todos los campos estén llenos
+    if (!Nombre || !direccion || !telefono || !metodopago) {
+        console.error("Por favor, complete todos los campos antes de enviar el pedido.");
+        
+        // Mostrar el mensaje de error en la interfaz
+        document.getElementById("error-message").textContent = "Complete todos los campos antes de enviar.";
+        document.getElementById("error-message").style.display = "block";
+        
+        return; // No hacer nada más si falta algún campo
+    }
+    
+    // Verificar si se seleccionó Yape o Plin y asegurarse de que se haya proporcionado un código de transacción
+    if ((metodopago === 2 && !document.getElementById("codigoYape").value) || (metodopago === 3 && !document.getElementById("codigoPlin").value)) {
+        console.error("Por favor, complete el código de transacción.");
+        
+        // Mostrar el mensaje de error en la interfaz
+        document.getElementById("error-message").textContent = "Complete el código de transacción.";
+        document.getElementById("error-message").style.display = "block";
+        
+        return; // No hacer nada más si falta el código de transacción
+    }
+
+    // Si todos los campos están llenos, ocultar el mensaje de error en la interfaz
+    document.getElementById("error-message").style.display = "none";
+
+    let clienteId = null;
+    const cliente = {
+        Nombre: Nombre,
+        Direccion: direccion,
+        NumTelefono: telefono
+    }
+    const jsonCliente = JSON.stringify(cliente);
+    console.log(jsonCliente);
+
+    try {
+        // Esperar a que la función crearSolicitudCliente retorne el idCliente
+        clienteId = await crearSolicitudCliente(jsonCliente);
+        console.log(clienteId);
+
+        const carritoFinal = carrito.slice(); // Hacer una copia superficial de carrito
+
+        // Crear objeto principal del pedido
+        const pedido = {
+            Estado: 1,
+            Fecha: obtenerFechaActual(), // Esta función debería retornar la fecha actual en el formato requerido
+            Cliente_idCliente: clienteId,
+            Mesa_id: null,
+            Usuario_id: null,
+            TipoPedido_id: 3,
+            MedioPago_id: metodopago,
+            detalles: []
+        };
+        console.log(carritoFinal);
+
+        // Iterar sobre el carrito final y agregar detalles al pedido
+        carritoFinal.forEach(item => {
+            const detalle = {
+                Fecha: obtenerFechaActual(), // Fecha del detalle
+                Precio: item.price, // Precio del producto
+                Cantidad: item.quantity, // Cantidad del producto
+                NotaPedido: item.notes, // Notas del producto
+                Producto_id: item.id // ID del producto
+            };
+            pedido.detalles.push(detalle);
+        });
+
+        // Convertir el objeto pedido a JSON
+        console.log(pedido);
+        const jsonPedido = JSON.stringify(pedido);
+        console.log(jsonPedido);
+
+        // Aquí puedes hacer lo que necesites con el JSON del pedido, por ejemplo, enviarlo al backend
+        crearSolicitudPedido(jsonPedido);
+        _showModal('modal-confirmed');
+        reiniciarPrecio();
+        closeSidebar();
+        closePagoModal();
+
+    } catch (error) {
+        console.error('Error en la creación del cliente y envío del pedido:', error);
+    }
+}

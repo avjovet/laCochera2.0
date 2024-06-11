@@ -1,50 +1,104 @@
-function hiddenBar() {
-    const body = document.body;
-    const html = document.documentElement;
-
-    if (body.classList.contains('modal-open')) {
-        html.style.overflow = 'hidden';
+function verificarCarrito() {
+    console.log("este es el carrito", carrito)
+    if (carrito.length > 0) {
+      _showModal('modal-confirm');
     } else {
-        html.style.overflow = 'auto';
+      _showModal('modal-empty');
+    }
+  }
+
+  function verificarCarritoLlevar() {
+    const customerName = document.getElementById('customer-name').value.trim();
+    console.log("este es el carrito", carrito);
+    console.log("Nombre del cliente:", customerName);
+
+    if (carrito.length === 0) {
+      _showModal('modal-empty');
+    } else if (!customerName) {
+      _showModal('modal-name-empty');
+    } else {
+      _showModal('modal-confirm');
+    }
+  }
+
+function setupModalCloseEvent(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                _closeModal(modalId); 
+            }
+        });
     }
 }
-// Función para mostrar el modal de confirmación
-function showConfirmModal() {
+
+document.addEventListener('DOMContentLoaded', () => {
+    setupModalCloseEvent('modal-confirm');
+    setupModalCloseEvent('modal-mozo');
+    setupModalCloseEvent('modal-confirmed');
+    setupModalCloseEvent('modal-empty');
+    setupModalCloseEvent('modal-name-empty');
+
+
+
+});
+
+
+function _showModal(modalId) {
     document.body.classList.add('modal-open');
-    document.body.classList.add('modal-confirm-open');
-    const confirmModal = document.getElementById('confirmModal');
-    confirmModal.style.display = 'block';
+    document.body.classList.add(`${modalId}-open`);
+    const modal = document.getElementById(modalId);
+    modal.style.display = 'block';
     hiddenBar();
 }
 
-// Función para cerrar el modal de confirmación
-function closeConfirmModal() {
+function _closeModal(modalId) {
     document.body.classList.remove('modal-open');
-    document.body.classList.remove('modal-confirm-open');
+    document.body.classList.remove(`${modalId}-open`);
+    const modal = document.getElementById(modalId);
+    modal.classList.add('closing'); // Agregar clase para activar animación de cierre
 
-    const confirmModal = document.getElementById('confirmModal');
-    confirmModal.style.display = 'none';
-    hiddenBar();
+    // Agregar un tiempo de espera antes de ocultar completamente el modal
+    setTimeout(function() {
+        modal.style.display = 'none';
+        modal.classList.remove('closing'); // Eliminar clase de animación de cierre
+        hiddenBar();
+    }, 300); // Tiempo igual al tiempo de la animación en milisegundos
 }
 
-// Función para enviar el pedido después de confirmar
+
 function sendConfirmedPedido() {
     document.body.classList.remove('modal-open');
     document.body.classList.remove('modal-confirm-open');
 
-    // Aquí puedes agregar la lógica para enviar el pedido
-    // Por ejemplo, llamar a la función enviarPedido() que ya tienes
     enviarPedido();
-    // Después de enviar el pedido, cierra el modal de confirmación
-    closeConfirmModal();
+    _closeModal('modal-confirm');
+    _showModal('modal-confirmed')
+    reiniciarPrecio();
+    closeSidebar();
+
+    
+
 }
 
-// Función para enviar el pedido después de confirmar
 function sendConfirmedPedidoLlevar() {
     document.body.classList.remove('modal-open');
     document.body.classList.remove('modal-confirm-open');
-    enviarPedidoLlevar(); // tienes q crear esta funcion
-    closeConfirmModal();
+    enviarPedidoLlevar(); 
+    _closeModal('modal-confirm');
+    _showModal('modal-confirmed')
+    reiniciarPrecio();
+    closeSidebar();
+
+}
+
+function sendConfirmedPedidoDelivery() {
+    document.body.classList.remove('modal-open');
+    document.body.classList.remove('modal-confirm-open');
+    enviarPedidoDelivery(); 
+    _closeModal('modal-confirm');
+
+
 }
 
 
@@ -52,21 +106,27 @@ function sendConfirmedPedidoLlevar() {
 window.onbeforeunload = function(event) {
     const body = document.body;
     if (body.classList.contains('modal-confirm-open')) {
-        closeConfirmModal();
-        return '¿Estás seguro de que deseas salir?'; // Mostrar el cuadro de diálogo
+        _closeModal('modal-confirm');
+        return '¿Estás seguro de que deseas salir?'; 
     }
     if (!body.classList.contains('modal-open')){
-        return '¿Estás seguro de que deseas salir?'; // Mostrar el cuadro de diálogo
+        return '¿Estás seguro de que deseas salir?'; 
 
     }
     if (body.classList.contains('modal-product-open')){
         closeModal();
-        return '¿Estás seguro de que deseas salir?'; // Mostrar el cuadro de diálogo
+        return '¿Estás seguro de que deseas salir?'; 
 
     }
     if (body.classList.contains('modal-pago-open')){
         closePagoModal();
-        return '¿Estás seguro de que deseas salir?'; // Mostrar el cuadro de diálogo
+        return '¿Estás seguro de que deseas salir?'; 
+
+    }
+
+    if (body.classList.contains('modal-mozo-open')){
+        _closeModal('modal-mozo');
+        return '¿Estás seguro de que deseas salir?';
 
     }
 };

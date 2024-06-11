@@ -1,0 +1,19 @@
+
+/* Cambia el color de la barra de desplazamiento */
+.cart-sidebar::-webkit-scrollbar {
+    width: 12px; /* Ancho de la barra de desplazamiento */
+    background-color: #111111; /* Color de fondo */
+}
+
+/* Cambia el estilo de la barra de desplazamiento */
+.cart-sidebar::-webkit-scrollbar-thumb {
+    background-color: #111111; /* Color del "pulgarcito" */
+    border-radius: 6px; /* Bordes redondeados */
+}
+
+/* Cambia el estilo del riel de la barra de desplazamiento */
+.cart-sidebar::-webkit-scrollbar-track {
+    background-color: #111111; /* Color del riel */
+    border-radius: 6px; /* Bordes redondeados */
+}
+

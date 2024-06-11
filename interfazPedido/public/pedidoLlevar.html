@@ -5,15 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/stylesPedido.css">
     <link rel="stylesheet" href="css/stylesLlevar.css">
-    <link rel="stylesheet" href="css/modal-confirmacion.css">
-
-    <link rel="stylesheet" href="css/desplazamiento-sidebar.css">
+    <link rel="stylesheet" href="css/modalConfirmacion.css">
+    <link rel="stylesheet" href="css/preload.css">
+    <link rel="stylesheet" href="css/desplazamientoSidebar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Realizar pedido </title>
 </head>
 <body>
+    <div class="preload" data-preaload>
+        <div class="circle"></div>
+        <p class="text">La Cochera</p>
+    </div>
 
     <header>
         <div class="logo">
@@ -127,26 +131,55 @@
             <hr class="underline">
         
             <p id="total-text" class="total-text">Total: S/. 0.00</p>
-            <button id="enviar-pedido-button" class="enviar-pedido-button" onclick="showConfirmModal()">Enviar pedido</button>
+            <button id="enviar-pedido-button" class="enviar-pedido-button" onclick="verificarCarritoLlevar()">Enviar pedido</button>
         </div>
         
-        <div id="confirmModal" class="modal-confirm">
-            <div class="modal-confirm-content">
+        <div id="modal-confirm" class="modal-confirm">
+            <div id= "confirmContent" class="modal-confirm-content">
                 <p class="confirm-text">¿Estás seguro de que desea enviar el pedido?</p>
                 <div class="buttons">
-                    <button onclick="closeConfirmModal()" class="back-btn">Regresar</button>
+                    <button onclick="_closeModal('modal-confirm')" class="back-btn">Regresar</button>
                     <button onclick="sendConfirmedPedidoLlevar()" class="send-btn">Confirmar</button> <!-- Aquí se llama a sendConfirmedPedido() -->
                 </div>
 
             </div>
         </div>
+
+        <div id="modal-empty" class="modal-confirm">
+            <div class="modal-confirm-content">
+                <p class="confirm-text">Agregue articulos a su carrito para enviar su pedido.</p>
+                <div class="buttons">
+                    <button onclick="_closeModal('modal-empty')" class="send-btn">Aceptar</button> <!-- Aquí se llama a sendConfirmedPedido() -->
+                </div>
+
+            </div>
+        </div>
+
+        <div id="modal-name-empty" class="modal-confirm">
+            <div class="modal-confirm-content">
+                <p class="confirm-text">Digite su nombre para llamarlo cuando su pedido este listo.</p>
+                <div class="buttons">
+                    <button onclick="_closeModal('modal-name-empty')" class="send-btn">Aceptar</button> <!-- Aquí se llama a sendConfirmedPedido() -->
+                </div>
+
+            </div>
+        </div>
         
+        <div id="modal-confirmed" class="modal-confirm">
+            <div id="confirmContent" class="modal-confirm-content">
+                <p class="confirm-text">¡Su pedido se ha enviado exitosamente!</p>
+                <div class="buttons">
+                    <button onclick="_closeModal('modal-confirmed')" class="send-btn">Aceptar</button> 
+
+            </div>
+        </div>
 
     </main>
 
 
     <script  src="js/appPedido.js"></script>
     <script  src="js/modal-confirmacion.js"></script>
+    <script  src="js/preload.js"></script>
 
 
 </body>

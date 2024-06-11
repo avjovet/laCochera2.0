@@ -10,6 +10,8 @@ function showPagoModal() {
     console.log("abierto")
     document.body.classList.add('modal-open');
     document.body.classList.add('modal-pago-open');
+
+    
     const pagoModal = document.getElementById('pagoModal');
     pagoModal.style.display = 'block';
     hiddenBar();
@@ -26,9 +28,16 @@ function closePagoModal() {
     document.body.classList.remove('modal-pago-open');
 
     const pagoModal = document.getElementById('pagoModal');
-    pagoModal.style.display = 'none';
-    hiddenBar();
+    pagoModal.classList.add('closing'); // Agregar clase para activar animación de cierre
+
+    // Agregar un tiempo de espera antes de ocultar completamente el modal
+    setTimeout(function() {
+        pagoModal.style.display = 'none';
+        pagoModal.classList.remove('closing'); // Eliminar clase de animación de cierre
+        hiddenBar();
+    }, 300); // Tiempo igual al tiempo de la animación en milisegundos
 }
+
 
 function showYapeOptions() {
     hidePaymentOptions();
