@@ -68,12 +68,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo json_encode($resultado);
 }
 
-/*
-$insertarPedido = new InsertarPedido();
-$pedidoJson = '{"Estado":1,"Fecha":"2024-05-17","Cliente_idCliente":1,"Mesa_id":1,"Usuario_id":1,"TipoPedido_id":11,"MedioPago_id":1,"detalles":[{"Fecha":"2024-05-17","Precio":10,"Cantidad":2,"NotaPedido":"Sin notas","Producto_id":1},{"Fecha":"2024-05-17","Precio":5,"Cantidad":1,"NotaPedido":"Sin notas","Producto_id":2}]}';
+// Ejemplo de uso
+//$insertarPedido = new InsertarPedido();
+//$pedidoJson = '{"Estado":1,"Fecha":"2024-05-17","Cliente_idCliente":1,"Mesa_id":1,"Usuario_id":1,"TipoPedido_id":11,"MedioPago_id":1,"detalles":[{"Fecha":"2024-05-17","Precio":10,"Cantidad":2,"NotaPedido":"Sin notas","Producto_id":1},{"Fecha":"2024-05-17","Precio":5,"Cantidad":1,"NotaPedido":"Sin notas","Producto_id":2}]}';
 
-$pedidoJson2 = '{"Estado":1,"Fecha":"2024-06-08 09:11:50","FechaAprobacion":null,"Cliente_idCliente":null,"Mesa_id":null,"Usuario_id":null,"TipoPedido_id":1,"MedioPago_id":null,"fechaCocinando":null,"fechaTerminado":null,"detalles":[{"Fecha":"2024-06-08 09:11:50","Precio":11,"Cantidad":1,"NotaPedido":"","Producto_id":4},{"Fecha":"2024-06-08 09:11:50","Precio":13,"Cantidad":1,"NotaPedido":"","Producto_id":2}]}';
-
-$resultado = $insertarPedido->insertarPedido($pedidoJson2);
-echo "Resultado de la inserción: ";
-var_dump($resultado);*/
+//$resultado = $insertarPedido->insertarPedido($pedidoJson);
+//echo "Resultado de la inserción: ";
+//var_dump($resultado);

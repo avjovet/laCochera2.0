@@ -73,4 +73,23 @@ class Usuario {
         }
         return false;
     }
+
+    public function autenticar($usua, $contraseña) {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE Usua = ? LIMIT 0,1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $usua);
+        $stmt->execute();
+    
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        // Verificar si el usuario existe y la contraseña coincide
+        if ($usuario && $contraseña === $usuario['Contraseña']) {
+            
+            return true;
+        }
+        return false;
+    }
+    
+
+    
 }

@@ -4,7 +4,7 @@
     class Database {
         private $host = "165.232.146.177";
 
-        private $dsn = "mysql:host=localhost;dbname=cocheradbultimate";
+        private $dsn = "mysql:host=165.232.146.177;dbname=cocheradb";
         private $db_name = "cocheradbultimate";
         private $username = "dev_test3";
         private $password = "_Esis2024";

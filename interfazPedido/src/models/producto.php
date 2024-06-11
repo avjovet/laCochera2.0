@@ -9,6 +9,7 @@ class Producto {
     public $precio;
     public $imagen;
     public $categoria;
+    public $Estado;
 
     public function __construct($db) {
         $this->conn = $db;
@@ -21,6 +22,14 @@ class Producto {
         $stmt->execute();
         return $stmt;
     }
+
+    public function listarNoOcultos() {
+        $query = "SELECT idProducto,nombre,precio,imagen,categoria FROM " . $this->table_name . " WHERE Estado = 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt;
+    }
+    
 
     // Método para obtener un producto por ID
     public function obtenerPorId($id) {
@@ -46,6 +55,31 @@ class Producto {
         return false;
     }
 
+    
+     
+     public function ocultar() {
+        // Obtener el valor actual de Estado
+        $query = "SELECT Estado FROM " . $this->table_name . " WHERE idProducto = :idProducto";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":idProducto", $this->idProducto);
+        $stmt->execute();
+        $currentEstado = $stmt->fetch(PDO::FETCH_ASSOC)['Estado'];
+
+        // Alternar el valor de Estado
+        $newEstado = ($currentEstado == 1) ? 0 : 1;
+
+        // Actualizar el valor de Estado
+        $query = "UPDATE " . $this->table_name . " SET Estado = :Estado WHERE idProducto = :idProducto";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":Estado", $newEstado);
+        $stmt->bindParam(":idProducto", $this->idProducto);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
+    
     // Método para actualizar un producto existente
     public function actualizar() {
         $query = "UPDATE " . $this->table_name . " SET nombre = :nombre, precio = :precio, imagen = :imagen, categoria = :categoria WHERE idProducto = :idProducto";

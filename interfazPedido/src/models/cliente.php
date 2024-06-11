@@ -39,7 +39,7 @@ class Cliente {
         $stmt->bindParam(":NumTelefono", $this->NumTelefono);
 
         if ($stmt->execute()) {
-            return $this->conn->lastInsertId();
+            return true;
         }
         return false;
     }

@@ -26,5 +26,13 @@ class ProductoController {
         header('Content-Type: application/json');
         echo json_encode($productos);
     }
+    public function obtenerProductosJSON2() {
+        $stmt = $this->producto->listarNoOcultos();
+        $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        header('Content-Type: application/json');
+        echo json_encode($productos);
+    }
+
+
 }
 

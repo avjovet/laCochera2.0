@@ -2,7 +2,7 @@
 <?php
 return [
     'host' => 'localhost',
-    'dbname' => 'cocheradbultimate',
+    'dbname' => 'cocheradb',
     'username' => 'root',
     'password' => ''
 ];
