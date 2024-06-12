@@ -459,7 +459,7 @@ fetch('productos.php')
 
    
     function crearSolicitudCliente(jsonPedido) {
-        return fetch('/interfazPedido/src/controllers/insertarCliente.php', {
+        return fetch('../src/controllers/insertarCliente.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -484,7 +484,7 @@ fetch('productos.php')
     
 
     function crearSolicitudPedido(jsonPedido) {
-        fetch('/interfazPedido/src/controllers/pedido_detalle_pedido.php', {
+        fetch('../src/controllers/pedido_detalle_pedido.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -493,6 +493,7 @@ fetch('productos.php')
         })
         .then(response => {
             if (response.ok) {
+                reiniciarPrecio();
                 console.log('JSON enviado satisfactoriamente.');
             } else {
                 console.error('Error en el envío del JSON:', response.statusText);
@@ -563,69 +564,6 @@ async function enviarPedidoLlevar() {
         console.error('Error en la creación del cliente y envío del pedido:', error);
     }
 }
-//  fetch(`../src/controllers/llamarMozo.php?idMesa=${idMesa}`, {
-    function crearLLamadoMozo(idMesa,fechallamado) {
-    
-       
-        fetch(`../src/controllers/llamarMozo.php?idMesa=${idMesa}`, { 
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' }
-        })
-        .then(response => {
-            if (response.ok) {
-                console.log('Llama mozo.');
-                
-            } else {
-                console.error('Error al ocultar el producto.');
-            }
-        })
-        .catch(error => console.error('Error en la solicitud:', error));
-    }
-
-    function crearLLamadoMozo2(idMesa) {
-        
-
-        fetch(`../src/controllers/llamarMozo.php?idMesa=${idMesa}`, { 
-            method: 'POST2',
-            headers: { 'Content-Type': 'application/json' }
-        })
-        .then(response => {
-            if (response.ok) {
-                console.log("cancela llamado");
-                
-            } else {
-                console.error('Error al ocultar el producto.');
-            }
-        })
-        .catch(error => console.error('Error en la solicitud:', error));
-    }
-
-
-
-document.getElementById('gaa').addEventListener('click', function() {
-    // Lógica para el botón Confirmar
-    
-    
-    crearLLamadoMozo(m);
-
-
-
-    //_closeModal('modal-mozo');
-
-});
-
-var btnMozo = document.getElementById("btnMozo");
-
-// Agregar un event listener para el clic
-btnMozo.addEventListener("click", function() {
-    // Verificar si la clase contiene "clicked"
-    if (btnMozo.classList.contains("clicked")) {
-        // Si la clase contiene "clicked", ejecutar el evento deseado
-        // Aquí puedes poner el código que quieras ejecutar cuando se hace clic en el botón con la clase "clicked"
-        
-        crearLLamadoMozo2(m);
-    }
-});
 
 document.getElementById("pagoForm").addEventListener("submit", function(event) {
     event.preventDefault();
@@ -749,7 +687,6 @@ async function enviarPedidoDelivery(Nombre, direccion, telefono, metodopago) {
         // Aquí puedes hacer lo que necesites con el JSON del pedido, por ejemplo, enviarlo al backend
         crearSolicitudPedido(jsonPedido);
         _showModal('modal-confirmed');
-        reiniciarPrecio();
         closeSidebar();
         closePagoModal();
 
@@ -757,3 +694,5 @@ async function enviarPedidoDelivery(Nombre, direccion, telefono, metodopago) {
         console.error('Error en la creación del cliente y envío del pedido:', error);
     }
 }
+
+

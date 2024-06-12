@@ -74,7 +74,6 @@ function sendConfirmedPedido() {
     enviarPedido();
     _closeModal('modal-confirm');
     _showModal('modal-confirmed')
-    reiniciarPrecio();
     closeSidebar();
 
     
@@ -87,7 +86,6 @@ function sendConfirmedPedidoLlevar() {
     enviarPedidoLlevar(); 
     _closeModal('modal-confirm');
     _showModal('modal-confirmed')
-    reiniciarPrecio();
     closeSidebar();
 
 }

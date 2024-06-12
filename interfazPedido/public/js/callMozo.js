@@ -1,4 +1,65 @@
-let callMozo = false; // Variable global para rastrear si se llama al mozo
+let callMozo = false;
+let btnMozo = document.getElementById("btnMozo");
+
+
+    function crearLLamadoMozo(idMesa,fechallamado) {
+    
+       
+        fetch(`../src/controllers/llamarMozo.php?idMesa=${idMesa}`, { 
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Llama mozo.');
+                
+            } else {
+                console.error('Error al ocultar el producto.');
+            }
+        })
+        .catch(error => console.error('Error en la solicitud:', error));
+    }
+
+    function crearLLamadoMozo2(idMesa) {
+        
+
+        fetch(`../src/controllers/llamarMozo.php?idMesa=${idMesa}`, { 
+            method: 'POST2',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log("cancela llamado");
+                
+            } else {
+                console.error('Error al ocultar el producto.');
+            }
+        })
+        .catch(error => console.error('Error en la solicitud:', error));
+    }
+
+
+
+document.getElementById('gaa').addEventListener('click', function() {
+    // Lógica para el botón Confirmar
+    console.log('llamando mozo')
+    
+    crearLLamadoMozo(m);
+    //_closeModal('modal-mozo');
+
+});
+
+
+// Agregar un event listener para el clic
+btnMozo.addEventListener("click", function() {
+    // Verificar si la clase contiene "clicked"
+    if (btnMozo.classList.contains("clicked")) {
+        // Si la clase contiene "clicked", ejecutar el evento deseado
+        // Aquí puedes poner el código que quieras ejecutar cuando se hace clic en el botón con la clase "clicked"
+        
+        crearLLamadoMozo2(m);
+    }
+});
 
 document.addEventListener('DOMContentLoaded', function () {
     const btnMozo = document.getElementById('btnMozo');
@@ -44,3 +105,4 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
