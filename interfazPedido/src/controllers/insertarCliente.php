@@ -33,10 +33,19 @@ class InsertarCliente {
         $this->cliente->Direccion = $clienteData['Direccion'];
         $this->cliente->NumTelefono = $clienteData['NumTelefono'];
 
-        if ($this->cliente->crear()) {
-            return ['success' => true];
+        $idCliente = $this->cliente->crear();
+        
+
+        if ($idCliente) {
+            return [
+                'success' => true,
+                'idCliente' => $idCliente
+            ];
         } else {
-            return ['success' => false, 'message' => 'Error al crear el cliente'];
+            return [
+                'success' => false,
+                'message' => 'Error al crear el cliente'
+            ];
         }
     }
 }
@@ -48,4 +57,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     echo json_encode($resultado);
 }
-
