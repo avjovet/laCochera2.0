@@ -300,10 +300,13 @@ main {
  
         border: 1px solid rgb(32, 31, 31);  
         resize: none;  
-        width: 100%;  
+        width: 94.5%;  
         height: 100%;  
         background-color: #111111;
         color: white;
+        margin-left: 9px;
+
+
 }
 .modal-content button{
 
@@ -358,6 +361,8 @@ main {
 }
 
 
+
+
 .opciones-modal button {
     border: 1px solid rgb(34, 34, 34);
     padding: 2px 8px;
@@ -374,13 +379,17 @@ main {
 }
 
 
-
-
 .quantity button {
     cursor: pointer;
     font-size: 16px;
-   
 }
+
+.quantity button:hover {
+    background-color: var(--gold-crayola);
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+}
+
 
 
 .quantity span {
@@ -408,9 +417,10 @@ main {
 }
 
 
-.addToCartButton:hover {
+.addToCartButton:hover, .addToCartButton:active
+{
     background-color: var(--gold-crayola);
-    color: rgb(172, 166, 166);
+    color: rgb(0, 0, 0);
     font-weight: bold;
 }
 
@@ -523,7 +533,8 @@ main {
 }
 
 
-.enviar-pedido-button:hover {
+.enviar-pedido-button:hover,
+.enviar-pedido-button:active {
     background-color: var(--gold-crayola);
     color: black;
     font-weight: bold;
@@ -551,21 +562,78 @@ main {
         padding: 1rem 2rem;
     }
 
+
+    .modal {
+        display: none; /* Mantén el display:none para el inicio */
+        position: fixed;
+        z-index: 20000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.9); /* Fondo oscuro semi-transparente */
+        align-items: center; /* Alinea verticalmente al centro */
+        justify-content: center; /* Alinea horizontalmente al centro */
+        margin: 0; /* Sin márgenes */
+    }
+
+    .modal-content {
+        position: absolute; /* Posición absoluta para centrar */
+        top: 50%; /* Mueve el elemento al 50% desde arriba */
+        left: 50%; /* Mueve el elemento al 50% desde la izquierda */
+        transform: translate(-50%, -50%); /* Lo desplaza hacia arriba y hacia la izquierda en relación con sus propias dimensiones */
+        background-color: #111111;
+        width: 95%;
+        max-width: 650px; /* Ancho máximo opcional */
+        padding: 20px;
+        text-align: center;
+        color: white;
+        border-radius: 10px; /* Añadir un borde redondeado opcional */
+    }
+
+
+    /*Side bar*/
+    .cart-text, .close-btn{
+        margin-top: 130px;
+        font-size: 12px;
+    }
+   
+    .underline {
+        margin-top: 10px;
+    }
+
     .cart-sidebar {
         right: -300px; /* Inicialmente oculto fuera del viewport */
 
         width: 300px; /* Ancho más grueso para celulares */
     }
+
+    .indicaciones-esp {
+        border: 1px solid rgb(32, 31, 31);
+        resize: none;
+        width: 95%;
+        height: 100%;
+        background-color: #111111;
+        color: white;
+        margin: 0 auto; /* Centra horizontalmente */
+        display: flex;
+        justify-content: center; /* Centra horizontalmente */
+        align-items: center; /* Centra verticalmente */
+    }
+
+       /* body.modal-open{
+        overflow: hidden;
+    }
+    */
+    
 }
 
 
 @media (max-width: 600px) {
 
-    .cart-sidebar {
-        right: -250px; /* Inicialmente oculto fuera del viewport */
 
-        width: 250px; /* Ancho más grueso para celulares */
-    }
+    
     header .navbar {
         position: absolute;
         top: 100%;
@@ -612,39 +680,57 @@ main {
    
     }
 
+    .cart-sidebar {
+        right: -250px; /* Inicialmente oculto fuera del viewport */
 
+        width: 250px; /* Ancho más grueso para celulares */
+    }
+
+
+    .indicaciones-esp {
+        border: 1px solid rgb(32, 31, 31);
+        resize: none;
+        width: 95%;
+        height: 100%;
+        background-color: #111111;
+        color: white;
+        margin: 0 auto; /* Centra horizontalmente */
+        display: flex;
+        justify-content: center; /* Centra horizontalmente */
+        align-items: center; /* Centra verticalmente */
+    }
    /* body.modal-open{
         overflow: hidden;
     }
 */
-.modal {
-    display: none; /* Mantén el display:none para el inicio */
-    position: fixed;
-    z-index: 20000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.9); /* Fondo oscuro semi-transparente */
-    align-items: center; /* Alinea verticalmente al centro */
-    justify-content: center; /* Alinea horizontalmente al centro */
-    margin: 0; /* Sin márgenes */
-}
+    .modal {
+        display: none; /* Mantén el display:none para el inicio */
+        position: fixed;
+        z-index: 20000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.9); /* Fondo oscuro semi-transparente */
+        align-items: center; /* Alinea verticalmente al centro */
+        justify-content: center; /* Alinea horizontalmente al centro */
+        margin: 0; /* Sin márgenes */
+    }
 
-.modal-content {
-    position: absolute; /* Posición absoluta para centrar */
-    top: 50%; /* Mueve el elemento al 50% desde arriba */
-    left: 50%; /* Mueve el elemento al 50% desde la izquierda */
-    transform: translate(-50%, -50%); /* Lo desplaza hacia arriba y hacia la izquierda en relación con sus propias dimensiones */
-    background-color: #111111;
-    width: 90%;
-    max-width: 650px; /* Ancho máximo opcional */
-    padding: 20px;
-    text-align: center;
-    color: white;
-    border-radius: 10px; /* Añadir un borde redondeado opcional */
-}
+    .modal-content {
+        position: absolute; /* Posición absoluta para centrar */
+        top: 50%; /* Mueve el elemento al 50% desde arriba */
+        left: 50%; /* Mueve el elemento al 50% desde la izquierda */
+        transform: translate(-50%, -50%); /* Lo desplaza hacia arriba y hacia la izquierda en relación con sus propias dimensiones */
+        background-color: #111111;
+        width: 95%;
+        max-width: 650px; /* Ancho máximo opcional */
+        padding: 20px;
+        text-align: center;
+        color: white;
+        border-radius: 10px; /* Añadir un borde redondeado opcional */
+    }
 
 
     /*Side bar*/
@@ -656,5 +742,6 @@ main {
     .underline {
         margin-top: 10px;
     }
+
 }
 
