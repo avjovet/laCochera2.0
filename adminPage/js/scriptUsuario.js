@@ -130,14 +130,14 @@ function handleSearchInput() {
         const itemsPerPage = parseInt(document.getElementById('itemsPerPage').value);
         obtenerProductos(1, itemsPerPage);
     } else {
-        fetch(`productosTotal.php?search=${searchTerm}`)
+        fetch(`usuarios.php?search=${searchTerm}`)
             .then(response => response.json())
             .then(data => mostrarProductosFiltrados(data, searchTerm));
     }
 }
 
 function mostrarProductosFiltrados(data, searchTerm) {
-    const productosFiltrados = data.filter(producto => producto.nombre.toLowerCase().includes(searchTerm));
+    const productosFiltrados = data.filter(producto => producto.Nombre.toLowerCase().includes(searchTerm));
     const tabla = document.getElementById('contenidoTabla');
     tabla.innerHTML = productosFiltrados.length > 0 ? 
         productosFiltrados.map(producto => crearFilaProducto(producto)).join('') : 
@@ -184,18 +184,18 @@ function crearFilaProducto(producto) {
     const claseOculto = producto.Estado == 0 ? "producto-oculto" : "";
     let tipo = "";
     if (producto.TipoUsuario_id == 1){
-        tipo = "Administrador";
+        producto.TipoUsuario_id = "Administrador";
     } else if (producto.TipoUsuario_id == 2){
-        tipo = "Mozo";
+        producto.TipoUsuario_id = "Mozo";
     }  else if (producto.TipoUsuario_id == 3){
-        tipo = "Cocina";
+        producto.TipoUsuario_id = "Cocina";
     } 
 
     return `
         <tr class="${claseOculto}">
             <td class="nombre">${producto.Nombre}</td>
             <td>${producto.Usua}</td>
-            <td>${tipo}</td>
+            <td>${producto.TipoUsuario_id}</td>
             <td class="centritoloco">
                 <div class="dropdown">
                     <button class="dropbtn"><i class="fas fa-edit"></i></button>
@@ -230,8 +230,10 @@ function ordenarProductos(th, data) {
     th.setAttribute('data-order', newOrder);
     console.log(th.dataset.order);
     data.sort((a, b) => {
-        if (field === 'nombre') return newOrder === 'asc' ? a.nombre.localeCompare(b.nombre) : b.nombre.localeCompare(a.nombre);
-        return newOrder === 'asc' ? a[field] - b[field] : b[field] - a[field];
+        if (field === 'nombre') return newOrder === 'asc' ? a.Nombre.localeCompare(b.Nombre) : b.Nombre.localeCompare(a.Nombre);
+        if (field === 'precio') return newOrder === 'asc' ? a.Usua.localeCompare(b.Usua) : b.Usua.localeCompare(a.Usua);
+        if (field === 'categoria') return newOrder === 'asc' ? a.TipoUsuario_id.localeCompare(b.TipoUsuario_id) : b.TipoUsuario_id.localeCompare(a.TipoUsuario_id);
+
     });
 
     actualizarTablaProductos(data, parseInt(document.getElementById('currentPage').textContent), parseInt(document.getElementById('itemsPerPage').value),1);
@@ -324,7 +326,7 @@ function eliminarProducto(idProducto) {
     })
     .then(response => {
         if (response.ok) {
-            console.log('Usuario eliminado correctamente.');
+            console.log('Producto eliminado correctamente.');
             actualizarTabla();
             searchTerm.value = '';
         } else {

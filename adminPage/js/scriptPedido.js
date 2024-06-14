@@ -9,8 +9,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 function setupEventListeners() {
-    document.getElementById('btnAgregar').addEventListener('click', toggleFormVisibility);
-    document.getElementById('formProducto').addEventListener('submit', handleFormSubmit);
     document.getElementById('previousPage').addEventListener('click', goToPreviousPage);
     document.getElementById('nextPage').addEventListener('click', goToNextPage);
     document.getElementById('itemsPerPage').addEventListener('change', handleItemsPerPageChange);
@@ -35,15 +33,17 @@ function vaciarFormulario() {
 function getFormData() {
     return {
         nombre: document.getElementById('autoSizingInputnombre').value,
-        
+        precio: document.getElementById('autoSizingInputprecio').value,
+        imagen: document.getElementById('autoSizingInputimg').value,
+        categoria: document.getElementById('autoSizingSelectcat').value
     };
 }
 
 function enviarProducto(producto) {
     const searchTerm = document.querySelector('.form-control');
     const originalSearchTerm = searchTerm.value.trim().toLowerCase();
-    console.log(JSON.stringify(producto));
-    fetch('../src/controllers/AdminPanel/ManejoCategoria.php?action=insertar', {
+
+    fetch('../src/controllers/AdminPanel/ManejoProducto.php?action=insertar', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(producto)
@@ -113,15 +113,15 @@ function handleSearchInput() {
         const itemsPerPage = parseInt(document.getElementById('itemsPerPage').value);
         obtenerProductos(1, itemsPerPage);
     } else {
-        fetch(`categoria.php?search=${searchTerm}`)
+        fetch(`pedidos.php?search=${searchTerm}`)
             .then(response => response.json())
             .then(data => mostrarProductosFiltrados(data, searchTerm));
     }
 }
 
 function mostrarProductosFiltrados(data, searchTerm) {
-    
-    const productosFiltrados = data.filter(producto => producto.NombreCategoria.toLowerCase().includes(searchTerm));
+    console.log(data);
+    const productosFiltrados = data.filter(producto => producto.Nombre.toLowerCase().includes(searchTerm));
     const tabla = document.getElementById('contenidoTabla');
     tabla.innerHTML = productosFiltrados.length > 0 ? 
         productosFiltrados.map(producto => crearFilaProducto(producto)).join('') : 
@@ -130,7 +130,7 @@ function mostrarProductosFiltrados(data, searchTerm) {
 }
 
 function obtenerProductos(page, itemsPerPage) {
-    fetch(`categoria.php?page=${page}&itemsPerPage=${itemsPerPage}`)
+    fetch(`pedidos.php?page=${page}&itemsPerPage=${itemsPerPage}`)
         .then(response => response.json())
         .then(data => {
             actualizarTablaProductos(data, page, itemsPerPage, 0)
@@ -161,22 +161,56 @@ function actualizarTablaProductos(data, page, itemsPerPage, centy) {
 }
 
 function crearFilaProducto(producto) {
-    const accionOcultar = producto.Estado == 1 ? "Ocultar" : "Mostrar";
-    const claseOculto = producto.Estado == 0 ? "producto-oculto" : "";
+    console.log(producto);
+   if(producto.Estado == 1){
+    producto.Estado = "Pendiente";
+   }else if(producto.Estado == 2){
+    producto.Estado = "cocinando";
+   }else if(producto.Estado == 3){
+    producto.Estado = "terminado";
+   }
+
+   if(producto.Mesa_id == null){
+    producto.Mesa_id = " - ";
+   }else{
+    producto.Mesa_id = producto.Mesa_id;
+   }
+
+   if(producto.TipoPedido_id == 1){
+    producto.TipoPedido_id = "Mesa";
+   }else if(producto.TipoPedido_id == 2){
+    producto.TipoPedido_id = "llevar";
+   }else if(producto.TipoPedido_id == 3){
+    producto.TipoPedido_id = "delivery";
+   }
+
+   if(producto.MedioPago_id == 1){
+    producto.MedioPago_id = "Contraentrega";
+   }else if(producto.MedioPago_id == 2){
+    producto.MedioPago_id = "Yape";
+   }else if(producto.MedioPago_id == 3){
+    producto.MedioPago_id = "Plin";
+   }
+
+   if(producto.FechaAprobacion == null){
+    producto.FechaAprobacion = " - ";
+   }
+
+   if(producto.MedioPago_id == null){
+    producto.MedioPago_id = " - ";
+   }
+   
+
     
     return `
-        <tr class="${claseOculto}">
-            <td class="nombre">${producto.NombreCategoria}</td>
-            <td class="centritoloco">
-                <div class="dropdown">
-                    <button class="dropbtn"><i class="fas fa-edit"></i></button>
-                    <div class="dropdown-content">
-                        <a href="#" class="editarproducto" data-id="${producto.idCategoriaProducto}">Editar</a>
-                        <a href="#" class="eliminar-producto" data-id="${producto.idCategoriaProducto}">Eliminar</a>
-                        <a href="#" class="ocultar-producto" data-id="${producto.idCategoriaProducto}">${accionOcultar}</a>
-                    </div>
-                </div>
-            </td>
+        <tr>
+            <td class="nombre">${producto.Estado}</td>
+            <td>${producto.Fecha}</td>
+            <td>${producto.FechaAprobacion}</td>
+            <td>${producto.Mesa_id}</td>
+            <td>${producto.TipoPedido_id}</td>
+           <td>${producto.MedioPago_id}</td>
+            
         </tr>
     `;
 }
@@ -192,6 +226,7 @@ function agregarEventosFiltrado(data) {
 }
 
 function ordenarProductos(th, data) {
+    console.log("primer llamado");
 
     console.log(th.dataset.order);
     const field = th.getAttribute('data-field');
@@ -199,9 +234,13 @@ function ordenarProductos(th, data) {
     const newOrder = sortOrder === 'asc' ? 'desc' : 'asc';
     th.setAttribute('data-order', newOrder);
     console.log(th.dataset.order);
+
     data.sort((a, b) => {
-        if (field === 'nombre') return newOrder === 'asc' ? a.NombreCategoria.localeCompare(b.NombreCategoria) : b.NombreCategoria.localeCompare(a.NombreCategoria);
-        //return newOrder === 'asc' ? a[field] - b[field] : b[field] - a[field];
+        if (field === 'nombre') return newOrder === 'asc' ? a.Nombre.localeCompare(b.Nombre) : b.Nombre.localeCompare(a.Nombre);
+        if (field === 'precio') return newOrder === 'asc' ? a.Direccion.localeCompare(b.Direccion) : b.Direccion.localeCompare(a.Direccion);
+        if (field === 'categoria') return newOrder === 'asc' ? a.NumTelefono.localeCompare(b.NumTelefono) : b.NumTelefono.localeCompare(a.NumTelefono);
+        
+
     });
 
     actualizarTablaProductos(data, parseInt(document.getElementById('currentPage').textContent), parseInt(document.getElementById('itemsPerPage').value),1);
@@ -239,8 +278,7 @@ function agregarEventosEdicionYEliminacion() {
 
     });
 
-    document.querySelector('.modal-content .close').addEventListener('click', cerrarModalEdicion);
-    document.getElementById('formEditarProducto').addEventListener('submit', handleEditarProductoSubmit);
+  
 }
 
 function mostrarModalEdicion(idProducto) {
@@ -261,7 +299,9 @@ function handleEditarProductoSubmit(event) {
 
     const productoEditado = {
         nombre: document.getElementById('autoSizingInputnombreEditar').value,
-        
+        precio: document.getElementById('autoSizingInputprecioEditar').value,
+        imagen: document.getElementById('autoSizingInputimgEditar').value,
+        categoria: document.getElementById('autoSizingSelectcatEditar').value
     };
     console.log(productoEditado);
     if (confirm('¿Estás seguro de que deseas editar este producto?')) {
@@ -280,7 +320,7 @@ function toggleSidebar() {
 function ocultarProducto(idProducto) {
     
 
-    fetch(`../src/controllers/AdminPanel/ManejoCategoria.php?id=${idProducto}`, {
+    fetch(`../src/controllers/AdminPanel/ManejoProducto.php?id=${idProducto}`, {
         method: 'OCULT',
         headers: { 'Content-Type': 'application/json' }
     })
@@ -301,7 +341,7 @@ function eliminarProducto(idProducto) {
     const searchTerm = document.querySelector('.form-control');
     const originalSearchTerm = searchTerm.value.trim().toLowerCase();
 
-    fetch(`../src/controllers/AdminPanel/ManejoCategoria.php?id=${idProducto}`, {
+    fetch(`../src/controllers/AdminPanel/ManejoProducto.php?id=${idProducto}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' }
     })
@@ -320,9 +360,8 @@ function eliminarProducto(idProducto) {
 function editarProducto(idProducto, datosProducto) {
     const searchTerm = document.querySelector('.form-control');
     const originalSearchTerm = searchTerm.value.trim().toLowerCase();
-    console.log(idProducto);
-    console.log(datosProducto);
-    fetch(`../src/controllers/AdminPanel/ManejoCategoria.php?id=${idProducto}`, {
+
+    fetch(`../src/controllers/AdminPanel/ManejoProducto.php?id=${idProducto}`, {
         method: 'EDIT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(datosProducto)
@@ -347,10 +386,3 @@ function actualizarTabla() {
     const currentPage = parseInt(document.getElementById('currentPage').textContent);
     obtenerProductos(currentPage, itemsPerPage);
 }
-
-
-
-
-
-
-
