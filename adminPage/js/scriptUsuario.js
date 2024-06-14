@@ -65,8 +65,8 @@ function enviarProducto(producto) {
                 window.error('El nombre de usuario ya existe, ingrese otro porfavor', producto.usuario);
                 // Puedes realizar acciones adicionales aquí si el producto ya existe
             } else {
-                console.log('Producto agregado correctamente.');
-                alert("Producto agregado")
+                
+                alert("Usuario agregado")
                 actualizarTabla();
             }
             
@@ -75,7 +75,7 @@ function enviarProducto(producto) {
             searchTerm.value = '';
         } else {
             response.json().then(error => {
-                console.error('Error al agregar el producto:', error.message);
+                console.error('Error al agregar el usuario:', error.message);
             });
         }
     })
@@ -85,11 +85,11 @@ function enviarProducto(producto) {
 
 function handleResponse(response) {
     if (response.ok) {
-        console.log('Producto agregado correctamente.');
+        console.log('Usuario agregado correctamente.');
         actualizarTabla();
     } else {
         response.json().then(error => {
-            console.error('Error al agregar el producto:', error.message);
+            console.error('Error al agregar el Usuario:', error.message);
         });
     }
 }
@@ -141,7 +141,7 @@ function mostrarProductosFiltrados(data, searchTerm) {
     const tabla = document.getElementById('contenidoTabla');
     tabla.innerHTML = productosFiltrados.length > 0 ? 
         productosFiltrados.map(producto => crearFilaProducto(producto)).join('') : 
-        "<tr><td colspan='4'>No hay productos disponibles</td></tr>";
+        "<tr><td colspan='4'>No hay Usuarios disponibles</td></tr>";
     agregarEventosEdicionYEliminacion();  // Agregar los event listeners después de actualizar la tabla
 }
 
@@ -155,7 +155,7 @@ function obtenerProductos(page, itemsPerPage) {
             actualizarTablaProductos(data, page, itemsPerPage, 0)
             ocultarLoader();
         })
-        .catch(error => console.error('Error al obtener los productos:', error));
+        .catch(error => console.error('Error al obtener los Usuarios:', error));
 }
 
 function ocultarLoader() {
@@ -167,7 +167,7 @@ function actualizarTablaProductos(data, page, itemsPerPage, centy) {
     const tabla = document.getElementById('contenidoTabla');
     tabla.innerHTML = data.length > 0 ? 
         data.slice((page - 1) * itemsPerPage, page * itemsPerPage).map(producto => crearFilaProducto(producto)).join('') : 
-        "<tr><td colspan='4'>No hay productos disponibles</td></tr>";
+        "<tr><td colspan='4'>No hay Usuarios disponibles</td></tr>";
 
     document.getElementById('currentPage').textContent = page;
     document.getElementById('totalPages').textContent = Math.ceil(data.length / itemsPerPage);
@@ -285,15 +285,24 @@ function handleEditarProductoSubmit(event) {
 
     const productoEditado = {
         nombre: document.getElementById('autoSizingInputnombreEditar').value,
-        precio: document.getElementById('autoSizingInputprecioEditar').value,
-        imagen: document.getElementById('autoSizingInputimgEditar').value,
+        usuario: document.getElementById('autoSizingInputprecioEditar').value,
+        contraseña: document.getElementById('autoSizingInputPasswordEditar').value,
+        contraseña2: document.getElementById('autoSizingInputConfirmPasswordEditar').value,
         categoria: document.getElementById('autoSizingSelectcatEditar').value
     };
-    console.log(productoEditado);
-    if (confirm('¿Estás seguro de que deseas editar este producto?')) {
-        editarProducto(idProducto, productoEditado);
-        cerrarModalEdicion();
+
+    if (productoEditado.contraseña == productoEditado.contraseña2){
+
+        if (confirm('¿Estás seguro de que deseas editar este usuario?')) {
+            editarProducto(idProducto, productoEditado);
+            cerrarModalEdicion();
+        }
+
+
+    } else{
+        window.alert("Las contraseñas no coinciden");
     }
+    
 }
 
 function toggleSidebar() {
@@ -329,7 +338,7 @@ function editarProducto(idProducto, datosProducto) {
     const searchTerm = document.querySelector('.form-control');
     const originalSearchTerm = searchTerm.value.trim().toLowerCase();
 
-    fetch(`../src/controllers/AdminPanel/ManejoProducto.php?id=${idProducto}`, {
+    fetch(`../src/controllers/AdminPanel/ManejoUsuario.php?id=${idProducto}`, {
         method: 'EDIT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(datosProducto)
@@ -337,13 +346,13 @@ function editarProducto(idProducto, datosProducto) {
     .then(response => {
         if (response.ok) {
             console.log(JSON.stringify(datosProducto));
-            console.log('Producto editado correctamente.');
+            console.log('Usuario editado correctamente.');
             actualizarTabla();
             searchTerm.value = '';
 
             //aqui quiero realizar la busqueda del elemento que se encontraba en el buscador
         } else {
-            console.error('Error al editar el producto.');
+            console.error('Error al editar el Usuario.');
         }
     })
     .catch(error => console.error('Error en la solicitud:', error));
