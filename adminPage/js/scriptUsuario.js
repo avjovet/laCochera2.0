@@ -324,7 +324,7 @@ function eliminarProducto(idProducto) {
     })
     .then(response => {
         if (response.ok) {
-            console.log('Producto eliminado correctamente.');
+            console.log('Usuario eliminado correctamente.');
             actualizarTabla();
             searchTerm.value = '';
         } else {
