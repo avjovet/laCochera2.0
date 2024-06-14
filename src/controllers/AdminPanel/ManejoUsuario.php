@@ -159,6 +159,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'EDIT') {
     // Detén la ejecución del script
     exit();
 }
+/*
+$idpe=7;
+$Datoto = '{"nombre":"coco","usuario":"qeqe","contraseña":"12345","contraseña2":"12345","categoria":"1"}';
 
-
+$manejoUsuario1 = new manejoUsuario();
+$resultado1 = $manejoUsuario1->editarUsuario($idpe, $Datoto);
+echo json_encode($resultado1);
+*/
 
