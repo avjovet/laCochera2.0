@@ -50,8 +50,8 @@ function enviarProducto(producto) {
     })
     .then(response => {
         if (response.ok) {
-            console.log('Producto agregado correctamente.');
-            alert("Producto agregado")
+            console.log('Categoria agregado correctamente.');
+            alert("Categoria agregado")
             actualizarTabla();
             
             // Vaciar la barra de búsqueda después de agregar un producto
@@ -68,7 +68,7 @@ function enviarProducto(producto) {
 
 function handleResponse(response) {
     if (response.ok) {
-        console.log('Producto agregado correctamente.');
+        console.log('Categoria agregado correctamente.');
         actualizarTabla();
     } else {
         response.json().then(error => {
@@ -285,7 +285,7 @@ function ocultarProducto(idProducto) {
     })
     .then(response => {
         if (response.ok) {
-            console.log('Producto ocultado correctamente.');
+            console.log('Categoria ocultado correctamente.');
             actualizarTabla();
 
             
@@ -306,7 +306,7 @@ function eliminarProducto(idProducto) {
     })
     .then(response => {
         if (response.ok) {
-            console.log('Producto eliminado correctamente.');
+            console.log('Categoria eliminado correctamente.');
             actualizarTabla();
             searchTerm.value = '';
         } else {
@@ -329,7 +329,7 @@ function editarProducto(idProducto, datosProducto) {
     .then(response => {
         if (response.ok) {
             console.log(JSON.stringify(datosProducto));
-            console.log('Producto editado correctamente.');
+            console.log('Categoria editado correctamente.');
             actualizarTabla();
             searchTerm.value = '';
 
