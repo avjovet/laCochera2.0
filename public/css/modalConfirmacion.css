@@ -1,0 +1,98 @@
+.modal-confirm {
+    display: none;
+    position: fixed;
+    z-index: 20000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.9);
+    padding-top: 80px;
+    border: none;
+    align-items: center;
+    justify-content: center;
+    margin: auto; /* Agrega esto para centrar horizontalmente */
+}
+
+
+.modal-confirm-content {
+    background-color: #111111;
+    width: 80%; /* Ancho del modal */
+    max-width: 400px; /* Ancho máximo */
+    padding: 20px;
+    text-align: center;
+    color: white; /* Color del texto */
+    margin: auto; 
+    position: relative;
+    top: 40%; /* Mueve el contenido hacia abajo un 50% de la altura de la ventana */
+    transform: translateY(-50%); /* Ajusta la posición verticalmente */
+}
+
+.confirm-text{
+    background-color: transparent;
+    font-size: 12px;
+
+}
+.buttons {
+    margin-top: 20px;
+
+}
+
+.send-btn {
+    border: 0.5px solid var(--gold-crayola); /* Borde amarillo */
+    background-color: transparent;
+    color: var(--gold-crayola) ; 
+    padding: 5px 5px;
+    margin-right: 10px;
+    font-size: 10px;
+
+}
+
+.send-btn:hover {
+    background-color: var(--gold-crayola);
+    color: black;
+    font-weight: bold;
+}
+
+.back-btn {
+    border: 0.5px solid white; /* Borde blanco */
+    background-color: transparent;
+    color: white;
+    padding: 5px 5px;
+    margin-right: 10px;
+}
+
+.back-btn:hover {
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    }
+
+.modal-confirm .buttons button {
+    font-size: 10px; /* Tamaño de texto para los botones */
+}
+
+/* Animación para mostrar el modal */
+@keyframes show-modal {
+    from { opacity: 0; transform: translateY(-50px); } /* Desde la transparencia total y posición hacia arriba */
+    to { opacity: 1; transform: translateY(0); } /* Hasta la opacidad completa y la posición normal */
+}
+
+/* Animación para cerrar el modal */
+@keyframes hide-modal {
+    from { opacity: 1; transform: translateY(0); } /* Desde la opacidad completa y la posición normal */
+    to { opacity: 0; transform: translateY(-50px); } /* Hasta la transparencia total y posición hacia arriba */
+}
+
+/* Aplicar animación al modal cuando se muestra */
+.modal-confirm {
+    /* Tu código CSS existente */
+    animation: show-modal 0.3s ease forwards; /* Duración de 0.3 segundos con efecto de suavizado */
+}
+
+/* Aplicar animación al modal cuando se cierra */
+.modal-confirm.closing {
+    animation: hide-modal 0.3s ease forwards; /* Duración de 0.3 segundos con efecto de suavizado */
+}
