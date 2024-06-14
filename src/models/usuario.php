@@ -51,19 +51,26 @@ class Usuario {
 
     // Método para actualizar un usuario existente
     public function actualizar() {
-        $query = "UPDATE " . $this->table_name . " SET Usua = :Usua, Contraseña = :Contraseña, Nombre = :Nombre, TipoUsuario_id = :TipoUsuario_id WHERE idUsuario = :idUsuario";
+        // Construir la consulta SQL con los valores sustituidos
+        $query = "UPDATE " . $this->table_name . " 
+                  SET Usua = '" . $this->Usua . "', 
+                      Contraseña = '" . $this->Contraseña . "', 
+                      Nombre = '" . $this->Nombre . "', 
+                      TipoUsuario_id = " . $this->TipoUsuario_id . " 
+                  WHERE idUsuario = " . $this->idUsuario;
+    
+        // Imprimir la consulta SQL completa y lista para copiar
+        echo "Consulta SQL para copiar y pegar en MySQL: <br>";
+        echo $query . ";<br>";
+    
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":Usua", $this->Usua);
-        $stmt->bindParam(":Contraseña", $this->Contraseña);
-        $stmt->bindParam(":Nombre", $this->Nombre);
-        $stmt->bindParam(":TipoUsuario_id", $this->TipoUsuario_id);
-        $stmt->bindParam(":idUsuario", $this->idUsuario);
-
+    
         if ($stmt->execute()) {
             return true;
         }
         return false;
     }
+    
 
     // Método para eliminar un usuario
     public function eliminar() {
