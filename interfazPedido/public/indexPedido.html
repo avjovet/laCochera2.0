@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/modalConfirmacion.css">
     <link rel="stylesheet" href="css/desplazamientoSidebar.css">
     <link rel="stylesheet" href="css/btnMozo.css">
+    <link rel="stylesheet" href="css/agregados.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -34,8 +35,6 @@
             <a href="#choripapas">Choripapas</a>
             <a href="#parrillas" >Parrillas</a>
             <a href="#bebidas" >Bebidas</a>
-            <a href="#agregados" >Agregados</a>
-
 
         </nav>
 
@@ -99,17 +98,26 @@
                 </div>
                 
                 <div class="indicaciones">
-                    <textarea id="indicaciones-especiales" placeholder="Instrucciones especiales..." class="indicaciones-esp"  autocapitalize="none"></textarea>
+                    <textarea id="indicaciones-especiales" placeholder="Instrucciones especiales..." class="indicaciones-esp" autocapitalize="none"></textarea>
                 </div>
+                
+                <div class="ingredientes-adicionales">
+                    <label id="dropdownLabel" for="ingredientes">Agregados</label>
+                    <span id="dropdownArrow" class="dropbtn">&#9660;</span>
+                    <div id="ingredientesMenu" class="dropdown-content">
+
+                    </div>
+                </div>
+                
+                
                 <div class="opciones-modal">
                     <div class="quantity">
                         <button onclick="decreaseQuantity()">-</button>
                         <span id="modal-quantity">1</span>
                         <button onclick="increaseQuantity()">+</button>
                     </div>
-                    <button id="addToCartButton" class="addToCartButton"  >Añadir al carrito</button>
+                    <button id="addToCartButton" class="addToCartButton">Añadir al carrito</button>
                 </div>
-
             </div>
         </div>
         
@@ -183,6 +191,8 @@
     <script  src="js/callMozo.js"></script>
     <script  src="js/getMesa.js"></script>
     <script  src="js/carrito.js"></script>
+    <script  src="js/agregados.js"></script>
+
 
 
 

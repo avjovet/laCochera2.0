@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/modalConfirmacion.css">
     <link rel="stylesheet" href="css/preload.css">
     <link rel="stylesheet" href="css/desplazamientoSidebar.css">
+    <link rel="stylesheet" href="css/agregados.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -98,6 +99,15 @@
                 <div class="indicaciones">
                     <textarea id="indicaciones-especiales" placeholder="Instrucciones especiales..." class="indicaciones-esp"  autocapitalize="none"></textarea>
                 </div>
+
+                <div class="ingredientes-adicionales">
+                    <label id="dropdownLabel" for="ingredientes">Agregados</label>
+                    <span id="dropdownArrow" class="dropbtn">&#9660;</span>
+                    <div id="ingredientesMenu" class="dropdown-content">
+
+                    </div>
+                </div>
+                
                 <div class="opciones-modal">
                     <div class="quantity">
                         <button onclick="decreaseQuantity()">-</button>
@@ -181,6 +191,7 @@
     <script  src="js/modal-confirmacion.js"></script>
     <script  src="js/preload.js"></script>
     <script  src="js/carrito.js"></script>
+    <script  src="js/agregados.js"></script>
 
 
 </body>

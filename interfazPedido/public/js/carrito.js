@@ -1,45 +1,63 @@
+let currentPosition = 0;
 function addToCart() {
-    const productId = parseInt(document.getElementById('modal').dataset.productId); // Obtener el ID único del producto desde el modal
+    const productId = parseInt(document.getElementById('modal').dataset.productId);
     const productName = document.getElementById('modal-name').innerText;
     const productPrice = parseFloat(document.getElementById('modal-price').innerText.replace('S/. ', ''));
     const productQuantity = parseInt(document.getElementById('modal-quantity').innerText);
     const notes = document.getElementById('indicaciones-especiales').value;
-    const productTotal = productPrice * productQuantity;
+    const productTotal = productPrice;
 
-    // busca el índice del producto en el carrito
-    const existingProductIndex = carrito.findIndex(item => item.name === productName);
+    const selectedAdditions = [];
+    const checkboxes = document.querySelectorAll('#ingredientesMenu input[type="checkbox"]:checked');
+    checkboxes.forEach(checkbox => {
+        selectedAdditions.push(checkbox.value);
+    });
 
-    // si producto ya existe en el carrito, actualizar sus propiedades
-    if (existingProductIndex !== -1) {
+    const existingProductIndex = carrito.findIndex(item => {
+        return item.name === productName && JSON.stringify(item.add) === JSON.stringify(selectedAdditions);
+    });
+    
+    console.log('existeeee O NO', existingProductIndex);
+    console.log('editando', isEdit);
+
+    if (existingProductIndex !== -1 || isEdit) {
+        console.log('existeeee', existingProductIndex);
         console.log('indexx', existingProductIndex);
-        carrito[existingProductIndex].price = productPrice;
-        if(isEdit==true){
-            console.log(isEdit)
-            carrito[existingProductIndex].quantity = productQuantity; 
+        
+        if (isEdit) {
+            const existingProduct = carrito.find(item => item.id === productId);
+            if (existingProduct) {
+                console.log('el precio es', productPrice);
 
-            isEdit=false;
-        }else{
-            console.log("isedit",isEdit)
-            console.log('indexx else', existingProductIndex);
-            carrito[existingProductIndex].quantity = productQuantity; 
+                existingProduct.price = productPrice;
+                existingProduct.quantity = productQuantity; 
+                existingProduct.notes = notes;
+                existingProduct.total = productTotal;
+                existingProduct.add = selectedAdditions;
+            }
+            isEdit = false;
+        } else {
+            console.log('el precio es', productPrice);
 
+            carrito[existingProductIndex].price = productPrice;
+            carrito[existingProductIndex].quantity += productQuantity;
+            carrito[existingProductIndex].notes = notes;
+            carrito[existingProductIndex].total = productTotal;
+            carrito[existingProductIndex].add = selectedAdditions;
         }
-        carrito[existingProductIndex].notes = notes; // Actualizar las notas
-        carrito[existingProductIndex].total =  productPrice; // Actualizar el total
-        carrito[existingProductIndex].id =  productId; // Actualizar el total
-
-
     } else {
-        console.log('id', productId);
+        console.log('entro al else', productId);
+        console.log('el precio es', productPrice);
 
-        // Si no existe, agregar el nuevo producto al carrito
         carrito.push({
-            id:productId,
+            id: productId,
             name: productName,
             price: productPrice,
             quantity: productQuantity,
             notes: notes,
-            total: productTotal
+            total: productTotal,
+            add: selectedAdditions,
+            position: currentPosition++
         });
     }
 
@@ -49,6 +67,39 @@ function addToCart() {
     updateCart();
     closeModal();
 }
+
+
+function carritoPrepared() {
+    console.log('esperanza', carrito);
+    for (let index = 0; index < carrito.length; index++) {
+        const item = carrito[index];
+        if (item.add && item.add.length > 0) {
+            console.log('Prueba: Elemento con agregados en la posición', index);
+            item.add.forEach(addition => {
+                console.log("iteracion")
+                // Buscar el agregado en el arreglo agregadosProducts
+                const agregado = agregadosProducts.find(product => product.nombre === addition);
+                if (agregado) {
+                    carrito.splice(index + 1, 0, {
+                        id: parseInt(agregado.idProducto),
+                        name: agregado.nombre,
+                        price: parseFloat(agregado.precio) * item.quantity,
+                        quantity: item.quantity,
+                        notes: "",
+                        total: parseFloat(agregado.precio) * item.quantity,
+                        add: [],
+                        position: currentPosition++ // Asignar una nueva posición al agregado
+                    });
+                    index++; // Incrementar el índice para mantener la posición correcta
+                } else {
+                    console.log(`Agregado no encontrado: ${addition}`);
+                }
+            });
+        }
+    }
+    console.log('esperanza2', carrito)
+}
+
 
 function updatePrice() {
     const totalCarrito = carrito.reduce((total, producto) => total + producto.total, 0);
@@ -103,10 +154,12 @@ function updateCart() {
         
         // fila 1: cantidad nombre y precio
         var row1Div = document.createElement("div");
-        row1Div.classList.add("row");
+        row1Div.classList.add("row1div");
         row1Div.style.display = "flex"; 
         row1Div.style.justifyContent = "space-between"; 
-
+        row1Div.style.fontWeight = "bold"; // Cambia a camelCase y agrega comillas al valor
+        row1Div.style.marginBottom = "5px"; // Cambia a camelCase y agrega comillas al valor
+       
         var quantitySpan = document.createElement("span");
         quantitySpan.textContent = item.quantity + " ";
         quantitySpan.classList.add("cart-quantity", "cart-label");
@@ -124,36 +177,50 @@ function updateCart() {
 
         cartItemDiv.appendChild(row1Div);
 
-        // fila 2:  indicaciones
-        var row2Div = document.createElement("div");
-        row2Div.classList.add("row");
-        var notesSpan = document.createElement("span");
-        notesSpan.textContent = "Notas: " + item.notes;
-        notesSpan.classList.add("cart-notes");
-        row2Div.appendChild(notesSpan);
-        cartItemDiv.appendChild(row2Div);
+        // fila 2: indicaciones
+        if (item.notes) {
+            var row2Div = document.createElement("div");
+            row2Div.classList.add("row");
+            var notesSpan = document.createElement("span");
+            notesSpan.textContent = "Notas: " + item.notes;
+            notesSpan.classList.add("cart-notes");
+            row2Div.appendChild(notesSpan);
+            cartItemDiv.appendChild(row2Div);
+        }
 
-        // fila 3: botones de editar y eliminar
-        var row3Div = document.createElement("div");
-        row3Div.classList.add("row", "button-row");
+        // fila 3: agregados (solo si hay agregados)
+        if (item.add && item.add.length > 0) {
+            var row3Div = document.createElement("div");
+            row3Div.classList.add("row");
+            var addSpan = document.createElement("span");
+            addSpan.textContent = "Agregados: " + item.add.join(', ');
+            addSpan.classList.add("cart-add");
+            row3Div.appendChild(addSpan);
+            cartItemDiv.appendChild(row3Div);
+        }
+
+        // fila 4: botones de editar y eliminar
+        var row4Div = document.createElement("div");
+        row4Div.classList.add("row", "button-row");
 
         var editButton = document.createElement("button");
         editButton.classList.add("cart-edit-button");
         var editIcon = document.createElement("i");
         editIcon.classList.add("fas", "fa-edit"); 
         editButton.appendChild(editIcon);
-        row3Div.appendChild(editButton);
+        row4Div.appendChild(editButton);
 
         var deleteButton = document.createElement("button");
         deleteButton.classList.add("cart-delete-button");
         var deleteIcon = document.createElement("i");
         deleteIcon.classList.add("fas", "fa-trash-alt");
         deleteButton.appendChild(deleteIcon);
-        row3Div.appendChild(deleteButton);
+        row4Div.appendChild(deleteButton);
 
-        cartItemDiv.appendChild(row3Div);
+        cartItemDiv.appendChild(row4Div);
 
         cartContainer.appendChild(cartItemDiv);
+
 
         //eliminar
         deleteButton.addEventListener('click', () => {
@@ -191,7 +258,9 @@ function editCart(item) {
     });
     
     if (productoDeseado) {
-        openModalWith(productoDeseado, item.price, item.quantity, item.notes);
+        const addToCartButton = document.getElementById('addToCartButton');
+        addToCartButton.textContent = "Actualizar en el carrito";
+        openModalWith(productoDeseado, item.price, item.quantity, item.notes, item.add);
     } else {
         console.log('No se encontró ningún producto con el nombre deseado.');
     }

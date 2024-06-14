@@ -1,19 +1,18 @@
+.cart-sidebar {
+    overflow-y: auto; /* Hacer que sea desplazable verticalmente */
+    /* Otros estilos... */
+}
+.cart-sidebar {
+    /* Estilos del sidebar... */
+    z-index: 2000; /* Asegúrate de que el sidebar esté encima del botón */
+}
 
-/* Cambia el color de la barra de desplazamiento */
+/* Otros estilos para la barra lateral */
 .cart-sidebar::-webkit-scrollbar {
-    width: 12px; /* Ancho de la barra de desplazamiento */
-    background-color: #111111; /* Color de fondo */
+    width: 0.5; /* Oculta el scrollbar en navegadores webkit (Chrome, Safari, etc.) */
 }
 
-/* Cambia el estilo de la barra de desplazamiento */
-.cart-sidebar::-webkit-scrollbar-thumb {
-    background-color: #111111; /* Color del "pulgarcito" */
-    border-radius: 6px; /* Bordes redondeados */
+.cart-sidebar {
+    scrollbar-width: none; /* Oculta el scrollbar en navegadores basados en Firefox */
+    /* Otros estilos... */
 }
-
-/* Cambia el estilo del riel de la barra de desplazamiento */
-.cart-sidebar::-webkit-scrollbar-track {
-    background-color: #111111; /* Color del riel */
-    border-radius: 6px; /* Bordes redondeados */
-}
-

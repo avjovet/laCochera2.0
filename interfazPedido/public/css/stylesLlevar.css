@@ -9,12 +9,6 @@
     background-color: transparent; 
 }
 
-.cart-sidebar {
-    overflow-y: auto; /* Agrega una barra de desplazamiento vertical cuando sea necesario */
-    max-height: 100vh; /* Establece una altura máxima para la barra lateral */
-}
-
-
 
 .required {
     color: red;  /* Color rojo para indicar que es obligatorio */
@@ -22,6 +16,11 @@
     vertical-align: middle; /* Alineación vertical para que quede centrado con el texto del input */
     background-color: transparent; 
 
+}
+.cart-items {
+    max-height: calc(100vh - 200px); /* Ajusta esta altura según sea necesario */
+    overflow-y: auto; /* Permite el desplazamiento vertical dentro de la lista */
+    margin-bottom: 20px; /* Añade un margen inferior para separar del total y botón */
 }
 
 

@@ -67,10 +67,14 @@ function _closeModal(modalId) {
 }
 
 
+
+
+
 function sendConfirmedPedido() {
     document.body.classList.remove('modal-open');
     document.body.classList.remove('modal-confirm-open');
 
+    carritoPrepared();
     enviarPedido();
     _closeModal('modal-confirm');
     _showModal('modal-confirmed')
@@ -79,10 +83,10 @@ function sendConfirmedPedido() {
     
 
 }
-
 function sendConfirmedPedidoLlevar() {
     document.body.classList.remove('modal-open');
     document.body.classList.remove('modal-confirm-open');
+    carritoPrepared();
     enviarPedidoLlevar(); 
     _closeModal('modal-confirm');
     _showModal('modal-confirmed')
@@ -93,13 +97,12 @@ function sendConfirmedPedidoLlevar() {
 function sendConfirmedPedidoDelivery() {
     document.body.classList.remove('modal-open');
     document.body.classList.remove('modal-confirm-open');
+    carritoPrepared();
     enviarPedidoDelivery(); 
     _closeModal('modal-confirm');
 
 
 }
-
-
 
 window.onbeforeunload = function(event) {
     const body = document.body;
