@@ -2,6 +2,8 @@ let carrito = [];
 let carritoFinal = [];
 let idCounter = 0; 
 let isEdit = false;
+let productos = [];
+
 const agregadosProducts = []; // Declarado fuera del fetch
 // extraer elementos del archivo jsn
 const preloader = document.querySelector("[data-preaload]");
@@ -10,6 +12,7 @@ fetch('productos.php')
     .then(response => response.json())
     .then(data => {
         console.log('Datos cargados correctamente');
+        productos = data;
 
         const sanguchesContainer = document.getElementById('sanguches-container');
         const salchipapasContainer = document.getElementById('salchipapas-container');
@@ -252,7 +255,7 @@ fetch('productos.php')
 
     function closeModal() {
         document.body.classList.remove('modal-open');
-        document.body.classList.add('modal-product-open');
+        document.body.classList.remove('modal-product-open');
 
         document.getElementById('modal').style.display = 'none';
         hiddenBar(); // Aplica la función para controlar el overflow
