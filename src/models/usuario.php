@@ -9,12 +9,12 @@ class Usuario {
     public $Contraseña;
     public $Nombre;
     public $TipoUsuario_id;
+    public $logUsuario;
 
     public function __construct($db) {
         $this->conn = $db;
     }
 
-    // Método para listar todos los usuarios
     public function listar() {
         $query = "SELECT idUsuario, Usua, Nombre, TipoUsuario_id FROM " . $this->table_name;
         $stmt = $this->conn->prepare($query);
@@ -22,7 +22,6 @@ class Usuario {
         return $stmt;
     }
 
-    // Método para obtener un usuario por ID
     public function obtenerPorId($id) {
         $query = "SELECT * FROM " . $this->table_name . " WHERE idUsuario = ?";
         $stmt = $this->conn->prepare($query);
@@ -31,7 +30,14 @@ class Usuario {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Método para crear un nuevo usuario
+    public function obtenerPorUsuario($usua) {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE Usua = ? LIMIT 0,1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $usua);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function crear() {
         // Construir la consulta SQL con los valores sustituidos
         $query = "INSERT INTO " . $this->table_name . " (Usua, Contraseña, Nombre, TipoUsuario_id) VALUES ('" . $this->Usua . "', '" . $this->Contraseña . "', '" . $this->Nombre . "', " . $this->TipoUsuario_id . ")";
@@ -49,7 +55,6 @@ class Usuario {
     }
     
 
-    // Método para actualizar un usuario existente
     public function actualizar() {
         // Construir la consulta SQL con los valores sustituidos
         $query = "UPDATE " . $this->table_name . " 
@@ -72,7 +77,6 @@ class Usuario {
     }
     
 
-    // Método para eliminar un usuario
     public function eliminar() {
         $query = "DELETE FROM " . $this->table_name . " WHERE idUsuario = ?";
         $stmt = $this->conn->prepare($query);
@@ -84,22 +88,17 @@ class Usuario {
         return false;
     }
 
-    public function autenticar($usua, $contraseña) {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE Usua = ? LIMIT 0,1";
+
+
+    public function actualizarLogUsuario() {
+        $query = "UPDATE " . $this->table_name . " SET logUsuario = :logUsuario WHERE idUsuario = :idUsuario";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $usua);
-        $stmt->execute();
-    
-        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-        // Verificar si el usuario existe y la contraseña coincide
-        if ($usuario && $contraseña === $usuario['Contraseña']) {
-            
+        $stmt->bindParam(':logUsuario', $this->logUsuario);
+        $stmt->bindParam(':idUsuario', $this->idUsuario);
+
+        if ($stmt->execute()) {
             return true;
         }
         return false;
     }
-    
-
-    
 }

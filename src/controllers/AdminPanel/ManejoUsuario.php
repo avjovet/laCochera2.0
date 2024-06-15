@@ -21,30 +21,32 @@ class manejoUsuario {
 
     public function insertarUsuario($ArregloUsuarioJson) {
         $UsuarioData = json_decode($ArregloUsuarioJson, true);
-
+    
         if (json_last_error() !== JSON_ERROR_NONE) {
             return [
                 'success' => false,
                 'message' => 'JSON invalido: ' . json_last_error_msg()
             ];
         }
-
+    
         $this->usuario->Nombre = $UsuarioData['nombre'];
         $this->usuario->Usua = $UsuarioData['usuario'];
-        $this->usuario->Contraseña = $UsuarioData['contraseña'];
+        // Hasheamos la contraseña antes de guardarla
+        $this->usuario->Contraseña = password_hash($UsuarioData['contraseña'], PASSWORD_BCRYPT);
         $this->usuario->TipoUsuario_id = $UsuarioData['categoria'];
-
+    
         echo "Atributos del objeto usuario:";
         echo "<pre>";
         var_dump($this->usuario);
         echo "</pre>";
-
+    
         if ($this->usuario->crear()) {
             return ['success' => true];
         } else {
             return ['success' => false, 'message' => 'Error al crear el usuario'];
         }
     }
+    
 
     public function eliminarUsuario($idUsuario) {
         $this->usuario->idUsuario = $idUsuario;
@@ -119,13 +121,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 /*
-$input = '{"nombre":"Isabel","usuario":"Isa7777","contraseña":"12345","contraseña2":"12345","categoria":"2"}';
+$input = '{"nombre":"pedro","usuario":"user1","contraseña":"12345","contraseña2":"12345","categoria":"1"}';
 
 $manejoUsuario = new manejoUsuario();
 $resultado = $manejoUsuario->insertarUsuario($input);
 echo json_encode($resultado);
-
 */
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
     // Obten el ID del usuario desde la URL
@@ -139,6 +141,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
     // Detén la ejecución del script
     exit();
 }
+    
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'EDIT') {
     // Obten el ID del usuario desde la URL
