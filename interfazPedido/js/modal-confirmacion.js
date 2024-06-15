@@ -110,10 +110,7 @@ window.onbeforeunload = function(event) {
         _closeModal('modal-confirm');
         return '¿Estás seguro de que deseas salir?'; 
     }
-    if (!body.classList.contains('modal-open')){
-        return '¿Estás seguro de que deseas salir?'; 
 
-    }
     if (body.classList.contains('modal-product-open')){
         closeModal();
         return '¿Estás seguro de que deseas salir?'; 
@@ -122,12 +119,16 @@ window.onbeforeunload = function(event) {
     if (body.classList.contains('modal-pago-open')){
         closePagoModal();
         return '¿Estás seguro de que deseas salir?'; 
-
     }
 
     if (body.classList.contains('modal-mozo-open')){
         _closeModal('modal-mozo');
         return '¿Estás seguro de que deseas salir?';
 
+    }
+
+    const cartSidebar = document.querySelector('.cart-items');
+    if (cartSidebar && cartSidebar.children.length > 0) {
+        return '¿Estás seguro de que deseas salir?';
     }
 };
