@@ -1,10 +1,23 @@
 let currentPosition = 0;
 function addToCart() {
+
+    console.log('estos son los productos', productos)
     const productId = parseInt(document.getElementById('modal').dataset.productId);
-    const productName = document.getElementById('modal-name').innerText;
-    const productPrice = parseFloat(document.getElementById('modal-price').innerText.replace('S/. ', ''));
+
+    // Buscar el producto en el arreglo global productos usando el idProducto
+    const product = productos.find(prod => parseInt(prod.idProducto) === productId);
+    
+    // Extraer el nombre y el precio del producto encontrado
+    const productName = product.nombre;
+    const productPrice = parseFloat(product.precio); // Asegúrate de convertir el precio a número
+    
+    // Obtener la cantidad del producto del modal
     const productQuantity = parseInt(document.getElementById('modal-quantity').innerText);
+    
+    // Obtener las notas del modal
     const notes = document.getElementById('indicaciones-especiales').value;
+    
+
     const productTotal = productPrice;
 
     const selectedAdditions = [];
