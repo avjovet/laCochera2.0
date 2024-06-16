@@ -81,7 +81,7 @@ class Mesa {
     
         // Obtener la fecha y hora actual y restar 7 horas
         $fechallamado = new DateTime();
-        $fechallamado->modify('-7 hours');
+        $fechallamado->modify('-5 hours');
         $fechallamado = $fechallamado->format('Y-m-d H:i:s');
     
         // Actualizar el valor de Llamado y Fechallamado
