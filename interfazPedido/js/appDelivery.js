@@ -2,7 +2,7 @@
 function showPagoModal() {
     
     console.log(carrito)
-    const totalCarrito = carrito.reduce((total, producto) => total + producto.total, 0);
+    const totalCarrito = carrito.reduce((total, producto) => total + producto.price, 0);
     console.log(totalCarrito);
 
     document.body.classList.remove('modal-confirm-open');

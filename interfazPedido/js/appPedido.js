@@ -3,6 +3,7 @@ let carritoFinal = [];
 let idCounter = 0; 
 let isEdit = false;
 let productos = [];
+let cantidad = 1;
 
 const agregadosProducts = []; // Declarado fuera del fetch
 // extraer elementos del archivo jsn
@@ -306,6 +307,7 @@ fetch('productos.php')
         if (quantity > 1) {
             quantity--;
             quantityElement.innerText = quantity;
+            cantidad=quantity;
             updateTotalPrice(quantity); // Llamar a la función para actualizar el precio
         }
     }
@@ -315,6 +317,7 @@ fetch('productos.php')
         let quantity = parseInt(quantityElement.innerText);
         quantity++;
         quantityElement.innerText = quantity;
+        cantidad=quantity;
         updateTotalPrice(quantity); // Llamar a la función para actualizar el precio
     }
     
@@ -524,12 +527,13 @@ document.getElementById("pagoForm").addEventListener("submit", function(event) {
 
     // Obtener el código de transacción si se eligió Yape o Plin
     let transactionCode;
-    if (paymentMethod === "Yape") {
+    if (paymentMethod === 2) {
         transactionCode = document.getElementById("codigoYape").value;
-    } else if (paymentMethod === "Plin") {
+    } else if (paymentMethod === 3) {
         transactionCode = document.getElementById("codigoPlin").value;
     }
 
+    console.log('codigoo', transactionCode);
     // Crear un objeto con todos los datos
     let formData = {
         fullName: fullName,
@@ -541,7 +545,7 @@ document.getElementById("pagoForm").addEventListener("submit", function(event) {
     };
 
     console.log("aqui?",formData);
-    enviarPedidoDelivery(fullName,address,phoneNumber,paymentMethod)
+    enviarPedidoDelivery(fullName,address,phoneNumber,paymentMethod, transactionCode)
     console.log("pedido enviado exitosamente");
 
 
@@ -549,9 +553,9 @@ document.getElementById("pagoForm").addEventListener("submit", function(event) {
 });
 
 
-async function enviarPedidoDelivery(Nombre, direccion, telefono, metodopago) {
+async function enviarPedidoDelivery(Nombre, direccion, telefono, metodopago, codigotrans) {
     // Verificar que todos los campos estén llenos
-    if (!Nombre || !direccion || !telefono || !metodopago) {
+    if (!Nombre || !direccion || !telefono || !metodopago ) {
         console.error("Por favor, complete todos los campos antes de enviar el pedido.");
         
         // Mostrar el mensaje de error en la interfaz
@@ -601,6 +605,7 @@ async function enviarPedidoDelivery(Nombre, direccion, telefono, metodopago) {
             Usuario_id: null,
             TipoPedido_id: 3,
             MedioPago_id: metodopago,
+            codTrans:codigotrans,
             detalles: []
         };
         console.log(carritoFinal);

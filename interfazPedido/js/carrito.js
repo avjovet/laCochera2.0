@@ -1,7 +1,7 @@
 let currentPosition = 0;
 function addToCart() {
-
-    console.log('estos son los productos', productos)
+    console.log('cantidad', cantidad);
+    console.log('estos son los productos', productos);
     const productId = parseInt(document.getElementById('modal').dataset.productId);
 
     // Buscar el producto en el arreglo global productos usando el idProducto
@@ -16,14 +16,26 @@ function addToCart() {
     
     // Obtener las notas del modal
     const notes = document.getElementById('indicaciones-especiales').value;
-    
 
-    const productTotal = productPrice;
-
+    // Obtener los agregados seleccionados
     const selectedAdditions = [];
     const checkboxes = document.querySelectorAll('#ingredientesMenu input[type="checkbox"]:checked');
     checkboxes.forEach(checkbox => {
         selectedAdditions.push(checkbox.value);
+    });
+
+    // Calcular el precio total del producto incluyendo los agregados
+    let totalPrice = productPrice;
+    console.log('antes');
+
+    selectedAdditions.forEach(addition => {
+        console.log('comparando');
+        const agregado = agregadosProducts.find(agregado => agregado.nombre === addition);
+
+        if (agregado) {
+            totalPrice += parseFloat(agregado.precio);
+            console.log('tiene agregadoss')
+        }
     });
 
     const existingProductIndex = carrito.findIndex(item => {
@@ -40,42 +52,42 @@ function addToCart() {
         if (isEdit) {
             const existingProduct = carrito.find(item => item.id === productId);
             if (existingProduct) {
-                console.log('el precio es', productPrice);
+                console.log('el precio es', totalPrice);
 
-                existingProduct.price = productPrice;
+                existingProduct.price = totalPrice*productQuantity;
                 existingProduct.quantity = productQuantity; 
                 existingProduct.notes = notes;
-                existingProduct.total = productTotal;
+                existingProduct.total = totalPrice;
                 existingProduct.add = selectedAdditions;
             }
             isEdit = false;
         } else {
-            console.log('el precio es', productPrice);
+            console.log('el precio es', totalPrice);
 
-            carrito[existingProductIndex].price = productPrice;
+            carrito[existingProductIndex].price += totalPrice*productQuantity;
             carrito[existingProductIndex].quantity += productQuantity;
             carrito[existingProductIndex].notes = notes;
-            carrito[existingProductIndex].total = productTotal;
+            carrito[existingProductIndex].total = totalPrice;
             carrito[existingProductIndex].add = selectedAdditions;
         }
     } else {
         console.log('entro al else', productId);
-        console.log('el precio es', productPrice);
+        console.log('el precio es', totalPrice);
 
         carrito.push({
             id: productId,
             name: productName,
-            price: productPrice,
+            price: totalPrice*productQuantity,
             quantity: productQuantity,
             notes: notes,
-            total: productTotal,
+            total: totalPrice,
             add: selectedAdditions,
             position: currentPosition++
         });
     }
 
     console.log('Producto añadido al carrito:', carrito);
-
+    quantity=0;
     updatePrice();
     updateCart();
     closeModal();
@@ -115,7 +127,7 @@ function carritoPrepared() {
 
 
 function updatePrice() {
-    const totalCarrito = carrito.reduce((total, producto) => total + producto.total, 0);
+    const totalCarrito = carrito.reduce((total, producto) => total + producto.price, 0);
 
     const priceElement = document.querySelector('.price');
     priceElement.innerText = `S/. ${totalCarrito.toFixed(2)}`;
@@ -184,7 +196,7 @@ function updateCart() {
         row1Div.appendChild(nameSpan);
 
         var priceSpan = document.createElement("span");
-        priceSpan.textContent = "S/. " + item.total.toFixed(2);
+        priceSpan.textContent = "S/. " + item.price.toFixed(2);
         priceSpan.classList.add("cart-price", "cart-label"); 
         row1Div.appendChild(priceSpan);
 
@@ -250,7 +262,7 @@ function updateCart() {
         
     });
 
-    const totalCarrito = carrito.reduce((total, producto) => total + producto.total, 0);
+    const totalCarrito = carrito.reduce((total, producto) => total + producto.price, 0);
 
     const totalTextElement = document.getElementById("total-text");
     totalTextElement.innerText = `Total: S/. ${totalCarrito.toFixed(2)}`;
