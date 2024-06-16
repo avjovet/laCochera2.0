@@ -11,6 +11,7 @@ class Pedido {
     public $Usuario_id;
     public $TipoPedido_id;
     public $MedioPago_id;
+    public $codTrans;
 
     public function __construct($db) {
         $this->conn = $db;
@@ -46,13 +47,14 @@ class Pedido {
         echo "Usuario_id: " . $this->Usuario_id . " (" . gettype($this->Usuario_id) . ")<br>";
         echo "TipoPedido_id: " . $this->TipoPedido_id . " (" . gettype($this->TipoPedido_id) . ")<br>";
         echo "MedioPago_id: " . $this->MedioPago_id . " (" . gettype($this->MedioPago_id) . ")<br>";
+        echo "codTrans: " . $this->codTrans . " (" . gettype($this->codTrans) . ")<br>";
         echo "Tabla: " . $this->table_name . " (" . gettype($this->table_name) . ")<br>";
 
 
 
 
 
-        $query = "INSERT INTO " . $this->table_name . " (Estado, Fecha, Cliente_idCliente, Mesa_id, Usuario_id, TipoPedido_id, MedioPago_id) VALUES (:Estado, :Fecha, :Cliente_idCliente, :Mesa_id, :Usuario_id, :TipoPedido_id, :MedioPago_id)";
+        $query = "INSERT INTO " . $this->table_name . " (Estado, Fecha, Cliente_idCliente, Mesa_id, Usuario_id, TipoPedido_id, MedioPago_id, codTrans) VALUES (:Estado, :Fecha, :Cliente_idCliente, :Mesa_id, :Usuario_id, :TipoPedido_id, :MedioPago_id, :codTrans)";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":Estado", $this->Estado);
         $stmt->bindParam(":Fecha", $this->Fecha);
@@ -61,6 +63,7 @@ class Pedido {
         $stmt->bindParam(":Usuario_id", $this->Usuario_id);
         $stmt->bindParam(":TipoPedido_id", $this->TipoPedido_id);
         $stmt->bindParam(":MedioPago_id", $this->MedioPago_id);
+        $stmt->bindParam(":codTrans", $this->codTrans);
         echo $this->table_name;
 
         if ($stmt->execute()) {
