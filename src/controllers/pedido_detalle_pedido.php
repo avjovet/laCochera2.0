@@ -39,6 +39,7 @@ class InsertarPedido {
         $this->pedido->Usuario_id = $pedidoData['Usuario_id'];
         $this->pedido->TipoPedido_id = $pedidoData['TipoPedido_id'];
         $this->pedido->MedioPago_id = $pedidoData['MedioPago_id'];
+        $this->pedido->codTrans = $pedidoData['codTrans'];
 
         if ($this->pedido->crear()) {
             $idPedido = $this->db->lastInsertId();
