@@ -38,7 +38,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     $isusuario = $lc->autenticarUsuario2($username,$password);
 
     if($isusuario['success']){
-        echo "echo slama jama";
+        
         $_SESSION['rol'] = $isusuario['TipoUsuario_id'];
 
         if (isset($_SESSION['rol'])) {
@@ -59,7 +59,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 
     }else{
 
-        echo "slei yus papabol";
+        echo "contraseña incorrecta";
     }
 
 }
@@ -79,7 +79,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 <body>
     <div class="login-box">
         <div class="login-header">
-            <header>Ingresar</header>
+            <header>Login</header>
         </div>
         <form action="" method="POST">
             <div class="input-box">
@@ -89,7 +89,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
                 <input id="password" type="password" name="password" class="input-field" placeholder="Contraseña" autocomplete="off" required>
             </div>
             <div class="input-submit">
-                <button class="submit-btn" type="submit">Sign In</button>
+                <button class="submit-btn" type="submit">Ingresar</button>
             </div>
         </form>
     </div>
