@@ -136,11 +136,11 @@
                             <p>Reportes</p>
                         </div>
                         <div class="box" onclick="window.location.href='url_de_historial'">
-                            <i class="fas fa-chart-bar"></i>
+                            <i class="fas fa-history"></i>
                             <p>Historial</p>
                         </div>
                         <div class="box" onclick="window.location.href='pedidos.php'">
-                            <i class="fas fa-chart-bar"></i>
+                            <i class="fas fa-shopping-cart"></i>
                             <p>Pedidos</p>
                         </div>
 
