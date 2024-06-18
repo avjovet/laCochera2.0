@@ -1,0 +1,8 @@
+.chart-container {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+}
+canvas {
+    margin-bottom: 20px;
+}
