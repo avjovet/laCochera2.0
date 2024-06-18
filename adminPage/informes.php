@@ -24,6 +24,10 @@
         <title>Informes</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="css/styles.css" rel="stylesheet" />
+        <link href="css/reportes.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     </head>
     <body class="sb-nav-fixed">
@@ -116,7 +120,30 @@
             
             <div id="layoutSidenav_content">
                 <main>
-                    
+                    <h1>Informe Estadístico</h1>
+
+                    <div class="chart-container">
+                        <h2>Gráfico 1: Título del Gráfico</h2>
+                        <canvas id="chart1"></canvas>
+
+                        <h2>Gráfico 2: Título del Gráfico</h2>
+                        <canvas id="chart2"></canvas>
+
+                        <h2>Gráfico 3: Título del Gráfico</h2>
+                        <canvas id="chart3"></canvas>
+
+                        <h2>Gráfico 4: Título del Gráfico</h2>
+                        <canvas id="chart4"></canvas>
+
+                        <h2>Gráfico 5: Título del Gráfico</h2>
+                        <canvas id="chart5"></canvas>
+
+                        <h2>Gráfico 6: Título del Gráfico</h2>
+                        <canvas id="chart6"></canvas>
+                    </div>
+
+
+
                 </main>
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
@@ -134,6 +161,8 @@
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="js/scripts.js"></script>
+        <script src="js/reportes.js"></script>
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
         <script src="assets/demo/chart-area-demo.js"></script>
         <script src="assets/demo/chart-bar-demo.js"></script>
