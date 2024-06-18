@@ -10,7 +10,7 @@
         }
     }
 
-
+    
 
 ?>
 
@@ -25,6 +25,8 @@
         <title>Pagina Administrador</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="css/styles.css" rel="stylesheet" />
+        <link href="css\styleadmpage.css" rel="stylesheet" />
+
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     </head>
     <body class="sb-nav-fixed">
@@ -35,10 +37,7 @@
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-                </div>
+                
             </form>
             <!-- Navbar-->
             <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
@@ -116,9 +115,37 @@
             </div>
             
             <div id="layoutSidenav_content">
-                <main>
-                    <p>aqui va lo del main</p>
+                <main class="adminbody">
+                    <h2 class="tituloadm">Panel de control</h2>
+                    <div class="main-container">
+                        <div class="container">
+                        <div class="box" onclick="window.location.href='admProducto.php'">
+                            <i class="fas fa-box"></i>  
+                            <p>Productos</p>
+                        </div>
+                        <div class="box" onclick="window.location.href='admCategoria.php'">
+                            <i class="fas fa-th-list"></i>
+                            <p>Categorías</p>
+                        </div>
+                        <div class="box" onclick="window.location.href='personal.php'">
+                            <i class="fas fa-users"></i>
+                            <p>Usuarios</p>
+                        </div>
+                        <div class="box" onclick="window.location.href='informes.php'">
+                            <i class="fas fa-chart-bar"></i>
+                            <p>Reportes</p>
+                        </div>
+                        <div class="box" onclick="window.location.href='url_de_historial'">
+                            <i class="fas fa-chart-bar"></i>
+                            <p>Historial</p>
+                        </div>
+                        <div class="box" onclick="window.location.href='pedidos.php'">
+                            <i class="fas fa-chart-bar"></i>
+                            <p>Pedidos</p>
+                        </div>
 
+                        </div>
+                    </div>
 
 
 
