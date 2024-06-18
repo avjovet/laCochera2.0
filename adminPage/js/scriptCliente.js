@@ -113,7 +113,7 @@ function handleSearchInput() {
         const itemsPerPage = parseInt(document.getElementById('itemsPerPage').value);
         obtenerProductos(1, itemsPerPage);
     } else {
-        fetch(`clientes.php?search=${searchTerm}`)
+        fetch(`clienteData.php?search=${searchTerm}`)
             .then(response => response.json())
             .then(data => mostrarProductosFiltrados(data, searchTerm));
     }
@@ -130,7 +130,7 @@ function mostrarProductosFiltrados(data, searchTerm) {
 }
 
 function obtenerProductos(page, itemsPerPage) {
-    fetch(`clientesData.php?page=${page}&itemsPerPage=${itemsPerPage}`)
+    fetch(`clienteData.php?page=${page}&itemsPerPage=${itemsPerPage}`)
         .then(response => response.json())
         .then(data => {
             actualizarTablaProductos(data, page, itemsPerPage, 0)
