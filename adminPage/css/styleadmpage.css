@@ -1,0 +1,71 @@
+/* Estilos para el contenedor principal */
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Control de altura del contenedor principal */
+    background-color: #f0f0f0;
+    align-items: flex-start;
+}
+
+.adminbody {
+    background-color: #f0f0f0;
+
+
+
+}
+
+.tituloadm{
+    padding-left: 7% ;
+    padding-top: 2%;
+    padding-bottom: 2%;
+
+}
+/* Estilos para el contenedor de los divs */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    width: 90%; /* Control de ancho del contenedor de los divs */
+    max-width: 1200px; /* Control de ancho máximo del contenedor de los divs */
+}
+
+/* Estilos para los divs individuales */
+.box {
+    background-color: #cccccc;
+    border-radius: 15px;
+    width: calc(50% - 10px); /* Control de ancho de los divs en píxeles, menos el gap */
+    height: 200px; /* Control de altura de los divs en píxeles */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: background-color 0.3s, transform 0.3s;
+    cursor: pointer;
+}
+
+/* Estilos de hover para los divs */
+.box:hover {
+    background-color: #aaaaaa;
+    transform: scale(1.05);
+}
+
+.box .svg-inline--fa {
+    font-size: 50px; /* Tamaño del icono */
+    margin-bottom: 10px;
+    color: #111;
+}
+
+/* Media query para pantallas pequeñas */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .box {
+        width: 100%; /* Asegura que los divs ocupen el ancho completo del contenedor en pantallas pequeñas */
+    }
+}
