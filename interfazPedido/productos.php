@@ -1,11 +1,8 @@
 <?php
-// Incluir el archivo funciones.php que contiene la función obtenerPlatos() y la conexión $pdo
+// se obtiene un JSON con todos los productos de la base de datos.
+require_once '../src/controllers/producto_controller.php';
 
-require_once '..\src\controllers\producto_controller.php';
-
-// Crear una instancia de ProductoController
 $productoController = new ProductoController();
 
-// Llamar a la función obtenerProductosJSON()
 $productoController->obtenerProductosJSON2();
 
