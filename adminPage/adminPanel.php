@@ -139,7 +139,7 @@
                             <i class="fas fa-chart-bar"></i>
                             <p>Reportes</p>
                         </div>
-                        <div class="box" onclick="window.location.href='url_de_historial'">
+                        <div class="box" onclick="window.location.href='historial.php'">
                             <i class="fas fa-history"></i>
                             <p>Historial</p>
                         </div>
