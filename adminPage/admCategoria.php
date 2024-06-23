@@ -106,6 +106,10 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-line"></i></div>
                                 Informes
                             </a>
+                            <a class="nav-link" href="historial.php">
+                                <div class="sb-nav-link-icon"><i class="fas fa-history"></i></div>
+                                Historial de cambios
+                            </a>
                             
                         </div>
                     </div>
