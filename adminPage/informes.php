@@ -38,10 +38,7 @@
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-                </div>
+                <div></div> </div>
             </form>
             <!-- Navbar-->
             <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
@@ -120,26 +117,115 @@
             
             <div id="layoutSidenav_content">
                 <main>
-                    <h1>Informe Estadístico</h1>
-
+                <div class="container">
+                <button class="box" id="1b">Productos</button>
+                <button class="box" id="2b">Mesas</button>
+                <button class="box" id="3b" >Tipo de pedido</button>
+                <button class="box" id="4b" >Ventas por dia</button>
+                <button class="box" id="5b" >Ventas por fecha</button>
+                <button class="box" id="6b">Hamburguesas</button>
+                <button class="box" id="7b">Platos</button>
+                <button class="box" id="8b">Bebidas</button>
+                            
+                </div>
                     <div class="chart-container">
-                        <h2>Gráfico 1: Título del Gráfico</h2>
-                        <canvas id="chart1"></canvas>
+                        <div id="loader" class="loader"></div>
+        
 
-                        <h2>Gráfico 2: Título del Gráfico</h2>
-                        <canvas id="chart2"></canvas>
 
-                        <h2>Gráfico 3: Título del Gráfico</h2>
-                        <canvas id="chart3"></canvas>
+                        <div class="grafcontainer" id="1">
+                            <h2>Productos vendidos</h2>
+                            <label for="order-select">Orden:</label>
+                            <select id="order-select1">
+                                <option value="desc">Descendente</option>
+                                <option value="asc">Ascendente</option>
+                            </select>
+                            <label for="num-elements">Número de elementos:</label>
+                            <input type="range" id="num-elements1" min="1" max="20" value="10" oninput="document.getElementById('num-elements-value1').innerText = this.value">
+                            <span id="num-elements-value1">10</span>
+                            <canvas id="chart1" height = 100 ></canvas>
+                        </div>
 
-                        <h2>Gráfico 4: Título del Gráfico</h2>
-                        <canvas id="chart4"></canvas>
+                        <div class="grafcontainer" id="2">
+                            <h2>Agregados ventas</h2>
+                            <label for="order-select">Orden:</label>
+                            <select id="order-select2">
+                                <option value="desc">Descendente</option>
+                                <option value="asc">Ascendente</option>
+                            </select>
+                            <label for="num-elements">Número de elementos:</label>
+                            <input type="range" id="num-elements2" min="1" max="20" value="10" oninput="document.getElementById('num-elements-value2').innerText = this.value">
+                            <span id="num-elements-value2">10</span>
+                            <canvas id="chart2" height = 100></canvas>
+                        </div>
+                        <div class="grafcontainer" id="3">
+                            <h2>Bebidas ventas</h2>
+                            <label for="order-select">Orden:</label>
+                            <select id="order-select3">
+                                <option value="desc">Descendente</option>
+                                <option value="asc">Ascendente</option>
+                            </select>
+                            <label for="num-elements">Número de elementos:</label>
+                            <input type="range" id="num-elements3" min="1" max="20" value="10" oninput="document.getElementById('num-elements-value3').innerText = this.value">
+                            <span id="num-elements-value3">10</span>
+                            <canvas id="chart3" height = 100></canvas>
+                        </div>
+                        <div class="grafcontainer" id="4" >
+                            <h2>Pedidos por tipo</h2>
+                            <canvas id="chart4" height = 100></canvas>
+                        </div>
+                        <div class="grafcontainer" id="5">
+                            <h2>Hamburguesas ventas</h2>
+                            <label for="order-select">Orden:</label>
+                            <select id="order-select5">
+                                <option value="desc">Descendente</option>
+                                <option value="asc">Ascendente</option>
+                            </select>
+                            <label for="num-elements">Número de elementos:</label>
+                            <input type="range" id="num-elements5" min="1" max="20" value="10" oninput="document.getElementById('num-elements-value5').innerText = this.value">
+                            <span id="num-elements-value5">10</span>
+                            <canvas id="chart5" height = 100></canvas>
+                        </div>
+                        <div class="grafcontainer" id="6">
+                            <h2>Mesas</h2>
+                            <label for="order-select">Orden:</label>
+                            <select id="order-select6">
+                                <option value="desc">Descendente</option>
+                                <option value="asc">Ascendente</option>
+                            </select>
+                            <label for="num-elements">Número de elementos:</label>
+                            <input type="range" id="num-elements6" min="1" max="20" value="10" oninput="document.getElementById('num-elements-value6').innerText = this.value">
+                            <span id="num-elements-value6">10</span>
+                            <canvas id="chart6" height = 100></canvas>
+                        </div>
 
-                        <h2>Gráfico 5: Título del Gráfico</h2>
-                        <canvas id="chart5"></canvas>
+                        <div class="grafcontainer" id="7" >
+                            <h2>Platos</h2>
+                            <label for="order-select">Orden:</label>
+                            <select id="order-select7">
+                                <option value="desc">Descendente</option>
+                                <option value="asc">Ascendente</option>
+                            </select>
+                            <label for="num-elements">Número de elementos:</label>
+                            <input type="range" id="num-elements7" min="1" max="20" value="10" oninput="document.getElementById('num-elements-value7').innerText = this.value">
+                            <span id="num-elements-value7">10</span>
+                            <canvas id="chart7"></canvas>
+                        </div>
+                        
+                        <div class="grafcontainer" id="8">
+                            <h2>Ventas por fecha</h2>
+                            <label for="num-elements">Número de elementos:</label>
+                            <input type="range" id="num-elements8" min="1" max="20" value="10" oninput="document.getElementById('num-elements-value8').innerText = this.value">
+                            <span id="num-elements-value8">10</span>
+                            <canvas id="chart8" height = 100></canvas>
+                        </div>
 
-                        <h2>Gráfico 6: Título del Gráfico</h2>
-                        <canvas id="chart6"></canvas>
+                        <div class="grafcontainer" id="9">
+                            <h2>Ventas por dia</h2>
+                            <canvas id="chart9" height = 100></canvas>
+                        </div>
+
+
                     </div>
 
 
@@ -166,7 +252,5 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
         <script src="assets/demo/chart-area-demo.js"></script>
         <script src="assets/demo/chart-bar-demo.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-        <script src="js/datatables-simple-demo.js"></script>
     </body>
 </html>
