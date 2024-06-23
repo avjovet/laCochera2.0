@@ -1,8 +1,80 @@
 .chart-container {
-    width: 80%;
+   
+    height: 60%;
+    
     margin: auto;
     text-align: center;
 }
 canvas {
     margin-bottom: 20px;
+    width: 100% !important;
+    height: 100% !important;
 }
+
+.grafcontainer{
+    display: none;
+    height: 70vh; 
+    margin: 2.5%;
+    background-color: rgba(227, 238, 237, 0.902);
+    border-radius: 15px;
+    padding-right: 1.5%;
+    padding-left: 1.5%;
+    padding-top: 1.5%;
+    padding-bottom: 5.5%;
+    
+}
+
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.box {
+    border-radius: 15px;
+    background-color: #e6f0ef;
+    border: 2px solid #3f1818;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #212529;
+    font-size: 0.8em;
+    text-align: center;
+    padding: 20px;
+    height: 50px;
+    transition: background-color 0.3s, transform 0.3s;
+    
+}
+
+.box:hover {
+
+    
+    transform: scale(1.10);
+}
+
+
+.loader {
+    border: 8px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 8px solid #3498db;
+    width: 100px;
+    height: 100px;
+    animation: spin 1s linear infinite;
+    position: fixed;
+    top: 50%;
+    left: calc(50% - 55px); /* Ajuste de 10px hacia la izquierda */
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+  }
+  
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
