@@ -1,53 +1,76 @@
+
+/* ==========================================================================
+  Este archivo CSS contiene los estilos para la animación de carga
+  de la interfaz pedido.
+  ========================================================================== */
+
+/* Estilos generales*/
+
 .preload{
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--gold-crayola);
-    z-index: 9999; /* Aumentamos el valor del z-index */
-    display: grid;
-    place-content: center;
-    justify-items: center;
-    transition: var(--transition-2);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--gold-crayola);
+  z-index: 9999;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  transition: var(--transition-2);
+}
+
+.preload > * {transition: var(--transition-1);} /* Transiciones para los elementos hijos */
+
+
+/* Estilos del preloader cuando ya ha cargado */
+
+.preload.loaded > * {opacity: 0;}
+.preload.loaded{
+  transition-delay: 250ms;
+  transform: translateY(100%); /* Transicion para retirarse de la interfaz */
+  visibility: hidden; /* Una vez cargado se oculta el elemento para evitar bugs */
+
   }
+
+/* Estilos del círculo de carga */
   
-  .preload > * {transition: var(--transition-1);}
-  .preload.loaded > * {opacity: 0;}
-  .preload.loaded{
-    transition-delay: 250ms;
-    transform: translateY(100%);
-   }
-  .circle {
-    width: 112px;
-    height: 112px;
-    border-radius: var(--radius-circle);
-    border: 3px solid var(--white);
-    border-block-start-color: var(--smoky-black-3);
-    margin-block-end: 45px;
-    animation: rotate360 1s linear infinite;
-  }
-  
-  @keyframes rotate360 {
-    0% {transform: rotate(0);}
-    100% {transform: rotate(1turn);}
-  }
-  
-  .preload .text {
-    background-size: 500%;
-    font-size: calc(1.5rem + 3vw);
-    font-weight: var(--weight-bold);
-    line-height: 1em;
-    text-transform: uppercase;
-    letter-spacing: 10px;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-stroke: 0.5px black;
-    animation: loadingtext linear 2s infinite;
-  }
-  
-  @keyframes loadingtext {
-    0% {background-position: 100%;}
-    100% {background-position: 0;}
-  }
+.circle {
+  width: 112px;
+  height: 112px;
+  border-radius: var(--radius-circle);
+  border: 3px solid var(--white);
+  border-block-start-color: var(--smoky-black-3);
+  margin-block-end: 45px;
+  animation: rotate360 1s linear infinite;
+}
+
+/* Animación de rotacion del circulo */
+
+@keyframes rotate360 {
+  0% {transform: rotate(0);}
+  100% {transform: rotate(1turn);}
+}
+
+/* Estilos para el texto de carga 'La cochera'*/
+
+.preload .text {
+  background-size: 500%;
+  font-size: calc(1.5rem + 3vw);
+  font-weight: var(--weight-bold);
+  line-height: 1em;
+  text-transform: uppercase;
+  letter-spacing: 10px;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-stroke: 0.5px black;
+  animation: loadingtext linear 2s infinite;
+}
+
+/* Animación para el texto de carga 'La cochera' */
+
+@keyframes loadingtext {
+  0% {background-position: 100%;}
+  100% {background-position: 0;}
+}
