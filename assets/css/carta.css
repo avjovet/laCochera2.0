@@ -1,0 +1,17 @@
+.carta-img{
+    width: 100%;
+}
+
+.main-header.hide{
+    transform: translateY(-100%);
+    transition-delay: 250ms;
+}
+
+.main-header.active{
+    background-color: #1C1A1F;
+}
+
+@font-face {
+    font-family: 'Revue';
+    src: url('../fonts/revue/Revue_Std_Bold.otf');
+}
