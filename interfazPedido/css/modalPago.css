@@ -144,6 +144,10 @@
   background: #111;
 }
 
+.send-pago-btn,
+.back-pago-btn{
+  cursor: pointer;
+}
 .pago-submit-btn button:hover {
     background-color: var(--gold-crayola);
     color: black;
