@@ -9,7 +9,7 @@ const agregadosProducts = []; // Declarado fuera del fetch
 // extraer elementos del archivo jsn
 const preloader = document.querySelector("[data-preaload]");
 
-fetch('productos.json')
+fetch('productos.php')
     .then(response => response.json())
     .then(data => {
         console.log('Datos cargados correctamente');
