@@ -9,7 +9,7 @@ const agregadosProducts = []; // Declarado fuera del fetch
 // extraer elementos del archivo jsn
 const preloader = document.querySelector("[data-preaload]");
 
-fetch('productos.php')
+fetch('productos.json')
     .then(response => response.json())
     .then(data => {
         console.log('Datos cargados correctamente');
@@ -111,22 +111,18 @@ fetch('productos.php')
 
         var dropdownContent = document.getElementById("ingredientesMenu");
         agregadosProducts.forEach(agregado => {
-            // Crear un div para contener el checkbox y el precio
             var checkboxWrapper = document.createElement("div");
             checkboxWrapper.classList.add("checkbox-wrapper");
     
-            // Crear el checkbox
             var checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.id = agregado.nombre.toLowerCase(); // Asignar un ID basado en el nombre del agregado
             checkbox.value = agregado.nombre;
     
-            // Crear la etiqueta para el checkbox
             var label = document.createElement("label");
             label.htmlFor = checkbox.id;
             label.textContent = agregado.nombre;
     
-            // Crear un span para mostrar el precio
             var priceSpan = document.createElement("span");
             priceSpan.textContent = "- S/. " + (parseFloat(agregado.precio) || 0).toFixed(2);
     
@@ -134,12 +130,18 @@ fetch('productos.php')
             checkboxWrapper.appendChild(checkbox);
             checkboxWrapper.appendChild(label);
             checkboxWrapper.appendChild(priceSpan);
+        
+            checkboxWrapper.addEventListener('click', function(event) {
+                if (event.target !== checkbox && event.target !== label) {
+                    checkbox.checked = !checkbox.checked;
+                }
+                handleCheckboxChange();
+            });
     
-            // Agregar el div de contenedor al menú desplegable
             dropdownContent.appendChild(checkboxWrapper);
         });
 
-                    // Obtener todos los checkboxes de ingredientes adicionales
+         // Obtener todos los checkboxes de ingredientes adicionales
         const checkboxes = document.querySelectorAll('#ingredientesMenu input[type="checkbox"]');
 
         // Agregar el evento a cada checkbox
@@ -380,7 +382,6 @@ fetch('productos.php')
         const jsonPedido = JSON.stringify(pedido);
         console.log(jsonPedido);
 
-        // Aquí puedes hacer lo que necesites con el JSON del pedido, por ejemplo, enviarlo al backend
         crearSolicitudPedido(jsonPedido);
     }
     
@@ -498,7 +499,6 @@ async function enviarPedidoLlevar() {
         const jsonPedido = JSON.stringify(pedido);
         console.log(jsonPedido);
 
-        // Aquí puedes hacer lo que necesites con el JSON del pedido, por ejemplo, enviarlo al backend
         crearSolicitudPedido(jsonPedido);
 
     } catch (error) {
@@ -549,7 +549,6 @@ document.getElementById("pagoForm").addEventListener("submit", function(event) {
     console.log("pedido enviado exitosamente");
 
 
-    // Aquí puedes enviar formData a tu servidor o procesarlo como desees
 });
 
 
@@ -599,7 +598,7 @@ async function enviarPedidoDelivery(Nombre, direccion, telefono, metodopago, cod
         // Crear objeto principal del pedido
         const pedido = {
             Estado: 1,
-            Fecha: obtenerFechaActual(), // Esta función debería retornar la fecha actual en el formato requerido
+            Fecha: obtenerFechaActual(), // retorna fecha actual
             Cliente_idCliente: clienteId,
             Mesa_id: 22,
             Usuario_id: null,
@@ -627,7 +626,6 @@ async function enviarPedidoDelivery(Nombre, direccion, telefono, metodopago, cod
         const jsonPedido = JSON.stringify(pedido);
         console.log(jsonPedido);
 
-        // Aquí puedes hacer lo que necesites con el JSON del pedido, por ejemplo, enviarlo al backend
         crearSolicitudPedido(jsonPedido);
         _showModal('modal-confirmed');
         closeSidebar();
