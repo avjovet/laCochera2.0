@@ -474,7 +474,7 @@ async function enviarPedidoLlevar() {
             Estado: 1,
             Fecha: obtenerFechaActual(), // Esta función debería retornar la fecha actual en el formato requerido
             Cliente_idCliente: clienteId,
-            Mesa_id: 21,
+            Mesa_id: 33,
             Usuario_id: null,
             TipoPedido_id: 2,
             MedioPago_id: null,
@@ -600,7 +600,7 @@ async function enviarPedidoDelivery(Nombre, direccion, telefono, metodopago, cod
             Estado: 1,
             Fecha: obtenerFechaActual(), // retorna fecha actual
             Cliente_idCliente: clienteId,
-            Mesa_id: 22,
+            Mesa_id: 34,
             Usuario_id: null,
             TipoPedido_id: 3,
             MedioPago_id: metodopago,
