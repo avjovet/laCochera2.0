@@ -135,7 +135,8 @@ function updatePrice() {
 
 const reiniciarButton = document.querySelector('.reiniciar');
 reiniciarButton.addEventListener('click', () => {
-    reiniciarPrecio();
+    _showModal('modal-reiniciar');
+    
 });
 
 function reiniciarPrecio() {
@@ -247,12 +248,24 @@ function updateCart() {
         cartContainer.appendChild(cartItemDiv);
 
 
-        //eliminar
         deleteButton.addEventListener('click', () => {
-            carrito.splice(index, 1);
-            updateCart();
+            _showModal('modal-eliminar-elemento');
+        
+            const modalAceptar = document.getElementById('modal-eliminar-elemento').querySelector('.send-btn');
+            const modalCancelar = document.getElementById('modal-eliminar-elemento').querySelector('.back-btn');
+        
+            modalAceptar.addEventListener('click', () => {
+                carrito.splice(index, 1);
+                updateCart();
+                _closeModal('modal-eliminar-elemento');
+            });
+        
+            modalCancelar.addEventListener('click', () => {
+                _closeModal('modal-eliminar-elemento');
+                // Opcional: Puedes dejar este bloque vacío si no deseas realizar ninguna acción al cancelar
+            });
         });
-
+        
         //editar
         editButton.addEventListener('click', () => {
             isEdit=true;

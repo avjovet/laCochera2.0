@@ -37,9 +37,9 @@ document.addEventListener('DOMContentLoaded', () => {
     setupModalCloseEvent('modal-mozo');
     setupModalCloseEvent('modal-confirmed');
     setupModalCloseEvent('modal-empty');
+    setupModalCloseEvent('modal-reiniciar');
+    setupModalCloseEvent('modal-eliminar-elemento');
     setupModalCloseEvent('modal-name-empty');
-
-
 
 });
 
