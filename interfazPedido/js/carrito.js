@@ -248,24 +248,28 @@ function updateCart() {
         cartContainer.appendChild(cartItemDiv);
 
 
+        //eliminar
         deleteButton.addEventListener('click', () => {
             _showModal('modal-eliminar-elemento');
-        
+            
             const modalAceptar = document.getElementById('modal-eliminar-elemento').querySelector('.send-btn');
+            modalAceptar.onclick = function() {
+                console.log("Aceptar presionado, index:", index);
+                carrito.splice(index, 1); // Elimina el elemento del carrito
+                updateCart(); // Actualiza la visualización del carrito
+                _closeModal('modal-eliminar-elemento'); // Cierra el modal de confirmación
+            };
+        
             const modalCancelar = document.getElementById('modal-eliminar-elemento').querySelector('.back-btn');
-        
-            modalAceptar.addEventListener('click', () => {
-                carrito.splice(index, 1);
-                updateCart();
-                _closeModal('modal-eliminar-elemento');
-            });
-        
-            modalCancelar.addEventListener('click', () => {
-                _closeModal('modal-eliminar-elemento');
-                // Opcional: Puedes dejar este bloque vacío si no deseas realizar ninguna acción al cancelar
-            });
+            modalCancelar.onclick = function() {
+                console.log("Cancelar presionado");
+                _closeModal('modal-eliminar-elemento'); 
+            };
         });
         
+
+
+
         //editar
         editButton.addEventListener('click', () => {
             isEdit=true;
