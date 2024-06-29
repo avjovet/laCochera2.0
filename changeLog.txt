@@ -1,0 +1,14 @@
+0.1.0 Alfa (18-06-24)
+-Versión inicial del sistema
+
+0.2.0 Beta (27-06-24)
+
+0.2.1 (28-06-24)
+- Nuevas características:
+  Se implemento un modal de confirmacion antes de reiniciar el carrito.
+  Se implementó un modal de confirmación antes de eliminar un producto del carrito.
+- Bugs arreglados: 
+  (Interfaz Pedido)
+  Modal centrado vertical y horizontalmente en pantallas mayores a 1080px.
+  Actualización del ancho del carrito para que sea proporcional en pantallas mayores a 1080px.
+  Corrección de bug de el preload en versiones de celular.

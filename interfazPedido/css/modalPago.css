@@ -1,0 +1,238 @@
+.modal-pago {
+  display: none;
+  position: fixed;
+  z-index: 20000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: #111111;
+}
+
+.modal-pago-content {
+  background-color: #111111;
+  width: 100%;
+  max-width: 650px;
+  padding: 20px;
+  text-align: center;
+  color: white;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+/* Animación para mostrar el modal de pago */
+@keyframes show-pago-modal {
+  from { opacity: 0; transform: translateY(-50px); } /* Desde la transparencia total y posición hacia arriba */
+  to { opacity: 1; transform: translateY(0); } /* Hasta la opacidad completa y la posición normal */
+}
+
+/* Animación para cerrar el modal de pago */
+@keyframes hide-pago-modal {
+  from { opacity: 1; transform: translateY(0); } /* Desde la opacidad completa y la posición normal */
+  to { opacity: 0; transform: translateY(-50px); } /* Hasta la transparencia total y posición hacia arriba */
+}
+
+/* Aplicar animación al modal de pago cuando se muestra */
+.modal-pago {
+  animation: show-pago-modal 0.3s ease forwards; /* Duración de 0.3 segundos con efecto de suavizado */
+}
+
+/* Aplicar animación al modal de pago cuando se cierra */
+.modal-pago.closing {
+  animation: hide-pago-modal 0.3s ease forwards; /* Duración de 0.3 segundos con efecto de suavizado */
+}
+
+.pago-title {
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  padding-bottom: 6px;
+  color: white;
+  text-shadow: 2px 2px 2px black;
+  border-bottom: solid 1px white;
+  display: flex;
+  align-items: center; /* Alinea verticalmente los elementos */
+  background-color: transparent; /* Anula el fondo negro */
+}
+
+.monto-pedido {
+  margin-left: auto; /* Mueve el logo a la derecha */
+  color: var(--gold-crayola);
+}
+
+.pago-user-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 20px 0;
+}
+
+.pago-input-box:nth-child(2n) {
+  justify-content: end;
+}
+
+.pago-input-box {
+  display: flex;
+  flex-wrap: wrap;
+  width: 50%;
+  padding-bottom: 15px;
+}
+
+.pago-input-box label {
+  width: 95%;
+  color: white;
+  font-size: 14px;
+  font-weight: 400;
+  margin: 5px 0;
+  text-align: left; /* Alinea el texto del label a la izquierda */
+}
+
+.pago-input-box input, .input-container input{
+  height: 40px;
+  width: 95%;
+  border-radius: 7px;
+  outline: none;
+  border: 1px solid grey;
+  padding: 0 10px;
+  color: black; /* Cambia el color del texto a negro */
+  font-weight: bold; /* Hace que el texto sea en negrita */
+}
+
+
+.metodos-title {
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.metodos-details-box {
+  text-align: left; /* Alinea el texto del label a la izquierda */
+}
+
+.metodos-category {
+  margin: 15px 0;
+  color: white;
+}
+
+.metodos-category label {
+  padding: 0 20px 0 5px;
+}
+
+.metodos-category label,
+.metodos-category input,
+.pago-submit-btn input {
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.pago-submit-btn {
+  margin-top: 40px;
+  display: flex; /* Agregado para el contenedor de botones */
+  justify-content: space-between; /* Agregado para espaciar los botones */
+}
+
+.pago-submit-btn button {
+  width: 48%; /* Reducir el ancho de los botones para dejar espacio entre ellos */
+  font-size: 14px;
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  color: rgb(255, 255, 255);
+  border: 0.5px solid hsl(38, 88%, 75%);
+  background: #111;
+}
+
+.send-pago-btn,
+.back-pago-btn{
+  cursor: pointer;
+}
+.pago-submit-btn button:hover {
+    background-color: var(--gold-crayola);
+    color: black;
+    font-weight: bold;
+}
+
+
+.yapeOptions, .plinOptions {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  display: flex; /* Para que mantenga su estructura */
+  flex-direction: row; /* Asegura que los elementos internos se coloquen en una columna */
+  transition: opacity 0.4s ease, max-height 0.4s ease; /* Elimina la propiedad transform */
+  align-items: center; /* Alinea los elementos verticalmente al centro */
+  justify-content: center; /* Alinea los elementos horizontalmente al centro */
+}
+
+.yapeOptions.visible, .plinOptions.visible {
+  opacity: 1;
+  max-height: 100px; /* Ajusta según sea necesario */
+}
+
+.yapeOptions .qr-container, .plinOptions .qr-container {
+  padding: 0 15px; /* Ajusta el espacio horizontal entre los elementos */
+}
+
+.qr-container {
+  margin-right: 5px; /* Ajusta el margen derecho del contenedor del QR */
+}
+
+.qr-yape, .qr-plin {
+  width: 100px; /* Ajusta el ancho de la imagen */
+  height: auto; /* Permite que la altura se ajuste automáticamente */
+}
+
+.input-container {
+  display: flex;
+  justify-content: center; /* Alinea el input al centro */
+}
+
+.input-yape, .input-plin {
+  width: 200px; /* Ajusta el ancho del input */
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+#error-message {
+  color: var(--gold-crayola);
+  display: none;
+  text-align: left;
+  font-weight: bold;
+}
+
+
+
+@media (max-width: 600px) {
+  .modal-pago-content {
+      min-width: 280px;
+      padding: 0 20px; /* Añade padding horizontal para evitar que el contenido toque los bordes */
+      box-sizing: border-box; /* Asegúrate de que el padding no afecte el ancho total */
+      transform: translate(-50%, -50%) scale(0.9); /* Opcional: reduce un poco el tamaño para más espacio */
+  }
+
+  .pago-input-box {
+      margin-bottom: 12px;
+      width: 100%;
+  }
+
+  .pago-input-box:nth-child(2n) {
+      justify-content: space-between;
+  }
+
+  .metodos-category {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+  }
+
+  .pago-user-info {
+      max-height: 380px;
+      overflow: auto;
+  }
+
+  .pago-user-info::-webkit-scrollbar {
+      width: 0;
+  }
+}

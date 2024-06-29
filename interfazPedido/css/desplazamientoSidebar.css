@@ -1,0 +1,18 @@
+.cart-sidebar {
+    overflow-y: auto; /* Hacer que sea desplazable verticalmente */
+    /* Otros estilos... */
+}
+.cart-sidebar {
+    /* Estilos del sidebar... */
+    z-index: 2000; /* Asegúrate de que el sidebar esté encima del botón */
+}
+
+/* Otros estilos para la barra lateral */
+.cart-sidebar::-webkit-scrollbar {
+    width: 0.5; /* Oculta el scrollbar en navegadores webkit (Chrome, Safari, etc.) */
+}
+
+.cart-sidebar {
+    scrollbar-width: none; /* Oculta el scrollbar en navegadores basados en Firefox */
+    /* Otros estilos... */
+}
