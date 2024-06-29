@@ -117,6 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "<html>";
         echo "<head>";
         echo "<title>Detalle del Pedido</title>";
+        echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
         echo "<link rel='stylesheet' type='text/css' href='F.css'>";
         echo "<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css'>";
         echo "</head>";
