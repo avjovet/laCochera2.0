@@ -159,7 +159,7 @@
                 <p class="confirm-text">Si presiona confirmar, el mozo se acercará a su mesa en cuanto vea su llamado.</p>
                 <div class="buttons">
                     <button onclick="_closeModal('modal-mozo')" class="back-btn">Cancelar</button>
-                    <button id="gaa" class="send-btn">Confirmar</button> 
+                    <button id="gaa" type="button"class="send-btn" >Confirmar</button> 
                 </div>
 
             </div>
@@ -170,6 +170,28 @@
                 <p class="confirm-text">Agregue articulos a su carrito para enviar su pedido.</p>
                 <div class="buttons">
                     <button onclick="_closeModal('modal-empty')" class="send-btn">Aceptar</button> 
+                </div>
+
+            </div>
+        </div>
+
+        <div id="modal-reiniciar" class="modal-confirm">
+            <div id="confirmContent" class="modal-confirm-content">
+                <p class="confirm-text">Si presiona reiniciar, Todos los elementos de su carrito se eliminarán.</p>
+                <div class="buttons">
+                    <button onclick="_closeModal('modal-reiniciar')" class="back-btn">Regresar</button>
+                    <button onclick="reiniciarPrecio(); _closeModal('modal-reiniciar');" class="send-btn">Confirmar</button>
+                </div>
+
+            </div>
+        </div>
+        
+        <div id="modal-eliminar-elemento" class="modal-confirm">
+            <div id="confirmContent" class="modal-confirm-content">
+                <p class="confirm-text">¿Está seguro que desea eliminar este elemento?</p>
+                <div class="buttons">
+                    <button onclick="_closeModal('modal-eliminar-elemento')" class="back-btn">Regresar</button>
+                    <button class="send-btn">Confirmar</button>
                 </div>
 
             </div>

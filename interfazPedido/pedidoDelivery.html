@@ -223,6 +223,29 @@
                 </form>
             </div>
         </div>
+
+        <div id="modal-reiniciar" class="modal-confirm">
+            <div id="confirmContent" class="modal-confirm-content">
+                <p class="confirm-text">Si presiona reiniciar, Todos los elementos de su carrito se eliminarán.</p>
+                <div class="buttons">
+                    <button onclick="_closeModal('modal-reiniciar')" class="back-btn">Regresar</button>
+                    <button onclick="reiniciarPrecio(); _closeModal('modal-reiniciar');" class="send-btn">Confirmar</button>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="modal-eliminar-elemento" class="modal-confirm">
+            <div id="confirmContent" class="modal-confirm-content">
+                <p class="confirm-text">¿Está seguro que desea eliminar este elemento?</p>
+                <div class="buttons">
+                    <button onclick="_closeModal('modal-eliminar-elemento')" class="back-btn">Regresar</button>
+                    <button class="send-btn">Confirmar</button>
+                </div>
+
+            </div>
+        </div>
+
         <div id="modal-confirmed" class="modal-confirm">
             <div id="confirmContent" class="modal-confirm-content">
                 <p class="confirm-text">¡Su pedido se ha enviado exitosamente!</p>
