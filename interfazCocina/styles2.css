@@ -176,7 +176,7 @@ transition: 0.5s;
 
 .button-Cocinando{
     background:#1AAB8A;
-    color:#fff;
+    color:var(--blanco);
     border:none;
     position:relative;
     height:60px;
@@ -188,8 +188,8 @@ transition: 0.5s;
 }
 
 .button-terminado{
-    background:#ac5e11;
-    color:#fff;
+    background:rgb(255, 174, 0);
+    color:var(--negro);
     border:none;
     position:relative;
     height:60px;
@@ -211,10 +211,10 @@ transition: 0.5s;
 
 .button-terminado:hover{
     background:#fff;
-    color:#c77b1e;
+    color:rgb(255, 174, 0);
 }
 
-button:before,button:after{
+.button-Cocinando:before,.button-Cocinando:after{
     content:'';
     position:absolute;
     top:0;
@@ -225,7 +225,18 @@ button:before,button:after{
     transition:400ms ease all;
 }
 
-button:after{
+.button-terminado:before,.button-terminado:after{
+    content:'';
+    position:absolute;
+    top:0;
+    right:0;
+    height:2px;
+    width:0;
+    background: rgb(255, 174, 0);
+    transition:400ms ease all;
+}
+
+.button-Cocinando::after,.button-terminado:after{
     right:inherit;
     top:inherit;
     left:0;
