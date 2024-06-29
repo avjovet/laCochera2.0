@@ -427,15 +427,16 @@ main {
 .cart-sidebar {
     position: fixed;
     top: 0;
-    right: -250px; /* Inicialmente oculto fuera del viewport */
-    width: 250px;
+    right: -21%; /* Oculto inicialmente */
+    width: 21%; /* Ancho del 26% de la pantalla */
     height: 100%;
     background-color: #111111;
     color: white;
     padding: 20px;
     box-sizing: border-box;
-    transition: right 0.3s ease; /* Agregamos una transición al cambiar la propiedad right */
+    transition: right 0.3s ease; 
 }
+
 
 .cart-sidebar.show {
     right: 0; /* Cuando se añade la clase 'show', el sidebar se desliza hacia la vista */
@@ -456,7 +457,7 @@ main {
 }
 
 .row {
-    margin-bottom: 5px; /* Añadir espacio entre las filas */
+    margin-bottom: 5px;
 }
 
 
