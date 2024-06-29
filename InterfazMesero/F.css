@@ -278,7 +278,6 @@ h1{
   transition: background-color 0.3s; 
 }
 .agrega-pedido{
-
   background-color: #5e57d6;
     border: none; 
     border-radius: 4px;  
@@ -286,8 +285,15 @@ h1{
     cursor: pointer; 
     color: #ffffff;
     transition: background-color 0.3s; 
-
 }
+
+.error-message {
+  color: red;
+  font-weight: bold;
+}
+
+
+
 .cancel-button:hover {
     background-color: #c82333; 
 }
