@@ -2,68 +2,81 @@
 include 'conn/conn.php'; // Incluir el archivo de conexión
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Actualización de datos
-    try {
-        // Iniciar una transacción
-        $conn->beginTransaction();
-
-        // Recorrer los datos enviados por el formulario
-        foreach ($_POST['detalle_pedido_id'] as $index => $detalle_pedido_id) {
-            $cantidad = $_POST['cantidad'][$index];
-            $producto_id = $_POST['producto'][$index];
-            $notas = $_POST['notas'][$index];
-            $precio = 2; // Valor predeterminado para el precio
-            $fecha = date('Y-m-d H:i:s'); // Fecha y hora actuales
-
-            if ($detalle_pedido_id == '0') {
-                // Insertar un nuevo detalle de pedido
-                $stmt = $conn->prepare("
-                    INSERT INTO detallepedido (Cantidad, Producto_id, NotaPedido, Pedido_id, Precio, Fecha)
-                    VALUES (:cantidad, :producto_id, :notas, :pedido_id, :precio, :fecha)
-                ");
-                $stmt->bindParam(':cantidad', $cantidad, PDO::PARAM_INT);
-                $stmt->bindParam(':producto_id', $producto_id, PDO::PARAM_INT);
-                $stmt->bindParam(':notas', $notas, PDO::PARAM_STR);
-                $stmt->bindParam(':pedido_id', $_POST['pedido_id'], PDO::PARAM_INT);
-                $stmt->bindParam(':precio', $precio, PDO::PARAM_INT);
-                $stmt->bindParam(':fecha', $fecha, PDO::PARAM_STR);
-                $stmt->execute();
-            } else {
-                // Actualizar un detalle de pedido existente
-                $stmt = $conn->prepare("
-                    UPDATE detallepedido 
-                    SET Cantidad = :cantidad, Producto_id = :producto_id, NotaPedido = :notas 
-                    WHERE idDetallePedido = :detalle_pedido_id
-                ");
-                $stmt->bindParam(':cantidad', $cantidad, PDO::PARAM_INT);
-                $stmt->bindParam(':producto_id', $producto_id, PDO::PARAM_INT);
-                $stmt->bindParam(':notas', $notas, PDO::PARAM_STR);
-                $stmt->bindParam(':detalle_pedido_id', $detalle_pedido_id, PDO::PARAM_INT);
-                $stmt->execute();
-            }
+    // Validar datos del formulario
+    $error = '';
+    foreach ($_POST['cantidad'] as $cantidad) {
+        if ($cantidad < 1 || $cantidad > 100) {
+            $error = 'La cantidad debe estar entre 1 y 100.';
+            break;
         }
+    }
 
-        // Manejar la eliminación de detalles de pedido
-        if (isset($_POST['eliminar_detalle_pedido_id'])) {
-            foreach ($_POST['eliminar_detalle_pedido_id'] as $detalle_pedido_id) {
-                $stmt = $conn->prepare("
-                    DELETE FROM detallepedido WHERE idDetallePedido = :detalle_pedido_id
-                ");
-                $stmt->bindParam(':detalle_pedido_id', $detalle_pedido_id, PDO::PARAM_INT);
-                $stmt->execute();
+    if (empty($error)) {
+        // Actualización de datos
+        try {
+            // Iniciar una transacción
+            $conn->beginTransaction();
+
+            // Recorrer los datos enviados por el formulario
+            foreach ($_POST['detalle_pedido_id'] as $index => $detalle_pedido_id) {
+                $cantidad = $_POST['cantidad'][$index];
+                $producto_id = $_POST['producto'][$index];
+                $notas = $_POST['notas'][$index];
+                $precio = 2; // Valor predeterminado para el precio
+                $fecha = date('Y-m-d H:i:s'); // Fecha y hora actuales
+
+                if ($detalle_pedido_id == '0') {
+                    // Insertar un nuevo detalle de pedido
+                    $stmt = $conn->prepare("
+                        INSERT INTO detallepedido (Cantidad, Producto_id, NotaPedido, Pedido_id, Precio, Fecha)
+                        VALUES (:cantidad, :producto_id, :notas, :pedido_id, :precio, :fecha)
+                    ");
+                    $stmt->bindParam(':cantidad', $cantidad, PDO::PARAM_INT);
+                    $stmt->bindParam(':producto_id', $producto_id, PDO::PARAM_INT);
+                    $stmt->bindParam(':notas', $notas, PDO::PARAM_STR);
+                    $stmt->bindParam(':pedido_id', $_POST['pedido_id'], PDO::PARAM_INT);
+                    $stmt->bindParam(':precio', $precio, PDO::PARAM_INT);
+                    $stmt->bindParam(':fecha', $fecha, PDO::PARAM_STR);
+                    $stmt->execute();
+                } else {
+                    // Actualizar un detalle de pedido existente
+                    $stmt = $conn->prepare("
+                        UPDATE detallepedido 
+                        SET Cantidad = :cantidad, Producto_id = :producto_id, NotaPedido = :notas 
+                        WHERE idDetallePedido = :detalle_pedido_id
+                    ");
+                    $stmt->bindParam(':cantidad', $cantidad, PDO::PARAM_INT);
+                    $stmt->bindParam(':producto_id', $producto_id, PDO::PARAM_INT);
+                    $stmt->bindParam(':notas', $notas, PDO::PARAM_STR);
+                    $stmt->bindParam(':detalle_pedido_id', $detalle_pedido_id, PDO::PARAM_INT);
+                    $stmt->execute();
+                }
             }
+
+            // Manejar la eliminación de detalles de pedido
+            if (isset($_POST['eliminar_detalle_pedido_id'])) {
+                foreach ($_POST['eliminar_detalle_pedido_id'] as $detalle_pedido_id) {
+                    $stmt = $conn->prepare("
+                        DELETE FROM detallepedido WHERE idDetallePedido = :detalle_pedido_id
+                    ");
+                    $stmt->bindParam(':detalle_pedido_id', $detalle_pedido_id, PDO::PARAM_INT);
+                    $stmt->execute();
+                }
+            }
+
+            // Confirmar la transacción
+            $conn->commit();
+
+            // Redirigir de nuevo a la página del pedido con un mensaje de éxito
+            header("Location: ?pedido_id=" . $_POST['pedido_id'] . "&success=1");
+            exit;
+        } catch (PDOException $e) {
+            // Revertir la transacción en caso de error
+            $conn->rollBack();
+            echo "Error: " . $e->getMessage();
         }
-
-        // Confirmar la transacción
-        $conn->commit();
-
-        // Redirigir de nuevo a la página del pedido con un mensaje de éxito
-        header("Location: ?pedido_id=" . $_POST['pedido_id'] . "&success=1");
-        exit;
-    } catch (PDOException $e) {
-        // Revertir la transacción en caso de error
-        $conn->rollBack();
-        echo "Error: " . $e->getMessage();
+    } else {
+        echo "<p class='error-message'>$error</p>";
     }
 } else if (isset($_GET['pedido_id'])) {
     // Mostrar datos
@@ -121,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($result) {
             foreach ($result as $row) {
                 echo "<tr>";
-                echo "<td data-label='Cantidad'><input type='number' name='cantidad[]' value='" . htmlspecialchars($row['Cantidad']) . "' class='cantidad-input'></td>";
+                echo "<td data-label='Cantidad'><input type='number' name='cantidad[]' value='" . htmlspecialchars($row['Cantidad']) . "' class='cantidad-input' min='1' max='100' step='1'></td>";
                 echo "<td data-label='Producto'><select name='producto[]' class='producto-select'>";
                 foreach ($productos as $producto) {
                     $selected = ($producto['idProducto'] == $row['idProducto']) ? 'selected' : '';
@@ -153,6 +166,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "</div>";
         echo '</section>';
         echo "<script src='e.js'></script>";
+        echo "<script>
+            // Validar la entrada de cantidad en el formulario
+            document.addEventListener('DOMContentLoaded', function () {
+                const cantidadInputs = document.querySelectorAll('input.cantidad-input');
+
+                cantidadInputs.forEach(input => {
+                    input.addEventListener('input', function () {
+                        // Convertir el valor a número entero
+                        let valor = parseInt(input.value, 10);
+
+                        // Verificar que el valor esté en el rango permitido
+                        if (valor < 1) {
+                            input.value = 1;
+                        } else if (valor > 100) {
+                            input.value = 100;
+                        }
+                    });
+                });
+            });
+        </script>";
         echo "</body>";
         echo "</html>";
     } catch(PDOException $e) {
@@ -164,3 +197,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Cerrar la conexión
 $conn = null;
 ?>
+
