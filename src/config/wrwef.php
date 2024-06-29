@@ -2,12 +2,12 @@
 <?php
 
     class Database {
-        private $host = "localhost";
+        private $host = "165.232.146.177";
 
-        private $dsn = "mysql:host=localhost;dbname=cocheradb";
-        private $db_name = "cocheradb";
-        private $username = "root";
-        private $password = "";
+        private $dsn = "mysql:host=165.232.146.177;dbname=cocheradbultimate";
+        private $db_name = "cocheradbultimate";
+        private $username = "dev_test";
+        private $password = "_Esis2024";
         public $conn;
     
         public function getConnection() {

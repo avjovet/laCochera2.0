@@ -1,7 +1,7 @@
 
 <?php
-require_once(realpath(dirname(__FILE__) . '\..\config\conection.php'));
-require_once(realpath(dirname(__FILE__) . '\..\models\usuario.php'));
+require_once(realpath(dirname(__FILE__) . '/../config/conection.php'));
+require_once(realpath(dirname(__FILE__) . '/../models/usuario.php'));
 
 
 class UsuarioController { 

@@ -1,7 +1,7 @@
 
 <?php
-require_once(realpath(dirname(__FILE__) . '\..\config\conection.php'));
-require_once(realpath(dirname(__FILE__) . '\..\models\categoriaproducto.php'));
+require_once(realpath(dirname(__FILE__) . '/../config/conection.php'));
+require_once(realpath(dirname(__FILE__) . '/../models/categoriaproducto.php'));
 
 
 class CategoriaController { 

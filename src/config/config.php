@@ -1,9 +1,9 @@
 
 <?php
 return [
-    'host' => 'localhost',
-    'dbname' => 'cocheradb',
-    'username' => 'root',
-    'password' => ''
+    'host' => '165.232.146.177',
+    'dbname' => 'cocheradbultimate',
+    'username' => 'dev_test',
+    'password' => '_Esis2024'
 ];
 ?>

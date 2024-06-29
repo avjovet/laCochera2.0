@@ -1,5 +1,5 @@
 <?php
-require_once(realpath(dirname(__FILE__) . '\..\config\conection.php'));
+require_once(realpath(dirname(__FILE__) . '/../config/conection.php'));
 
 $database = new Database();
 $conn = $database->getConnection();
