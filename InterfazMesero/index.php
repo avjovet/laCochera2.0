@@ -82,7 +82,7 @@ try {
     echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
     echo '<meta http-equiv="X-UA-Compatible" content="ie=edge">';
     echo '<title>Tabla de Pedidos</title>';
-    echo '<link rel="stylesheet" type="text/css" href="estilo.css">';
+    echo '<link rel="stylesheet" type="text/css" href="F.css">';
     echo '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">';
     echo '<script>
         function confirmarEliminacion(event) {
