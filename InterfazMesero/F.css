@@ -74,12 +74,37 @@ body {
     background-color:var(--color-grisxd);
     color: var(--color-default);
 } 
-/*
-tr:nth-child(even) {
-    background-color: #f2f2f2;
+.texto_productos{
+  text-align: left;
+  font-weight: bold;
 }
-*/
+.table .texto_productos {
+  text-align: left;  /* Alinea el texto a la izquierda para una mejor legibilidad */
+}
 
+.notification-badge {
+  display: none;
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 4px;
+  font-size: 10px;
+}
+
+.notification-badgeverde {
+  display: none;
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background-color: green;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 4px;
+  font-size: 10px;
+}
 .actions {
     display: flex;
     gap: 10px;
@@ -137,7 +162,6 @@ h1{
     flex-wrap: wrap;
     justify-content: center;
 }
-
 /* Estilos para las mesas */
 .mesa {
     width: 150px;
@@ -310,8 +334,6 @@ select {
   box-sizing: border-box;
   font-size: 16px;
 }
-
-
 
 
 

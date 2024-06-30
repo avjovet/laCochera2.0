@@ -32,9 +32,7 @@ try {
             ELSE m.NumMesa 
         END AS Numero_Mesa,
         tp.TipoPed AS Tipo_Pedido,
-        GROUP_CONCAT( CONCAT('▸ ', dp.Cantidad, ' ', pr.Nombre,
-            IF(dp.NotaPedido IS NOT NULL AND dp.NotaPedido != '', CONCAT(' <span style=\"color:#FF0000\">(', dp.NotaPedido, ')</span>'),'.')
-            )SEPARATOR '<br>')AS Productos,
+        GROUP_CONCAT(CONCAT(dp.Cantidad, ' ', pr.Nombre) SEPARATOR ', ') AS Productos,
         SUM(dp.Cantidad * pr.Precio) AS Total,
         e.nombre AS Estado_Pedido
     FROM 
@@ -50,7 +48,7 @@ try {
     JOIN 
         estados e ON p.Estado = e.idStatus
     WHERE
-        p.Estado = 2
+        p.Estado = 4
     GROUP BY 
         p.idPedido
     ORDER BY
@@ -72,7 +70,7 @@ try {
     echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
     echo '<meta http-equiv="X-UA-Compatible" content="ie=edge">';
     echo '<title>Tabla de Pedidos Aprobados</title>';
-    echo '<link rel="stylesheet" type="text/css" href="F.css">';
+    echo '<link rel="stylesheet" type="text/css" href="estilo.css">';
     echo '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">';
     echo '</head>';
     echo '<body>';
@@ -84,7 +82,7 @@ try {
     echo '<div class="container">';
     // Iniciar la tabla
     echo '<table class="table">';
-    echo '<caption>Lista Pedidos Aprobados</caption>';
+    echo '<caption>Pedidos por entregar</caption>';
     echo '<thead><tr><th>Fecha Pedido</th><th>Numero Mesa</th><th>Tipo Pedido</th><th>Productos</th><th>Total</th><th>Estado Pedido</th><th>Acciones</th></tr></thead>';
     // Iterar sobre cada resultado y mostrarlos en la tabla
     foreach ($result as $row) {
@@ -100,7 +98,7 @@ try {
         echo '<form method="post">';
         echo '<input type="hidden" name="pedido_id" value="' . $row['idPedido'] . '">';
         echo '<input type="hidden" name="accion_pedido" value="cancelar">';
-        echo '<button class="cancel-button" type="submit">X Cancelar</button>';
+        echo '<button class="cancel-button" type="submit">Entregar</button>';
         echo '</form>';
         echo '</tr>';
     }

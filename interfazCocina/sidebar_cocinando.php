@@ -1,17 +1,16 @@
 
 <?php
     
-                                function getApprovedOrdersCount(){
-                                    include 'conexion/cone.php';
-                                    $stmt = $cone->query("Select count(*) from pedido where Estado = 2");
+    function getApprovedOrdersCount(){
+        include 'conexion/cone.php';
+        $stmt = $cone->query("Select count(*) from pedido where Estado = 2");
 
-                                    $count = $stmt ->fetchColumn();
+        $count = $stmt ->fetchColumn();
 
-                                    return $count;
-                                }
-
-                                    $approvedOrdersCount = getApprovedOrdersCount();
-                            ?>
+         return $count;
+    }
+      $approvedOrdersCount = getApprovedOrdersCount();
+?>
 
 <head>
  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> 

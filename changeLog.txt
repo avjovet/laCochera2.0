@@ -12,3 +12,9 @@
   Modal centrado vertical y horizontalmente en pantallas mayores a 1080px.
   Actualización del ancho del carrito para que sea proporcional en pantallas mayores a 1080px.
   Corrección de bug de el preload en versiones de celular.
+
+0.2.2 (29/06/24)
+- Bugs arreglados:
+  (Pagina Web)
+  boton de instagram no direccionaba a la pagina de instagram
+  el boton "Delivery" no funcionaba correctamente

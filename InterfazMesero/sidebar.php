@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <head>
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" type="text/css" href="F.css">
 </head>
 <body>
   <div class="sidebar">
@@ -13,7 +14,7 @@
       <li>
         <i class="bx bx-search"></i>
         <input type="text" placeholder="Buscar...">
-         <span class="tooltip">Busqueda</span>
+        <span class="tooltip">Busqueda</span>
       </li>
       <li>
         <a href="inicio.php">
@@ -26,6 +27,7 @@
         <a href="index.php">
           <i class="bx bx-folder"></i>
           <span class="link_name">Pedidos Pendientes</span>
+          <span class="notification-badgeverde" id="notif-counter"></span>
         </a>
         <span class="tooltip">Pedidos Pendientes</span>
       </li>
@@ -35,6 +37,14 @@
           <span class="link_name">Pedidos Aprobados</span>
         </a>
         <span class="tooltip">Pedidos Aprobados</span>
+      </li>
+      <li>
+        <a href="entregapedido.php">
+          <i class="bx bx-folder"></i>
+          <span class="link_name">Entregar pedidos</span>
+          <span class="notification-badge" id="notif-counter2"></span>
+        </a>
+        <span class="tooltip">Entregar pedidos</span>
       </li>
       <li>
         <a href="llamados.php">
@@ -52,7 +62,7 @@
         <span class="tooltip">Mesas</span>
       </li>
       <li>
-        <a href="#">
+        <a href="pago.php">
           <i class="bx bx-cart-alt"></i>
           <span class="link_name">Pagos</span>
         </a>
@@ -91,6 +101,6 @@
       </li>
     </ul>
   </div>
-  <script src="script.js"></script>
+  <script src="funcionsidebar.js"></script>
 </body>
 </html>
