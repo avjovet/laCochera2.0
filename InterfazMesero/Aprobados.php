@@ -26,9 +26,15 @@ try {
     SELECT 
         p.idPedido,
         DATE_FORMAT(p.Fecha, '%Y-%m-%d') AS Fecha_Pedido,
-        m.NumMesa AS Numero_Mesa,
+        CASE 
+            WHEN m.NumMesa = 100 THEN 'C'
+            WHEN m.NumMesa = 101 THEN 'D'
+            ELSE m.NumMesa 
+        END AS Numero_Mesa,
         tp.TipoPed AS Tipo_Pedido,
-        GROUP_CONCAT(CONCAT(dp.Cantidad, ' ', pr.Nombre) SEPARATOR ', ') AS Productos,
+        GROUP_CONCAT( CONCAT('▸ ', dp.Cantidad, ' ', pr.Nombre,
+            IF(dp.NotaPedido IS NOT NULL AND dp.NotaPedido != '', CONCAT(' <span style=\"color:#FF0000\">(', dp.NotaPedido, ')</span>'),'.')
+            )SEPARATOR '<br>')AS Productos,
         SUM(dp.Cantidad * pr.Precio) AS Total,
         e.nombre AS Estado_Pedido
     FROM 
