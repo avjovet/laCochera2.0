@@ -11,8 +11,8 @@ if (isset($_POST['accion'])) {
             // Mover los registros a historial_pedido
             $stmt = $cone->prepare("
                 INSERT INTO historial_pedido (pedido_idPedido, estados_idStatus, Fecha, FechaAprobacion,
-                                             Cliente_idCliente, mesa_idMesa, usuario_idUsuario, tipopedido_idTipoPedido,
-                                             mediopago_idMedioPago, fechaCocinando, fechaTerminado)
+                Cliente_idCliente, mesa_idMesa, usuario_idUsuario, tipopedido_idTipoPedido,
+                mediopago_idMedioPago, fechaCocinando, fechaTerminado)
                 SELECT idPedido, Estado, Fecha, FechaAprobacion, Cliente_idCliente, Mesa_id, Usuario_id, TipoPedido_id, MedioPago_id, fechaCocinando, fechaTerminado
                 FROM pedido
                 WHERE Estado = 4

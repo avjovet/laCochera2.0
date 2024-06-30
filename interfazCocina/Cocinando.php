@@ -11,14 +11,24 @@
                     //$stmt = $cone->prepare("DELETE FROM pedido WHERE idPedido =:pedido_id");
 
                  $stmt->bindParam(':fechaTerminado',$fecha_terminado);   
+            }else{
+                if($accion == 'Modificar'){
+                    $stmt = $cone->prepare("UPDATE pedido SET Estado = 2 WHERE idPedido = :pedido_id");
+                    
+                }
             }
             $stmt->bindParam(':pedido_id',$pedido_id);
             $stmt->execute();
-            header("Location: ".$_SERVER['PHP_SELF']);
-            exit();
+
+            echo json_encode(['status'=> 'success']);
+            //header("Location: ".$_SERVER['PHP_SELF']);
+            //exit();
         }catch(PDOException $e){
-            echo "Error: " . $e->getMessage();
+
+            echo json_encode(['status' => 'error', 'message' =>$e ->getMessage() ]);
+            //echo "Error: " . $e->getMessage();
         }
+        exit();
     }
 
     try{
@@ -63,6 +73,10 @@
                 echo "<link rel='stylesheet' type='text/css' href='styles.css'>";
                 echo "<link rel='stylesheet' type='text/css' href='styles2.css'>";
                 echo "<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css'>";
+                
+                echo "<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>";
+                echo "<script src='scrip_cocinando.js'></script>";
+                
                 echo "</head>";
                 echo "<body>";
                 echo '<div class="principal ">';
@@ -96,8 +110,15 @@
                 echo "<form method='post'>";
                 echo "<input type='hidden' name='pedido_id' value='" . $row['idPedido'] . "'>";
                 echo "<input type='hidden' name='accion_pedido' value='Terminado'>";
-                echo "<button class='button-terminado'>TERMINADO</button>";
+                echo "<button class='button-Cocinando'>TERMINADO</button>";
                 echo "</form>";
+
+                echo "<form method='post'>";
+                echo "<input type='hidden' name='pedido_id' value='" . $row['idPedido'] . "'>";
+                echo "<input type='hidden' name='accion_pedido' value='Modificar'>";
+                echo "<button class='button-terminado'>REGRESAR</button>";
+                echo "</form>";
+
                 echo '</div>';
 
                 echo "</td>";
