@@ -32,22 +32,36 @@ if (isset($_POST['accion_pedido'])) {
     }
 }
 
-
 try {
     // Preparar la consulta SQL
     $stmt = $conn->prepare("
     SELECT 
         p.idPedido,
-        DATE_FORMAT(p.Fecha, '%Y-%m-%d') AS Fecha_Pedido,
+        DATE_FORMAT(p.Fecha, '%m/%d') AS Fecha_Pedido,
+        DATE_FORMAT(p.Fecha, '%H:%i:%s') AS Hora_Pedido,  /* Campo añadido para la hora del pedido */
         CASE 
             WHEN m.NumMesa = 100 THEN 'C'
             WHEN m.NumMesa = 101 THEN 'D'
             ELSE m.NumMesa 
         END AS Numero_Mesa,
         tp.TipoPed AS Tipo_Pedido,
-        GROUP_CONCAT( CONCAT('▸ ', dp.Cantidad, ' ', pr.Nombre,
-            IF(dp.NotaPedido IS NOT NULL AND dp.NotaPedido != '', CONCAT(' <span style=\"color:#FF0000\">(', dp.NotaPedido, ')</span>'),'.')
-            )SEPARATOR '<br>')AS Productos,
+        GROUP_CONCAT(
+            CONCAT(
+                IF(
+                    pr.categoria = 8, 
+                    CONCAT(
+                        REPEAT('&nbsp;', 7),  -- 7 espacios en blanco usando &nbsp;
+                        '- <span style=\"color:blue;\">', dp.Cantidad, ' ', pr.Nombre, '</span>'  -- Productos de categoria 8 en azul
+                    ),
+                    CONCAT('▸ ', dp.Cantidad, ' ', pr.Nombre)  -- Productos que no son de categoria 8
+                ),
+                IF(
+                    dp.NotaPedido IS NOT NULL AND dp.NotaPedido != '', 
+                    CONCAT(' <span style=\"color:#FF0000\">(', dp.NotaPedido, ')</span>'),
+                    '.'
+                )
+            ) SEPARATOR '<br>'
+        ) AS Productos,
         SUM(dp.Cantidad * pr.Precio) AS Total
     FROM 
         pedido p
@@ -64,8 +78,9 @@ try {
     WHERE
         p.Estado = 1
     GROUP BY 
-        p.idPedido;
-
+        p.idPedido
+    ORDER BY
+        p.Fecha ASC;
     ");
 
     // Ejecutar la consulta
@@ -110,6 +125,7 @@ try {
     echo '<thead>
         <tr>
         <th>Fecha Pedido</th>
+        <th>Hora Pedido</th>  <!-- Nueva columna para la hora del pedido -->
         <th>Numero Mesa</th>
         <th>Tipo Pedido</th>
         <th>Productos</th>
@@ -123,6 +139,7 @@ try {
         echo '<tbody>';
         echo '<tr>';
         echo "<td data-label='Fecha Pedido'>" . $row['Fecha_Pedido'] . "</td>";
+        echo "<td data-label='Hora Pedido'>" . $row['Hora_Pedido'] . "</td>"; 
         echo "<td data-label='Numero Mesa'>" . $row['Numero_Mesa'] . "</td>";
         echo "<td data-label='Tipo Pedido'>" . $row['Tipo_Pedido'] . "</td>";
         echo "<td data-label='Productos' class='texto_productos'>" . $row['Productos'] . "</td>";
@@ -159,4 +176,3 @@ try {
 // Cerrar la conexión
 $conn = null;
 ?>
-
