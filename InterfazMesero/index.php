@@ -45,9 +45,10 @@ try {
             ELSE m.NumMesa 
         END AS Numero_Mesa,
         tp.TipoPed AS Tipo_Pedido,
-        GROUP_CONCAT(CONCAT(dp.Cantidad, ' ', pr.Nombre) SEPARATOR ', ') AS Productos,
-        SUM(dp.Cantidad * pr.Precio) AS Total,
-        e.nombre AS Estado_Pedido
+        GROUP_CONCAT( CONCAT('▸ ', dp.Cantidad, ' ', pr.Nombre,
+            IF(dp.NotaPedido IS NOT NULL AND dp.NotaPedido != '', CONCAT(' <span style=\"color:#FF0000\">(', dp.NotaPedido, ')</span>'),'.')
+            )SEPARATOR '<br>')AS Productos,
+        SUM(dp.Cantidad * pr.Precio) AS Total
     FROM 
         pedido p
     JOIN 
@@ -81,7 +82,7 @@ try {
     echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
     echo '<meta http-equiv="X-UA-Compatible" content="ie=edge">';
     echo '<title>Tabla de Pedidos</title>';
-    echo '<link rel="stylesheet" type="text/css" href="F.css">';
+    echo '<link rel="stylesheet" type="text/css" href="estilo.css">';
     echo '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">';
     echo '<script>
         function confirmarEliminacion(event) {
@@ -113,20 +114,19 @@ try {
         <th>Tipo Pedido</th>
         <th>Productos</th>
         <th>Total</th>
-        <th>Estado Pedido</th>
         <th>Acciones</th>
         </tr>
     </thead>';
     // Iterar sobre cada resultado y mostrarlos en la tabla
     foreach ($result as $row) {
+
         echo '<tbody>';
         echo '<tr>';
         echo "<td data-label='Fecha Pedido'>" . $row['Fecha_Pedido'] . "</td>";
         echo "<td data-label='Numero Mesa'>" . $row['Numero_Mesa'] . "</td>";
         echo "<td data-label='Tipo Pedido'>" . $row['Tipo_Pedido'] . "</td>";
-        echo "<td data-label='Productos'>" . $row['Productos'] . "</td>";
+        echo "<td data-label='Productos' class='texto_productos'>" . $row['Productos'] . "</td>";
         echo "<td data-label='Total'>" . $row['Total'] . "</td>";
-        echo "<td data-label= 'Estado'>" . $row['Estado_Pedido'] . "</td>";
         echo '<td data-label="Acciones" class="actions">';
         echo '<form method="post">';
         echo '<input type="hidden" name="pedido_id" value="' . $row['idPedido'] . '">';
@@ -159,3 +159,4 @@ try {
 // Cerrar la conexión
 $conn = null;
 ?>
+
