@@ -18,3 +18,8 @@
   (Pagina Web)
   boton de instagram no direccionaba a la pagina de instagram
   el boton "Delivery" no funcionaba correctamente
+
+- Canbio de colores en botones:
+  (InterfazCocina)
+  los botones se cambiaron de color en toda la interfaz 
+  y e agrego el boton de regresar para cada pedido en la seccion "cocinando"
