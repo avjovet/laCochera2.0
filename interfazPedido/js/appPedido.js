@@ -110,45 +110,100 @@ fetch('productos.php')
                 }); 
 
         var dropdownContent = document.getElementById("ingredientesMenu");
+
         agregadosProducts.forEach(agregado => {
+            // Crear el checkboxWrapper para checkbox, etiqueta y precio
             var checkboxWrapper = document.createElement("div");
             checkboxWrapper.classList.add("checkbox-wrapper");
-    
+
             var checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.id = agregado.nombre.toLowerCase(); // Asignar un ID basado en el nombre del agregado
             checkbox.value = agregado.nombre;
-    
+
             var label = document.createElement("label");
             label.htmlFor = checkbox.id;
             label.textContent = agregado.nombre;
-    
+
             var priceSpan = document.createElement("span");
-            priceSpan.textContent = "- S/. " + (parseFloat(agregado.precio) || 0).toFixed(2);
-    
-            // Agregar los elementos al div de contenedor
+            priceSpan.textContent = "ㅤc/u S/. " + (parseFloat(agregado.precio) || 0).toFixed(2);
+
+            // Agregar los elementos al checkboxWrapper
             checkboxWrapper.appendChild(checkbox);
             checkboxWrapper.appendChild(label);
             checkboxWrapper.appendChild(priceSpan);
-        
-            checkboxWrapper.addEventListener('click', function(event) {
-                if (event.target !== checkbox && event.target !== label) {
-                    checkbox.checked = !checkbox.checked;
+
+            // Crear el contenedor para los botones de cantidad y agregarlos
+            var buttonWrapper = document.createElement("div");
+            buttonWrapper.classList.add("quantity-buttons");
+
+            var quantitySpan = document.createElement("span");
+            quantitySpan.id = agregado.nombre.toLowerCase() + "Add";
+            quantitySpan.textContent = "1"; // Número inicial
+
+            var minusButton = document.createElement("button");
+            minusButton.textContent = "-";
+            minusButton.classList.add("minus-button");
+
+            var plusButton = document.createElement("button");
+            plusButton.textContent = "+";
+            plusButton.classList.add("plus-button");
+
+            // Evento clic para el botón de disminuir cantidad
+            minusButton.addEventListener('click', function(event) {
+                var currentQuantity = parseInt(quantitySpan.textContent);
+                if (currentQuantity > 1) {
+                    quantitySpan.textContent = (currentQuantity - 1).toString();
                 }
-                handleCheckboxChange();
+                console.log('holaa1');
+                updateTotalPrice(parseInt(document.getElementById('modal-quantity').innerText)); // Llamar a la función para actualizar el precio
+                event.stopPropagation(); // Prevenir la propagación del clic al checkboxWrapper
             });
-    
-            dropdownContent.appendChild(checkboxWrapper);
-        });
 
-         // Obtener todos los checkboxes de ingredientes adicionales
-        const checkboxes = document.querySelectorAll('#ingredientesMenu input[type="checkbox"]');
+            // Evento clic para el botón de aumentar cantidad
+            plusButton.addEventListener('click', function(event) {
+                var currentQuantity = parseInt(quantitySpan.textContent);
+                if (currentQuantity < 3) {
+                    quantitySpan.textContent = (currentQuantity + 1).toString();
+                }
+                console.log('holaa');
+                updateTotalPrice(parseInt(document.getElementById('modal-quantity').innerText)); // Llamar a la función para actualizar el precio
+                event.stopPropagation(); // Prevenir la propagación del clic al checkboxWrapper
+            });
 
-        // Agregar el evento a cada checkbox
-        checkboxes.forEach(checkbox => {
+            // Agregar los elementos al buttonWrapper
+            buttonWrapper.appendChild(minusButton);
+            buttonWrapper.appendChild(quantitySpan);
+            buttonWrapper.appendChild(plusButton);
+
+            // Crear un contenedor para ambos divs y agregarlos
+            var container = document.createElement("div");
+            container.classList.add("ingredient-container");
+            container.appendChild(checkboxWrapper);
+            container.appendChild(buttonWrapper);
+
+            // Agregar el contenedor al dropdownContent
+            dropdownContent.appendChild(container);
+
+            // Ocultar inicialmente el buttonWrapper
+            buttonWrapper.style.display = "none";
+
+            // Evento clic para marcar el checkbox al hacer clic en checkboxWrapper
+            checkboxWrapper.addEventListener('click', function(event) {
+                console.log('Elemento clickeado:', event.target); // Mostrar en consola el elemento clickeado
+                // Verificar si el clic proviene del checkbox o del checkboxWrapper
+                if (event.target !== checkbox && event.target !== label) {
+                    checkbox.checked = !checkbox.checked; // Invertir el estado del checkbox
+                    checkbox.dispatchEvent(new Event('change')); // Disparar evento 'change' para manejar cambios
+                }
+                buttonWrapper.style.display = checkbox.checked ? "block" : "none";
+            });
+
+            // Agregar el evento 'change' al checkbox
             checkbox.addEventListener('change', handleCheckboxChange);
         });
 
+        // Función handleCheckboxChange
         function handleCheckboxChange() {
             updateTotalPrice(parseInt(document.getElementById('modal-quantity').innerText));
         }
@@ -166,6 +221,8 @@ fetch('productos.php')
 
 // funcion para crear el producto
 
+
+
     function createProductElement(producto) {
         const productoElement = document.createElement('div');
         productoElement.className = 'producto';
@@ -179,84 +236,133 @@ fetch('productos.php')
         return productoElement;
         }
   
-    function openModal(producto) {
-        const productId = producto.dataset.id; // Obtener el ID único del producto
-        document.getElementById('modal-img').src = producto.querySelector('.producto-imagen').src;
-        const productPriceText = producto.querySelector('.producto-precio').innerText;
-        initialProductPrice = parseFloat(productPriceText.replace('S/. ', '')); // Almacenar el precio inicial
-        document.getElementById('modal-name').innerText = producto.querySelector('.producto-nombre').innerText;
-        document.getElementById('modal-price').innerText = producto.querySelector('.producto-precio').innerText;
-        document.getElementById('modal-quantity').innerText = 1;
-        document.getElementById('indicaciones-especiales').value = '';
-        document.getElementById('modal').dataset.productId = productId; // Asignar el ID único del producto al modal
-        
-        const categoria = parseInt(producto.dataset.categoria);
-        const ingredientesAdicionales = document.querySelector('.ingredientes-adicionales');
-        if (categoria !== 5 && categoria !== 6 && categoria !== 7) {
-            ingredientesAdicionales.style.display = 'block'; // Mostrar la sección
-        } else {
-            ingredientesAdicionales.style.display = 'none'; // Ocultar la sección
-        }
-    
-        // Deseleccionar todos los checkboxes de ingredientes adicionales
-        const checkboxes = document.querySelectorAll('#ingredientesMenu input[type="checkbox"]');
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = false;
-        });
-        document.getElementById('modal').style.display = 'block';
-        document.body.classList.add('modal-open');
-        document.body.classList.add('modal-product-open');
+function openModal(producto) {
+    const productId = producto.dataset.id; // Obtener el ID único del producto
+    document.getElementById('modal-img').src = producto.querySelector('.producto-imagen').src;
+    const productPriceText = producto.querySelector('.producto-precio').innerText;
+    initialProductPrice = parseFloat(productPriceText.replace('S/. ', '')); // Almacenar el precio inicial
+    document.getElementById('modal-name').innerText = producto.querySelector('.producto-nombre').innerText;
+    document.getElementById('modal-price').innerText = producto.querySelector('.producto-precio').innerText;
+    document.getElementById('modal-quantity').innerText = 1;
+    document.getElementById('indicaciones-especiales').value = '';
+    document.getElementById('modal').dataset.productId = productId; // Asignar el ID único del producto al modal
 
-        
-        console.log('id', producto.dataset.id);
-        console.log('cat',categoria)
-
-        hiddenBar(); 
+    const categoria = parseInt(producto.dataset.categoria);
+    const ingredientesAdicionales = document.querySelector('.ingredientes-adicionales');
+    if (categoria !== 5 && categoria !== 6 && categoria !== 7) {
+        ingredientesAdicionales.style.display = 'block'; // Mostrar la sección
+    } else {
+        ingredientesAdicionales.style.display = 'none'; // Ocultar la sección
     }
 
-    function openModalWith(producto, precio, quantity, notes, selectedAgregados) {
-        const productId = producto.dataset.id; // Obtener el ID único del producto
-        const productPriceText = producto.querySelector('.producto-precio').innerText;
-        initialProductPrice = parseFloat(productPriceText.replace('S/. ', '')); // Almacenar el precio inicial
-        document.getElementById('modal-img').src = producto.querySelector('.producto-imagen').src;
-        document.getElementById('modal-name').innerText = producto.querySelector('.producto-nombre').innerText;
-        document.getElementById('modal-price').innerText = `S/. ${precio.toFixed(2)}`;
-        document.getElementById('modal-quantity').innerText = quantity; // Usar la cantidad pasada como parámetro
-        document.getElementById('indicaciones-especiales').value = notes; // Usar las notas pasadas como parámetro
-        document.getElementById('modal').dataset.productId = productId; // Asignar el ID único del producto al modal
-        
-        const categoria = parseInt(producto.dataset.categoria);
-        const ingredientesAdicionales = document.querySelector('.ingredientes-adicionales');
-        if (categoria !== 5 && categoria !== 6 && categoria !== 7) {
-            ingredientesAdicionales.style.display = 'block'; // Mostrar la sección
-        } else {
-            ingredientesAdicionales.style.display = 'none'; // Ocultar la sección
-        }
+    // Deseleccionar todos los checkboxes de ingredientes adicionales y restablecer los botones de cantidad
+    const checkboxes = document.querySelectorAll('#ingredientesMenu input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = false;
+        const ingredientContainer = checkbox.closest('.ingredient-container');
+        const buttonWrapper = ingredientContainer.querySelector('.quantity-buttons');
+        const quantitySpan = buttonWrapper.querySelector('span');
 
-        // Deseleccionar todos los elementos del menú desplegable
-        const checkboxes = document.querySelectorAll('#ingredientesMenu input[type="checkbox"]');
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = false;
-        });
-    
-        // Seleccionar los agregados pasados como parámetro
-        selectedAgregados.forEach(agregado => {
-            const checkbox = document.querySelector(`#ingredientesMenu input[type="checkbox"][value="${agregado}"]`);
-            if (checkbox) {
-                checkbox.checked = true;
+        // Ocultar los botones de cantidad y restablecer la cantidad a 1
+        buttonWrapper.style.display = 'none';
+        quantitySpan.textContent = '1';
+    });
+
+    document.getElementById('modal').style.display = 'block';
+    document.body.classList.add('modal-open');
+    document.body.classList.add('modal-product-open');
+
+    console.log('id', producto.dataset.id);
+    console.log('cat', categoria);
+
+    hiddenBar(); // Llamar a la función para ocultar la barra
+
+}
+
+
+
+function openModalWith(producto, precio, quantity, notes, selectedAgregados, selectedQuantities) {
+    const productId = producto.dataset.id; // Obtener el ID único del producto
+    const productPriceText = producto.querySelector('.producto-precio').innerText;
+    initialProductPrice = parseFloat(productPriceText.replace('S/. ', '')); // Almacenar el precio inicial
+    document.getElementById('modal-img').src = producto.querySelector('.producto-imagen').src;
+    document.getElementById('modal-name').innerText = producto.querySelector('.producto-nombre').innerText;
+    document.getElementById('modal-price').innerText = `S/. ${precio.toFixed(2)}`;
+    document.getElementById('modal-quantity').innerText = quantity; // Usar la cantidad pasada como parámetro
+    document.getElementById('indicaciones-especiales').value = notes; // Usar las notas pasadas como parámetro
+    document.getElementById('modal').dataset.productId = productId; // Asignar el ID único del producto al modal
+
+    const categoria = parseInt(producto.dataset.categoria);
+    const ingredientesAdicionales = document.querySelector('.ingredientes-adicionales');
+    if (categoria !== 5 && categoria !== 6 && categoria !== 7) {
+        ingredientesAdicionales.style.display = 'block'; // Mostrar la sección
+    } else {
+        ingredientesAdicionales.style.display = 'none'; // Ocultar la sección
+    }
+
+    // Deseleccionar todos los elementos del menú desplegable
+    const checkboxes = document.querySelectorAll('#ingredientesMenu input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = false;
+    });
+
+    // Seleccionar los agregados pasados como parámetro y mostrar sus cantidades
+    selectedAgregados.forEach((agregado, index) => {
+        const checkbox = document.querySelector(`#ingredientesMenu input[type="checkbox"][value="${agregado}"]`);
+        if (checkbox) {
+            checkbox.checked = true;
+            // Obtener el quantitySpan asociado y establecer su cantidad
+            const quantitySpan = document.getElementById(agregado.toLowerCase() + "Add");
+            if (quantitySpan) {
+                quantitySpan.textContent = selectedQuantities[index].toString();
+                // Mostrar el botón de cantidad asociado al checkbox seleccionado
+                const buttonWrapper = quantitySpan.parentNode.querySelector('.quantity-buttons');
+                if (buttonWrapper) {
+                    buttonWrapper.style.display = 'block';
+                }
             }
-        });
-    
-        document.getElementById('modal').style.display = 'block';
-        document.body.classList.add('modal-open');
-        document.body.classList.add('modal-product-open');
-        
-        hiddenBar(); 
-    }
+        }
+    });
+
+    // Ocultar botones de cantidad de checkboxes no seleccionados
+    checkboxes.forEach(checkbox => {
+        const checkboxWrapper = checkbox.closest('.ingredient-container');
+        if (checkbox.checked) {
+            checkboxWrapper.querySelector('.quantity-buttons').style.display = 'block';
+        } else {
+            checkboxWrapper.querySelector('.quantity-buttons').style.display = 'none';
+        }
+    });
+
+    // Agregar un console.log para depuración
+    console.log(`Abriendo modal con el producto: ${producto.querySelector('.producto-nombre').innerText}, agregados: ${selectedAgregados.join(', ')}, cantidades: ${selectedQuantities.join(', ')}`);
+
+    // Mostrar el modal y ajustar las clases del body
+    document.getElementById('modal').style.display = 'block';
+    document.body.classList.add('modal-open');
+    document.body.classList.add('modal-product-open');
+
+    // Ocultar la barra según la lógica de tu aplicación (función hiddenBar)
+    hiddenBar();
+}
+
+
+
 
 
 
     function closeModal() {
+        var dropdownContent = document.getElementById("ingredientesMenu");
+        var dropdownLabel = document.getElementById("dropdownLabel");
+
+        dropdownContent.style.display = "none"; // Oculta el dropdown
+        dropdownContent.classList.remove("visible");
+        dropdownLabel.classList.remove("active");
+
+        var imgModal = document.querySelector(".img-modal");
+        imgModal.classList.remove("active"); // Remueve la clase active de la imagen modal
+
+
         document.body.classList.remove('modal-open');
         document.body.classList.remove('modal-product-open');
 
@@ -291,15 +397,31 @@ fetch('productos.php')
                 // Buscar el agregado en la lista de agregados con ese nombre
                 const added = agregadosProducts.find(agregado => agregado.nombre === addedName);
                 if (added) {
-                    // Sumar el costo del agregado al nuevo total
-                    newTotal += parseFloat(added.precio) * quantity;
+                    // Obtener el span asociado a este agregado
+                    const quantitySpan = document.getElementById(added.nombre.toLowerCase() + "Add");
+                    let addedQuantity = 0; // Valor por defecto si no se encuentra el span
+                    console.log('actualizandooo', quantitySpan)
+                    if (quantitySpan) {
+                        // Limpiar el contenido del span y luego intentar convertirlo a número
+                        const spanText = quantitySpan.textContent.trim(); // Limpiar espacios en blanco
+                        if (spanText !== "") {
+                            addedQuantity = parseInt(spanText); // Intentar convertir a número
+                        }
+                    }
+    
+                    // Sumar el costo del agregado al nuevo total basado en su cantidad
+                    console.log(newTotal, "totoaal")
+
+                    newTotal += (parseFloat(added.precio) * addedQuantity)*quantity;
                 }
             }
         });
     
         // Actualizar el precio en el modal
+        console.log(newTotal, "totoaal")
         document.getElementById('modal-price').innerText = `S/. ${newTotal.toFixed(2)}`;
     }
+    
     
     
     
@@ -323,28 +445,31 @@ fetch('productos.php')
         updateTotalPrice(quantity); // Llamar a la función para actualizar el precio
     }
     
-        function calcularPrecioEnviar(agregadosSeleccionados, quantity, totalPrice) {
-            let totalAgregadosCost = 0;
-        
-            // Calcular el costo total de los agregados seleccionados
-            agregadosSeleccionados.forEach(agregadoSeleccionado => {
-                // Buscar el agregado seleccionado en el arreglo agregadosProducts
-                const agregado = agregadosProducts.find(agregado => agregado.nombre === agregadoSeleccionado);
-                if (agregado) {
-                    totalAgregadosCost += parseFloat(agregado.precio);
-                }
-            });
-        
-            // Restar el costo total de los agregados al precio total
-            const totalWithoutAgregados = totalPrice - (totalAgregadosCost*quantity);
-        
-            // Calcular el precio unitario dividiendo el precio total sin los agregados entre la cantidad
-            const unitPrice = totalWithoutAgregados / quantity;
-            console.log('precio unitario', unitPrice)
-            return unitPrice.toFixed(2); // Redondear el precio unitario a 2 decimales y devolverlo como una cadena
-        }
-        
+    function calcularPrecioEnviar(agregadosSeleccionados, addQuantities, quantity, totalPrice) {
+        console.log('agregadosSeleccionados:', agregadosSeleccionados);
+        console.log('addQuantities:', addQuantities);
+        console.log('quantity:', quantity);
+        console.log('totalPrice:', totalPrice);
+        let totalAgregadosCost = 0;
     
+        // Calcular el costo total de los agregados seleccionados, considerando sus cantidades
+        agregadosSeleccionados.forEach((agregadoSeleccionado, index) => {
+            // Buscar el agregado seleccionado en el arreglo agregadosProducts
+            const agregado = agregadosProducts.find(agregado => agregado.nombre === agregadoSeleccionado);
+            if (agregado) {
+                totalAgregadosCost += parseFloat(agregado.precio) * addQuantities[index];
+            }
+        });
+    
+        // Restar el costo total de los agregados al precio total
+        const totalWithoutAgregados = totalPrice - totalAgregadosCost;
+    
+        // Calcular el precio unitario dividiendo el precio total sin los agregados entre la cantidad
+        const unitPrice = totalWithoutAgregados / quantity;
+        console.log('precio unitario', unitPrice);
+        return unitPrice.toFixed(2); // Redondear el precio unitario a 2 decimales y devolverlo como una cadena
+    }
+
     
     function enviarPedido() {
 
@@ -369,7 +494,8 @@ fetch('productos.php')
         carritoFinal.forEach(item => {
             const detalle = {
                 Fecha: obtenerFechaActual(), // Fecha del detalle
-                Precio: calcularPrecioEnviar(item.add, item.quantity, item.price), // Precio del producto
+                Precio: calcularPrecioEnviar(item.add, item.addQuantities, item.quantity, item.price), // Precio del producto
+
                 Cantidad: item.quantity, // Cantidad del producto
                 NotaPedido: item.notes, // Notas del producto
                 Producto_id: item.id // ID del producto
@@ -486,7 +612,7 @@ async function enviarPedidoLlevar() {
         carritoFinal.forEach(item => {
             const detalle = {
                 Fecha: obtenerFechaActual(), // Fecha del detalle
-                Precio: calcularPrecioEnviar(item.add, item.quantity, item.price), // Precio del producto
+                Precio: calcularPrecioEnviar(item.add, item.addQuantities, item.quantity, item.price), // Precio del producto
                 Cantidad: item.quantity, // Cantidad del producto
                 NotaPedido: item.notes, // Notas del producto
                 Producto_id: item.id // ID del producto
@@ -613,7 +739,7 @@ async function enviarPedidoDelivery(Nombre, direccion, telefono, metodopago, cod
         carritoFinal.forEach(item => {
             const detalle = {
                 Fecha: obtenerFechaActual(), // Fecha del detalle
-                Precio: calcularPrecioEnviar(item.add, item.quantity, item.price), // Precio del producto
+                Precio: calcularPrecioEnviar(item.add, item.addQuantities, item.quantity, item.price), // Precio del producto
                 Cantidad: item.quantity, // Cantidad del producto
                 NotaPedido: item.notes, // Notas del producto
                 Producto_id: item.id // ID del producto

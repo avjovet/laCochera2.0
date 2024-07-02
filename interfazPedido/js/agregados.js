@@ -1,50 +1,39 @@
+/* ==========================================================================
+  Este script gestiona la visibilidad del dropdown (agregados, precio unitario
+   y cantidad) al hacer clic en el boton Ver agregados.
+  ========================================================================== */
+
 document.addEventListener("DOMContentLoaded", function() {
-    var dropdownArrow = document.getElementById("dropdownArrow");
     var dropdownLabel = document.getElementById("dropdownLabel");
     var dropdownContent = document.getElementById("ingredientesMenu");
+    var imgModal = document.querySelector(".img-modal");
 
     function toggleDropdown(event) {
         event.stopPropagation();
-        if (dropdownContent.classList.contains("show")) {
-            dropdownContent.classList.remove("show");
-            setTimeout(function() {
-                dropdownContent.style.display = "none";
-            }, 300); // Duración de la transición
-        } else {
+
+        // Se verifica si el dropdown está actualmente visible
+        var isVisible = dropdownContent.classList.contains("visible");
+
+        if (!isVisible) {
             dropdownContent.style.display = "block";
             setTimeout(function() {
-                dropdownContent.classList.add("show");
-            }, 10); // Pequeño retraso para asegurar que el display: block se aplique antes de la transición
+                dropdownContent.classList.add("visible");
+            }, 10); // Retraso para asegurar que la transición se active después de mostrar el contenido
+            imgModal.classList.add("active");
+            dropdownLabel.classList.add("active");
+
+            console.log("Mostrando dropdown");
+        } else {
+            dropdownContent.classList.remove("visible");
+            imgModal.classList.remove("active");
+            setTimeout(function() {
+                dropdownContent.style.display = "none";
+            }, 300); // Retraso para esperar la transición antes de ocultar el dropdown
+            console.log("Ocultando dropdown");
+            dropdownLabel.classList.remove("active");
+
         }
     }
 
-    // Muestra u oculta el dropdown al hacer clic en la flecha o en el label
-    dropdownArrow.addEventListener("click", toggleDropdown);
     dropdownLabel.addEventListener("click", toggleDropdown);
-
-    // Cierra el dropdown si el usuario hace clic en otra parte del documento
-    window.onclick = function(event) {
-        if (!event.target.matches('.dropbtn') && !event.target.matches('.dropdown-content') && !event.target.matches('#dropdownLabel')) {
-            var dropdowns = document.getElementsByClassName("dropdown-content");
-            for (var i = 0; i < dropdowns.length; i++) {
-                var openDropdown = dropdowns[i];
-                if (openDropdown.classList.contains('show')) {
-                    openDropdown.classList.remove('show');
-                    setTimeout(function() {
-                        openDropdown.style.display = "none";
-                    }, 300); // Duración de la transición
-                }
-            }
-        }
-    }
-
-    // Detener la propagación de clics dentro del menú desplegable
-    dropdownContent.addEventListener("click", function(event) {
-        event.stopPropagation();
-    });
-
-
-
-   
-    
 });
