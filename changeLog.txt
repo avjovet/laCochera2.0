@@ -23,3 +23,14 @@
   (Interfaz Cocina)
   Los botones se cambiaron de color en toda la interfaz.
   Se agrego el boton de regresar para cada pedido en la seccion "Cocinando".
+
+0.3.2 (01/07/24)
+  (Interfaz Pedido)
+  - Nuevas características:
+  Ahora se puede elegir la cantidad de un agregado para cada producto, no se limita solo a uno. Ejemplo: 3 tocino.
+  En los pedidos, por ejemplo, si se ve "2 Sandwich Hotdog, 3 Tocino, 1 Huevo", significa que cada uno de esos dos Sandwich Hotdog
+  tiene 3 tocinos y 1 huevo.  
+  - Bugs arreglados:
+  Se corrigió un bug que ocurría al editar un elemento. Ahora si un elemento editado se vuelve igual a uno ya existente, 
+  este se elimina y se suma al existente en el carrito.
+
